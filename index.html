@@ -9,76 +9,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'jf-openhuninn';
-      src: url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@master/font/jf-openhuninn-2.0.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-    :root {
-      --bg-dark: #0f0e13;
-      --gold-light: #f6e29c;
-      --gold-main: #dfb76c;
-      --gold-dark: #a67c37;
-      --red-seal: #b83b3b;
-    }
+    @font-face { font-family: 'jf-openhuninn'; src: url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@master/font/jf-openhuninn-2.0.woff2') format('woff2'); font-weight: normal; font-style: normal; font-display: swap; }
+    :root { --bg-dark: #0f0e13; --gold-light: #f6e29c; --gold-main: #dfb76c; --gold-dark: #a67c37; --red-seal: #b83b3b; }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body {
-      font-family: 'jf-openhuninn', 'Zen Maru Gothic', sans-serif;
-      background-color: var(--bg-dark);
-      color: #f7f3e9;
-      background-image: 
-        radial-gradient(circle at 20% 15%, rgba(223, 183, 108, 0.08) 0%, transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(223, 183, 108, 0.06) 0%, transparent 50%);
-      overflow-x: hidden;
-    }
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #fff3c4 0%, #dfb76c 50%, #c19346 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .gold-card {
-      background: linear-gradient(180deg, #1b1822 0%, #121017 100%);
-      border: 1.5px solid rgba(223, 183, 108, 0.38);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
-    }
-    .gold-btn {
-      background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%);
-      color: #1a140b;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(223, 183, 108, 0.3);
-      transition: all 0.2s ease;
-    }
+    body { font-family: 'jf-openhuninn', 'Zen Maru Gothic', sans-serif; background-color: var(--bg-dark); color: #f7f3e9; background-image: radial-gradient(circle at 20% 15%, rgba(223, 183, 108, 0.08) 0%, transparent 45%), radial-gradient(circle at 80% 80%, rgba(223, 183, 108, 0.06) 0%, transparent 50%); overflow-x: hidden; }
+    .gold-gradient-text { background: linear-gradient(135deg, #fff3c4 0%, #dfb76c 50%, #c19346 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gold-card { background: linear-gradient(180deg, #1b1822 0%, #121017 100%); border: 1.5px solid rgba(223, 183, 108, 0.38); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55); }
+    .gold-btn { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; font-weight: 700; box-shadow: 0 4px 14px rgba(223, 183, 108, 0.3); transition: all 0.2s ease; }
     .gold-btn:active { transform: scale(0.97); }
-    .seal-badge {
-      background-color: var(--red-seal);
-      border: 1px solid #f3d48b;
-      color: #fff8ea;
-      font-size: 0.7rem;
-      padding: 2px 7px;
-      border-radius: 6px;
-      user-select: none;
-      cursor: pointer;
-    }
-    .size-pill {
-      transition: all 0.2s ease;
-      border: 1.5px solid rgba(223, 183, 108, 0.4);
-      background: rgba(27, 24, 34, 0.9);
-    }
-    .size-pill.active {
-      background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%);
-      color: #1a140b;
-      border-color: #fff3c4;
-      font-weight: 900;
-    }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .seal-badge { background-color: var(--red-seal); border: 1px solid #f3d48b; color: #fff8ea; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; user-select: none; cursor: pointer; }
+    .size-pill { transition: all 0.2s ease; border: 1.5px solid rgba(223, 183, 108, 0.4); background: rgba(27, 24, 34, 0.9); }
+    .size-pill.active { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; border-color: #fff3c4; font-weight: 900; }
+    .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="pb-28">
-
-  <!-- 店長管理後台工具列 -->
   <div id="adminToolbar" class="hidden sticky top-0 z-50 bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
     <div class="max-w-xl mx-auto space-y-2">
       <div class="flex items-center justify-between">
@@ -96,7 +41,6 @@
     </div>
   </div>
 
-  <!-- 頂部公告條 -->
   <div class="bg-[#14111a] border-b border-[#dfb76c]/25 px-3 py-2 text-center">
     <p class="text-xs text-[#f3d48b] font-medium">✨ 全館九成新以上・僅穿過 1～2 次以內 ✨</p>
     <div class="flex flex-wrap justify-center gap-1.5 mt-1">
@@ -105,7 +49,6 @@
     </div>
   </div>
 
-  <!-- 導覽列 -->
   <header class="sticky top-0 z-40 bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-3 py-2.5">
     <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
       <div class="flex items-center gap-1.5 min-w-0">
@@ -120,11 +63,9 @@
   </header>
 
   <main class="max-w-xl mx-auto px-3.5 pt-4 space-y-7">
-    <!-- 主視覺區 -->
     <section class="gold-card rounded-3xl p-4 sm:p-5 text-center relative overflow-hidden">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c] mb-3">
-        <span>🌸</span>
-        <span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span>
+        <span>🌸</span><span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span>
       </div>
       <h1 class="text-2xl sm:text-3xl font-black gold-gradient-text leading-snug">尋覓妳的舊時芳華 ✨<br>收藏一段美好 💕</h1>
       <p class="text-xs sm:text-sm text-[#e2d9c8] mt-2.5 leading-relaxed">
@@ -137,34 +78,27 @@
           <span class="text-base sm:text-xl font-black text-[#ff7b7b] whitespace-nowrap">NT$ 390 ～ NT$ 590 !</span>
         </div>
       </div>
-      <!-- 頭像區 -->
       <div class="relative mx-auto w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-[#f6e29c] via-[#a67c37] to-[#dfb76c] shadow-2xl">
         <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] relative flex flex-col items-center justify-center border-2 border-[#0f0e13]">
           <img id="heroAvatarImg" src="" alt="一抹花顏品牌頭像" class="w-full h-full object-cover hidden">
           <div id="heroAvatarPlaceholder" class="flex flex-col items-center justify-center p-4 text-center">
-            <div class="text-4xl mb-1.5">🏮</div>
-            <p class="text-sm font-bold text-[#f6e29c]">一抹花顏・極新孤品</p>
+            <div class="text-4xl mb-1.5">🏮</div><p class="text-sm font-bold text-[#f6e29c]">一抹花顏・極新孤品</p>
             <p class="text-[11px] text-[#cbbba0] mt-1">S ～ 5XL 全尺碼包容美</p>
           </div>
           <button id="adminAvatarOverlayBtn" onclick="triggerAvatarUpload()" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs gold-btn whitespace-nowrap shadow-md">📷 更換頭像照片</button>
         </div>
       </div>
       <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
-      
       <div class="grid grid-cols-2 gap-2.5 mt-4 text-center">
         <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center">
-          <span class="text-xl mb-1">👑</span>
-          <p class="text-xs font-bold text-[#f6e29c]">僅穿過 1～2 次內</p>
+          <span class="text-xl mb-1">👑</span><p class="text-xs font-bold text-[#f6e29c]">僅穿過 1～2 次內</p>
           <p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">全館 9 成新以上極美衣況</p>
         </div>
         <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center">
-          <span class="text-xl mb-1">🫧</span>
-          <p class="text-xs font-bold text-[#f6e29c]">已清潔・無整燙</p>
+          <span class="text-xl mb-1">🫧</span><p class="text-xs font-bold text-[#f6e29c]">已清潔・無整燙</p>
           <p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">摺疊收納寄出・自家熨燙</p>
         </div>
       </div>
-      
-      <!-- 安心下單流程與按鈕 -->
       <div class="mt-4 bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3.5 text-left">
         <div class="flex flex-wrap items-center justify-between gap-1 mb-2.5">
           <span class="text-xs font-bold text-[#f6e29c]">👑 【安心下單流程】匯款 ＋ 7-11 賣貨便</span>
@@ -172,20 +106,16 @@
         </div>
         <div class="grid grid-cols-2 gap-2 text-xs mb-3">
           <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
-            <p class="text-[#f6e29c] font-bold">① 截圖私訊保留</p>
-            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">截圖喜歡的旗袍，點下方私訊</p>
+            <p class="text-[#f6e29c] font-bold">① 截圖私訊保留</p><p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">截圖喜歡的旗袍，點下方私訊</p>
           </div>
           <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
-            <p class="text-[#f6e29c] font-bold">② 匯款防跑單</p>
-            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">確認現貨後轉帳即正式保留</p>
+            <p class="text-[#f6e29c] font-bold">② 匯款防跑單</p><p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">確認現貨後轉帳即正式保留</p>
           </div>
           <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
-            <p class="text-[#f6e29c] font-bold">③ 賣貨便下單</p>
-            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">領取專屬 7-11 賣貨便連結</p>
+            <p class="text-[#f6e29c] font-bold">③ 賣貨便下單</p><p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">領取專屬 7-11 賣貨便連結</p>
           </div>
           <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
-            <p class="text-[#f6e29c] font-bold">④ 7-11 超取</p>
-            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">安心至指定 7-11 門市取貨</p>
+            <p class="text-[#f6e29c] font-bold">④ 7-11 超取</p><p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">安心至指定 7-11 門市取貨</p>
           </div>
         </div>
         <div class="pt-2 border-t border-[#dfb76c]/20">
@@ -198,7 +128,7 @@
         </div>
       </div>
     </section>
-    <!-- 商品與篩選區 -->
+
     <section id="products" class="space-y-3.5">
       <div class="flex items-center justify-between">
         <div>
@@ -210,7 +140,6 @@
       <div id="productGrid" class="grid grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- 尺寸表 -->
     <section id="size-chart" class="gold-card rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-b from-[#f6e29c] to-[#a67c37] shrink-0">
@@ -226,14 +155,7 @@
       </div>
       <div class="overflow-hidden rounded-2xl border border-[#dfb76c]/40 bg-[#121017]">
         <table class="w-full text-center text-sm">
-          <thead>
-            <tr class="bg-[#211c2b] text-[#f6e29c] border-b border-[#dfb76c]/40 text-xs">
-              <th class="py-2.5 font-bold">尺碼</th>
-              <th class="py-2.5 font-bold">胸圍</th>
-              <th class="py-2.5 font-bold">腰圍</th>
-              <th class="py-2.5 font-bold">臀圍</th>
-            </tr>
-          </thead>
+          <thead><tr class="bg-[#211c2b] text-[#f6e29c] border-b border-[#dfb76c]/40 text-xs"><th class="py-2.5 font-bold">尺碼</th><th class="py-2.5 font-bold">胸圍</th><th class="py-2.5 font-bold">腰圍</th><th class="py-2.5 font-bold">臀圍</th></tr></thead>
           <tbody class="divide-y divide-[#dfb76c]/20 text-[#f7f3e9]">
             <tr><td class="py-2 font-bold text-[#f6e29c]">S</td><td>82</td><td>66</td><td>86</td></tr>
             <tr class="bg-[#181520]/60"><td class="py-2 font-bold text-[#f6e29c]">M</td><td>86</td><td>70</td><td>90</td></tr>
@@ -248,7 +170,6 @@
       </div>
     </section>
 
-    <!-- 購買叮嚀 -->
     <section class="gold-card rounded-3xl p-4 sm:p-5 space-y-2.5">
       <h2 class="text-base sm:text-lg font-black gold-gradient-text">💡 購買與衣況貼心叮嚀</h2>
       <div class="space-y-2 text-xs text-[#e2d9c8] leading-relaxed">
@@ -257,25 +178,19 @@
       </div>
     </section>
 
-    <!-- 頁尾 -->
     <footer class="text-center text-xs text-[#8c7f6b] py-4 space-y-2">
       <div class="flex justify-center gap-3 text-[#f6e29c]">
-        <a href="https://lin.ee/pw0FvId" target="_blank" class="underline">LINE</a>
-        <span>｜</span>
-        <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads</a>
-        <span>｜</span>
+        <a href="https://lin.ee/pw0FvId" target="_blank" class="underline">LINE</a><span>｜</span>
+        <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads</a><span>｜</span>
         <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="underline">FB 粉專</a>
       </div>
       <p>© 一抹花顏 二手旗袍專賣 <button onclick="openLoginModal()" class="ml-1 opacity-30 hover:opacity-100" title="店長登入">🔒</button></p>
     </footer>
   </main>
 
-  <!-- 底部固定導覽列 -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2">
     <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
-      <div class="min-w-0">
-        <p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p>
-      </div>
+      <div class="min-w-0"><p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p></div>
       <div class="flex items-center gap-1 shrink-0">
         <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="px-2 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold">FB</a>
         <a href="https://www.threads.com/@cozy.052" target="_blank" class="px-2 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold">脆</a>
@@ -291,36 +206,9 @@
     </div>
   </div>
 
-  <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
-      <button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
-      <div class="text-2xl">🔒</div>
-      <h3 class="text-base font-black gold-gradient-text">店長專屬管理驗證</h3>
-      <input id="adminPwdInput" type="password" placeholder="請輸入管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
-      <button onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button>
-      <button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80 hover:opacity-100">❓ 忘記密碼？</button>
-    </div>
-  </div>
-
-  <div id="pwdChangeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
-      <button onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
-      <h3 class="text-base font-black gold-gradient-text">🔑 設定新管理密碼</h3>
-      <input id="newPwdInput" type="password" placeholder="請輸入新密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <input id="rescueCodeInput" type="password" placeholder="設定救援暗號(數字/英文)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <button onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存新密碼與暗號</button>
-    </div>
-  </div>
-
-  <div id="forgotPwdModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
-      <button onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
-      <h3 class="text-base font-black gold-gradient-text">❓ 密碼救援重設</h3>
-      <input id="rescueInput" type="password" placeholder="請輸入救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <button onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button>
-    </div>
-  </div>
+  <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4"><div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center"><button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button><div class="text-2xl">🔒</div><h3 class="text-base font-black gold-gradient-text">店長專屬管理驗證</h3><input id="adminPwdInput" type="password" placeholder="請輸入管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm" onkeydown="if(event.key==='Enter') verifyAdminPassword()"><button onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button><button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80 hover:opacity-100">❓ 忘記密碼？</button></div></div>
+  <div id="pwdChangeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4"><div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center"><button onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button><h3 class="text-base font-black gold-gradient-text">🔑 設定新管理密碼</h3><input id="newPwdInput" type="password" placeholder="請輸入新密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm"><input id="rescueCodeInput" type="password" placeholder="設定救援暗號(數字/英文)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm"><button onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存新密碼與暗號</button></div></div>
+  <div id="forgotPwdModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4"><div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center"><button onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button><h3 class="text-base font-black gold-gradient-text">❓ 密碼救援重設</h3><input id="rescueInput" type="password" placeholder="請輸入救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm"><input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm"><button onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button></div></div>
 
   <div id="editModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto">
@@ -328,82 +216,75 @@
       <h3 class="text-base font-black gold-gradient-text" id="editModalTitle">➕ 上架／編輯旗袍</h3>
       <div class="space-y-2.5 text-xs">
         <div class="flex items-center justify-between">
-          <span class="text-[#f6e29c] font-bold">📸 商品照片（全身照＋細節照）</span>
-          <button type="button" onclick="triggerDualUploadInModal()" class="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-[11px]">⚡ 選2張自動帶入</button>
+          <span class="text-[#f6e29c] font-bold">📸 商品照片</span><button type="button" onclick="triggerDualUploadInModal()" class="px-2 py-1 rounded-full bg-emerald-600 text-white font-bold text-[10px]">⚡ 選2張帶入</button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <div onclick="triggerModalImgUpload(1)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden">
-            <img id="previewImg1" src="" class="w-full h-full object-cover hidden">
-            <div id="placeholderImg1"><div class="text-xl">👗</div><p class="text-[11px] text-[#f6e29c] font-bold mt-1">選「全身照」</p></div>
-          </div>
-          <div onclick="triggerModalImgUpload(2)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden">
-            <img id="previewImg2" src="" class="w-full h-full object-cover hidden">
-            <div id="placeholderImg2"><div class="text-xl">🔍</div><p class="text-[11px] text-[#f6e29c] font-bold mt-1">選「細節照」</p></div>
-          </div>
+          <div onclick="triggerModalImgUpload(1)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden"><img id="previewImg1" src="" class="w-full h-full object-cover hidden"><div id="placeholderImg1"><div class="text-xl">👗</div><p class="text-[10px] text-[#f6e29c] font-bold mt-1">選「全身照」</p></div></div>
+          <div onclick="triggerModalImgUpload(2)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden"><img id="previewImg2" src="" class="w-full h-full object-cover hidden"><div id="placeholderImg2"><div class="text-xl">🔍</div><p class="text-[10px] text-[#f6e29c] font-bold mt-1">選「細節照」</p></div></div>
         </div>
         <input type="file" id="modalImgInput1" accept="image/*" class="hidden" onchange="handleModalImg(event, 1)">
         <input type="file" id="modalImgInput2" accept="image/*" class="hidden" onchange="handleModalImg(event, 2)">
         <input type="file" id="modalDualInput" accept="image/*" multiple class="hidden" onchange="handleModalDual(event)">
-
-        <div>
-          <label class="text-[#f6e29c] font-bold">🏷️ 商品編號</label>
-          <input id="editCode" type="text" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white">
-        </div>
-        <div>
-          <label class="text-[#f6e29c] font-bold">📏 選擇尺碼</label>
-          <select id="editSize" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white">
-            <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
-            <option value="2XL">2XL</option><option value="3XL">3XL</option><option value="4XL">4XL</option><option value="5XL">5XL</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-[#f6e29c] font-bold">💰 價格 (NT$)</label>
-          <input id="editPrice" type="number" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white" value="390">
-        </div>
-        <div>
-          <label class="text-[#f6e29c] font-bold">✨ 商品特色與衣況備註</label>
-          <textarea id="editDesc" rows="2" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white"></textarea>
-        </div>
-        <div class="flex gap-2 pt-2">
-          <button onclick="saveProduct()" class="flex-1 py-2 rounded-xl gold-btn">💾 儲存上架</button>
-          <button id="deleteBtn" onclick="deleteCurrentProduct()" class="hidden py-2 px-4 rounded-xl bg-rose-700 text-white font-bold">🗑️ 刪除</button>
-        </div>
+        <div><label class="text-[#f6e29c] font-bold">🏷️ 商品編號</label><input id="editCode" type="text" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white"></div>
+        <div><label class="text-[#f6e29c] font-bold">📏 選擇尺碼</label><select id="editSize" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white"><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="2XL">2XL</option><option value="3XL">3XL</option><option value="4XL">4XL</option><option value="5XL">5XL</option></select></div>
+        <div><label class="text-[#f6e29c] font-bold">💰 價格 (NT$)</label><input id="editPrice" type="number" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white" value="390"></div>
+        <div><label class="text-[#f6e29c] font-bold">✨ 特色與衣況</label><textarea id="editDesc" rows="2" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white"></textarea></div>
+        <div class="flex gap-2 pt-2"><button onclick="saveProduct()" class="flex-1 py-2 rounded-xl gold-btn">💾 儲存上架</button><button id="deleteBtn" onclick="deleteCurrentProduct()" class="hidden py-2 px-4 rounded-xl bg-rose-700 text-white font-bold">🗑️ 刪除</button></div>
       </div>
     </div>
   </div>
 
   <script>
+    // === 安全儲存與壓縮系統 ===
+    function safeSave(key, data) {
+      try {
+        localStorage.setItem(key, data);
+        return true;
+      } catch (e) {
+        alert('⚠️ 警告：瀏覽器儲存空間已滿！請先刪除一些舊的旗袍照片後再試一次。');
+        return false;
+      }
+    }
+
+    function compressImage(file, callback) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let w = img.width, h = img.height;
+          const max = 700; // 壓縮到最大寬高700px
+          if (w > h && w > max) { h *= max / w; w = max; }
+          else if (h > max) { w *= max / h; h = max; }
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          callback(canvas.toDataURL('image/jpeg', 0.6)); // 60% 畫質，大幅縮小體積
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
     let adminLoggedIn = false;
     let adminPassword = localStorage.getItem('qipao_admin_pwd') || '8888';
     let rescueSecret = localStorage.getItem('qipao_rescue_secret') || '1688';
     let brandAvatar = localStorage.getItem('qipao_brand_avatar') || '';
     let currentEditIndex = -1;
-    let secretTapCount = 0;
-    let secretTapTimer = null;
-
+    let secretTapCount = 0, secretTapTimer = null;
     let products = JSON.parse(localStorage.getItem('qipao_products')) || [
-      { code: '#S01', size: 'S', price: 390, desc: '典雅日常款・僅穿過1次極新', img1: '', img2: '' },
-      { code: '#M01', size: 'M', price: 450, desc: '華麗刺繡款・質感極佳', img1: '', img2: '' },
-      { code: '#L01', size: 'L', price: 490, desc: '經典復古款・約9成新', img1: '', img2: '' },
-      { code: '#XL01', size: 'XL', price: 550, desc: '優雅長版款・完美包覆', img1: '', img2: '' }
+      { code: '#S01', size: 'S', price: 390, desc: '典雅日常款・僅穿過1次極新', img1: '', img2: '' }
     ];
-
     const sizes = ['全部', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     let activeSizeFilter = '全部';
 
-    function init() {
-      renderBrandAvatar();
-      renderSizeFilterBar();
-      renderProducts();
-    }
+    function init() { renderBrandAvatar(); renderSizeFilterBar(); renderProducts(); }
+    window.onload = init;
 
     function renderBrandAvatar() {
-      const img1 = document.getElementById('heroAvatarImg');
-      const ph1 = document.getElementById('heroAvatarPlaceholder');
-      const btn1 = document.getElementById('adminAvatarOverlayBtn');
-      const img2 = document.getElementById('chartAvatarImg');
-      const ph2 = document.getElementById('chartAvatarPlaceholder');
-
+      const img1 = document.getElementById('heroAvatarImg'), ph1 = document.getElementById('heroAvatarPlaceholder'), btn1 = document.getElementById('adminAvatarOverlayBtn');
+      const img2 = document.getElementById('chartAvatarImg'), ph2 = document.getElementById('chartAvatarPlaceholder');
       if (brandAvatar) {
         img1.src = brandAvatar; img1.classList.remove('hidden'); ph1.classList.add('hidden');
         img2.src = brandAvatar; img2.classList.remove('hidden'); ph2.classList.add('hidden');
@@ -411,104 +292,44 @@
         img1.classList.add('hidden'); ph1.classList.remove('hidden');
         img2.classList.add('hidden'); ph2.classList.remove('hidden');
       }
-      if (adminLoggedIn) btn1.classList.remove('hidden');
-      else btn1.classList.add('hidden');
+      if (adminLoggedIn) btn1.classList.remove('hidden'); else btn1.classList.add('hidden');
     }
 
     function secretSealTap() {
-      secretTapCount++;
-      clearTimeout(secretTapTimer);
-      if (secretTapCount >= 3) {
-        secretTapCount = 0;
-        if (adminLoggedIn) alert('店長後台目前已解鎖！');
-        else openLoginModal();
-      } else {
-        secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 600);
-      }
+      secretTapCount++; clearTimeout(secretTapTimer);
+      if (secretTapCount >= 3) { secretTapCount = 0; if (adminLoggedIn) alert('已解鎖！'); else openLoginModal(); }
+      else { secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 600); }
     }
-
-    function openLoginModal() {
-      document.getElementById('adminPwdInput').value = '';
-      document.getElementById('loginModal').classList.remove('hidden');
-      document.getElementById('loginModal').classList.add('flex');
-    }
-    function closeLoginModal() {
-      document.getElementById('loginModal').classList.add('hidden');
-      document.getElementById('loginModal').classList.remove('flex');
-    }
-
+    function openLoginModal() { document.getElementById('adminPwdInput').value = ''; document.getElementById('loginModal').classList.replace('hidden', 'flex'); }
+    function closeLoginModal() { document.getElementById('loginModal').classList.replace('flex', 'hidden'); }
     function verifyAdminPassword() {
-      const val = document.getElementById('adminPwdInput').value;
-      if (val === adminPassword) {
-        adminLoggedIn = true;
-        closeLoginModal();
-        document.getElementById('adminToolbar').classList.remove('hidden');
-        renderBrandAvatar();
-        renderProducts();
-        alert('🎉 店長後台解鎖成功！');
-      } else {
-        alert('❌ 密碼錯誤，請重新輸入');
-      }
+      if (document.getElementById('adminPwdInput').value === adminPassword) {
+        adminLoggedIn = true; closeLoginModal(); document.getElementById('adminToolbar').classList.remove('hidden');
+        renderBrandAvatar(); renderProducts(); alert('🎉 解鎖成功！');
+      } else alert('❌ 密碼錯誤');
     }
-
-    function logoutAdmin() {
-      adminLoggedIn = false;
-      document.getElementById('adminToolbar').classList.add('hidden');
-      renderBrandAvatar();
-      renderProducts();
-      alert('🔒 已登出管理後台');
-    }
-
-    function openPasswordChangeModal() {
-      document.getElementById('newPwdInput').value = '';
-      document.getElementById('rescueCodeInput').value = '';
-      document.getElementById('pwdChangeModal').classList.remove('hidden');
-      document.getElementById('pwdChangeModal').classList.add('flex');
-    }
-    function closePasswordChangeModal() {
-      document.getElementById('pwdChangeModal').classList.add('hidden');
-      document.getElementById('pwdChangeModal').classList.remove('flex');
-    }
+    function logoutAdmin() { adminLoggedIn = false; document.getElementById('adminToolbar').classList.add('hidden'); renderBrandAvatar(); renderProducts(); alert('🔒 已登出'); }
+    
+    function openPasswordChangeModal() { document.getElementById('newPwdInput').value = ''; document.getElementById('rescueCodeInput').value = ''; document.getElementById('pwdChangeModal').classList.replace('hidden', 'flex'); }
+    function closePasswordChangeModal() { document.getElementById('pwdChangeModal').classList.replace('flex', 'hidden'); }
     function saveNewPassword() {
-      const p = document.getElementById('newPwdInput').value.trim();
-      const r = document.getElementById('rescueCodeInput').value.trim();
-      if (!p) { alert('請輸入新密碼！'); return; }
-      adminPassword = p;
-      localStorage.setItem('qipao_admin_pwd', adminPassword);
-      if (r) {
-        rescueSecret = r;
-        localStorage.setItem('qipao_rescue_secret', rescueSecret);
-      }
-      closePasswordChangeModal();
-      alert('🔑 新管理密碼與救援暗號設定成功！');
+      const p = document.getElementById('newPwdInput').value.trim(), r = document.getElementById('rescueCodeInput').value.trim();
+      if (!p) return alert('請輸入新密碼！');
+      adminPassword = p; safeSave('qipao_admin_pwd', p);
+      if (r) { rescueSecret = r; safeSave('qipao_rescue_secret', r); }
+      closePasswordChangeModal(); alert('🔑 設定成功！');
     }
-
-    function openForgotPwdModal() {
-      closeLoginModal();
-      document.getElementById('rescueInput').value = '';
-      document.getElementById('resetPwdInput').value = '';
-      document.getElementById('forgotPwdModal').classList.remove('hidden');
-      document.getElementById('forgotPwdModal').classList.add('flex');
-    }
-    function closeForgotPwdModal() {
-      document.getElementById('forgotPwdModal').classList.add('hidden');
-      document.getElementById('forgotPwdModal').classList.remove('flex');
-    }
+    function openForgotPwdModal() { closeLoginModal(); document.getElementById('rescueInput').value = ''; document.getElementById('resetPwdInput').value = ''; document.getElementById('forgotPwdModal').classList.replace('hidden', 'flex'); }
+    function closeForgotPwdModal() { document.getElementById('forgotPwdModal').classList.replace('flex', 'hidden'); }
     function verifyAndResetPassword() {
-      const r = document.getElementById('rescueInput').value.trim();
+      if (document.getElementById('rescueInput').value.trim() !== rescueSecret) return alert('❌ 暗號錯誤！');
       const np = document.getElementById('resetPwdInput').value.trim();
-      if (r !== rescueSecret) { alert('❌ 救援暗號錯誤！'); return; }
-      if (!np) { alert('請輸入新密碼！'); return; }
-      adminPassword = np;
-      localStorage.setItem('qipao_admin_pwd', adminPassword);
-      closeForgotPwdModal();
-      alert('🎉 密碼重設成功！請使用新密碼登入。');
-      openLoginModal();
+      if (!np) return alert('請輸入新密碼！');
+      adminPassword = np; safeSave('qipao_admin_pwd', np); closeForgotPwdModal(); alert('🎉 重設成功！請登入。'); openLoginModal();
     }
 
     function renderSizeFilterBar() {
-      const bar = document.getElementById('sizeFilterBar');
-      bar.innerHTML = '';
+      const bar = document.getElementById('sizeFilterBar'); bar.innerHTML = '';
       sizes.forEach(sz => {
         const count = sz === '全部' ? products.length : products.filter(p => p.size === sz).length;
         const btn = document.createElement('button');
@@ -520,126 +341,105 @@
     }
 
     function renderProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
+      const grid = document.getElementById('productGrid'); grid.innerHTML = '';
       const filtered = activeSizeFilter === '全部' ? products : products.filter(p => p.size === activeSizeFilter);
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-2 py-8 text-center text-xs text-[#bfb29e]">此尺碼目前尚無旗袍孤品，敬請期待 💕</div>`;
-        return;
-      }
-
+      if (filtered.length === 0) return grid.innerHTML = `<div class="col-span-2 py-8 text-center text-xs text-[#bfb29e]">尚無孤品 💕</div>`;
       filtered.forEach((p, index) => {
-        const originalIndex = products.indexOf(p);
-        const card = document.createElement('div');
-        card.className = 'gold-card rounded-2xl p-2.5 flex flex-col justify-between relative overflow-hidden';
-
-        let imgHtml = '';
-        const currentViewImg = p.activeView === 'detail' ? (p.img2 || p.img1) : p.img1;
-        if (currentViewImg) {
-          imgHtml = `<img src="${currentViewImg}" class="w-full h-44 sm:h-52 object-cover rounded-xl cursor-pointer" onclick="openDetailModal(${originalIndex})">`;
-        } else {
-          imgHtml = `<div class="w-full h-44 sm:h-52 bg-[#121017] rounded-xl flex flex-col items-center justify-center cursor-pointer border border-[#dfb76c]/20" onclick="openDetailModal(${originalIndex})">
-            <span class="text-3xl mb-1">👗</span><span class="text-[11px] text-[#f6e29c] font-bold">點此看大圖</span>
-          </div>`;
-        }
-
-        let adminEditHtml = adminLoggedIn ? `<button onclick="openEditModal(${originalIndex})" class="absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-emerald-700 text-white text-[10px] font-bold shadow">✏️ 編輯</button>` : '';
-
+        const orig = products.indexOf(p);
+        const card = document.createElement('div'); card.className = 'gold-card rounded-2xl p-2.5 flex flex-col justify-between relative overflow-hidden';
+        const img = p.activeView === 'detail' ? (p.img2 || p.img1) : p.img1;
+        const imgHtml = img ? `<img src="${img}" class="w-full h-44 sm:h-52 object-cover rounded-xl cursor-pointer" onclick="openDetailModal(${orig})">` : `<div class="w-full h-44 bg-[#121017] rounded-xl flex items-center justify-center border border-[#dfb76c]/20" onclick="openDetailModal(${orig})">👗</div>`;
         card.innerHTML = `
           <div>
-            <div class="relative mb-2">
-              ${imgHtml}
-              <div class="absolute bottom-2 left-2 flex gap-1 bg-black/60 backdrop-blur-sm p-1 rounded-xl border border-[#dfb76c]/30">
-                <button onclick="switchCardView(${originalIndex}, 'full')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${(!p.activeView || p.activeView === 'full') ? 'bg-[#dfb76c] text-[#1a140b]' : 'text-[#f6e29c]'}">👗 全身</button>
-                <button onclick="switchCardView(${originalIndex}, 'detail')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${p.activeView === 'detail' ? 'bg-[#dfb76c] text-[#1a140b]' : 'text-[#f6e29c]'}">🔍 細節</button>
+            <div class="relative mb-2">${imgHtml}
+              <div class="absolute bottom-2 left-2 flex gap-1 bg-black/60 p-1 rounded-xl">
+                <button onclick="switchCardView(${orig}, 'full')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${(!p.activeView || p.activeView==='full')?'bg-[#dfb76c] text-[#1a140b]':'text-[#f6e29c]'}">全身</button>
+                <button onclick="switchCardView(${orig}, 'detail')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${p.activeView==='detail'?'bg-[#dfb76c] text-[#1a140b]':'text-[#f6e29c]'}">細節</button>
               </div>
-              ${adminEditHtml}
+              ${adminLoggedIn ? `<button onclick="openEditModal(${orig})" class="absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-emerald-700 text-white text-[10px] font-bold shadow">✏️ 編輯</button>` : ''}
             </div>
-            <div class="flex items-center justify-between px-0.5">
-              <span class="text-xs font-black text-[#f6e29c]">${p.code}</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40">${p.size}碼</span>
-            </div>
-            <p class="text-[11px] text-[#e2d9c8] mt-1 line-clamp-2 px-0.5">${p.desc || '九成新極美孤品'}</p>
+            <div class="flex items-center justify-between px-0.5"><span class="text-xs font-black text-[#f6e29c]">${p.code}</span><span class="px-2 py-0.5 rounded-full text-[10px] bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40">${p.size}碼</span></div>
+            <p class="text-[11px] text-[#e2d9c8] mt-1 line-clamp-2 px-0.5">${p.desc}</p>
           </div>
-          <div class="mt-2.5 pt-2 border-t border-[#dfb76c]/20 flex items-center justify-between">
-            <span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span>
-            <button onclick="openDetailModal(${originalIndex})" class="px-2.5 py-1 rounded-xl gold-btn text-[11px]">📸 私訊</button>
-          </div>
+          <div class="mt-2.5 pt-2 border-t border-[#dfb76c]/20 flex justify-between"><span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span><button onclick="openDetailModal(${orig})" class="px-2.5 py-1 rounded-xl gold-btn text-[11px]">📸 私訊</button></div>
         `;
         grid.appendChild(card);
       });
     }
-
-    function switchCardView(index, view) {
-      products[index].activeView = view;
-      renderProducts();
-    }
-
-    function openDetailModal(index) {
-      const p = products[index];
-      const modal = document.getElementById('detailModal');
-      const content = document.getElementById('modalContent');
-      const img1Show = p.img1 ? `<img src="${p.img1}" class="w-full h-64 object-cover rounded-2xl mb-2">` : '<div class="w-full h-48 bg-[#121017] rounded-2xl flex items-center justify-center text-2xl mb-2">👗 暫無全身照</div>';
-      const img2Show = p.img2 ? `<img src="${p.img2}" class="w-full h-64 object-cover rounded-2xl mb-2">` : '<div class="w-full h-48 bg-[#121017] rounded-2xl flex items-center justify-center text-2xl mb-2">🔍 暫無細節照</div>';
-
-      content.innerHTML = `
-        <div class="text-center space-y-2">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c]">
-            <span>🌸</span><span>編號：${p.code} ｜ 尺碼：${p.size}碼</span>
-          </div>
-          <h3 class="text-lg font-black text-[#ff7b7b]">甜甜惜物價：NT$ ${p.price}</h3>
-        </div>
+    function switchCardView(i, v) { products[i].activeView = v; renderProducts(); }
+    
+    function openDetailModal(i) {
+      const p = products[i];
+      document.getElementById('modalContent').innerHTML = `
+        <div class="text-center space-y-2"><div class="inline-flex gap-1.5 px-3 py-1 rounded-full bg-[#251f30] text-xs text-[#f6e29c]">🌸 ${p.code} ｜ ${p.size}碼</div><h3 class="text-lg font-black text-[#ff7b7b]">NT$ ${p.price}</h3></div>
         <div class="space-y-2 pt-1">
-          <div><p class="text-xs text-[#f6e29c] font-bold mb-1">👗 全身照</p>${img1Show}</div>
-          <div><p class="text-xs text-[#f6e29c] font-bold mb-1">🔍 細節照</p>${img2Show}</div>
+          <div><p class="text-xs text-[#f6e29c] font-bold mb-1">👗 全身照</p>${p.img1 ? `<img src="${p.img1}" class="w-full h-64 object-cover rounded-2xl">` : '暫無'}</div>
+          <div><p class="text-xs text-[#f6e29c] font-bold mb-1">🔍 細節照</p>${p.img2 ? `<img src="${p.img2}" class="w-full h-64 object-cover rounded-2xl">` : '暫無'}</div>
         </div>
-        <div class="bg-[#14121a] border border-[#dfb76c]/30 rounded-2xl p-3 text-xs text-[#e2d9c8]">
-          <p class="text-[#f6e29c] font-bold mb-1">✨ 商品特色：</p><p>${p.desc || '極美品'}</p>
-        </div>
-        <div class="bg-[#1d1826] border border-[#dfb76c]/40 rounded-2xl p-3 text-center space-y-1.5">
-          <p class="text-xs font-bold text-[#f6e29c]">📸 喜歡這件嗎？請截圖此畫面私訊我們保留！</p>
-          <div class="grid grid-cols-3 gap-1.5 pt-1">
-            <a href="https://lin.ee/pw0FvId" target="_blank" class="py-2 px-1 rounded-xl bg-[#06C755] text-white font-bold text-xs">💬 LINE</a>
-            <a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs">🧵 脆</a>
-            <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs">📘 FB</a>
-          </div>
-        </div>
+        <div class="bg-[#14121a] rounded-2xl p-3 text-xs text-[#e2d9c8]"><p class="text-[#f6e29c] font-bold mb-1">✨ 特色：</p><p>${p.desc}</p></div>
+        <div class="bg-[#1d1826] rounded-2xl p-3 text-center"><p class="text-xs font-bold text-[#f6e29c] mb-1">📸 喜歡嗎？截圖私訊保留！</p><div class="grid grid-cols-3 gap-1.5"><a href="https://lin.ee/pw0FvId" target="_blank" class="py-2 rounded-xl bg-[#06C755] text-white text-xs font-bold">💬 LINE</a><a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 rounded-xl bg-[#1e1a26] text-[#f6e29c] text-xs font-bold border border-[#dfb76c]/50">🧵 脆</a><a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 rounded-xl bg-[#1e1a26] text-[#f6e29c] text-xs font-bold border border-[#dfb76c]/50">📘 FB</a></div></div>
       `;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      document.getElementById('detailModal').classList.replace('hidden', 'flex');
     }
-    function closeDetailModal() {
-      document.getElementById('detailModal').classList.add('hidden');
-      document.getElementById('detailModal').classList.remove('flex');
-    }
+    function closeDetailModal() { document.getElementById('detailModal').classList.replace('flex', 'hidden'); }
 
-    let tempImg1 = ''; let tempImg2 = '';
-
-    function openEditModal(index) {
-      currentEditIndex = index;
-      const modal = document.getElementById('editModal');
-      const title = document.getElementById('editModalTitle');
-      const delBtn = document.getElementById('deleteBtn');
-
-      if (index === -1) {
-        title.innerText = '➕ 單件上架新旗袍';
+    let tempImg1 = '', tempImg2 = '';
+    function openEditModal(i) {
+      currentEditIndex = i;
+      if (i === -1) {
+        document.getElementById('editModalTitle').innerText = '➕ 單件上架';
         document.getElementById('editCode').value = '#S' + String(products.length + 1).padStart(2, '0');
-        document.getElementById('editSize').value = 'S';
-        document.getElementById('editPrice').value = '390';
-        document.getElementById('editDesc').value = '9成新・僅穿過1次極美';
-        tempImg1 = ''; tempImg2 = '';
-        updateModalPreview(1, ''); updateModalPreview(2, '');
-        delBtn.classList.add('hidden');
+        document.getElementById('editSize').value = 'S'; document.getElementById('editPrice').value = '390'; document.getElementById('editDesc').value = '9成新極美';
+        tempImg1 = ''; tempImg2 = ''; updateModalPreview(1, ''); updateModalPreview(2, '');
+        document.getElementById('deleteBtn').classList.add('hidden');
       } else {
-        title.innerText = '✏️ 編輯旗袍資料';
-        const p = products[index];
-        document.getElementById('editCode').value = p.code;
-        document.getElementById('editSize').value = p.size;
-        document.getElementById('editPrice').value = p.price;
-        document.getElementById('editDesc').value = p.desc;
-        tempImg1 = p.img1 || ''; tempImg2 = p.img2 || '';
-        updateModalPreview(1, tempImg1); updateModalPreview(2, tempImg2);
-        delBtn.classList.remove('hidden');
+        document.getElementById('editModalTitle').innerText = '✏️ 編輯';
+        const p = products[i];
+        document.getElementById('editCode').value = p.code; document.getElementById('editSize').value = p.size;
+        document.getElementById('editPrice').value = p.price; document.getElementById('editDesc').value = p.desc;
+        tempImg1 = p.img1||''; tempImg2 = p.img2||''; updateModalPreview(1, tempImg1); updateModalPreview(2, tempImg2);
+        document.getElementById('deleteBtn').classList.remove('hidden');
       }
- 
+      document.getElementById('editModal').classList.replace('hidden', 'flex');
+    }
+    function closeEditModal() { document.getElementById('editModal').classList.replace('flex', 'hidden'); }
+
+    function triggerModalImgUpload(slot) { document.getElementById(`modalImgInput${slot}`).click(); }
+    function triggerDualUploadInModal() { document.getElementById('modalDualInput').click(); }
+
+    function handleModalImg(e, slot) {
+      compressImage(e.target.files[0], function(dataUrl) {
+        if(slot===1){ tempImg1=dataUrl; updateModalPreview(1, tempImg1); }
+        else{ tempImg2=dataUrl; updateModalPreview(2, tempImg2); }
+      });
+    }
+    function handleModalDual(e) {
+      if(e.target.files[0]) compressImage(e.target.files[0], function(d){ tempImg1=d; updateModalPreview(1, tempImg1); });
+      if(e.target.files[1]) compressImage(e.target.files[1], function(d){ tempImg2=d; updateModalPreview(2, tempImg2); });
+    }
+    function updateModalPreview(s, src) {
+      const i=document.getElementById(`previewImg${s}`), p=document.getElementById(`placeholderImg${s}`);
+      if(src){ i.src=src; i.classList.remove('hidden'); p.classList.add('hidden'); }
+      else{ i.classList.add('hidden'); p.classList.remove('hidden'); }
+    }
+
+    function saveProduct() {
+      const item = {
+        code: document.getElementById('editCode').value.trim()||'#S00', size: document.getElementById('editSize').value,
+        price: Number(document.getElementById('editPrice').value)||390, desc: document.getElementById('editDesc').value.trim(),
+        img1: tempImg1, img2: tempImg2
+      };
+      
+      // 複製一份原本的清單，試存看看會不會爆滿
+      let testProducts = [...products];
+      if (currentEditIndex === -1) testProducts.unshift(item);
+      else testProducts[currentEditIndex] = item;
+      
+      if (safeSave('qipao_products', JSON.stringify(testProducts))) {
+        products = testProducts;
+        closeEditModal(); renderProducts(); renderSizeFilterBar();
+        alert('💾 旗袍上架成功！(照片已自動壓縮)');
+      }
+    }
+    function deleteCurrentProduct() {
+      if (confirm('確定刪除？')) { products.splice(currentEditIndex, 1); safeSave('qipao_products', J
