@@ -33,7 +33,7 @@
     }
     .seal-badge {
       background-color: var(--red-seal); border: 1px solid #f3d48b;
-      color: #fff8ea; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; cursor: pointer;
+      color: #fff8ea; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; cursor: pointer; user-select: none;
     }
     .size-pill { border: 1.5px solid rgba(223, 183, 108, 0.4); background: rgba(27, 24, 34, 0.9); }
     .size-pill.active {
@@ -46,15 +46,20 @@
 <body class="pb-28">
   <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[120] hidden px-4 py-2.5 rounded-full bg-[#1b1822]/95 border-2 border-[#dfb76c] text-[#f6e29c] text-xs font-bold shadow-2xl whitespace-nowrap"></div>
 
+  <!-- 店長管理後台 -->
   <div id="adminToolbar" class="hidden sticky top-0 z-50 bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
     <div class="max-w-xl mx-auto space-y-2">
       <div class="flex items-center justify-between">
         <span class="text-xs font-bold text-[#6ee7b7]">🔓 店長管理後台已解鎖</span>
-        <button onclick="logoutAdmin()" class="px-2.5 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold">🔒 登出</button>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openPwdModal()" class="px-2.5 py-1 rounded-full text-[11px] bg-[#253930] text-[#f6e29c] border border-[#dfb76c]/50 font-bold">🔑 改密碼/救援碼</button>
+          <button onclick="logoutAdmin()" class="px-2.5 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold">🔒 登出</button>
+        </div>
       </div>
-      <div class="grid grid-cols-2 gap-1.5 text-xs">
-        <button onclick="triggerAvatarUpload()" class="py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">📷 換品牌頭像</button>
-        <button onclick="openEditModal()" class="py-1.5 rounded-xl gold-btn font-bold">➕ 單件上架</button>
+      <div class="grid grid-cols-3 gap-1.5 text-xs">
+        <button onclick="triggerAvatarUpload()" class="py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">📷 換頭像</button>
+        <button onclick="openEditModal(-1)" class="py-1.5 rounded-xl gold-btn font-bold">➕ 單件上架</button>
+        <button onclick="openBatchModal()" class="py-1.5 rounded-xl bg-emerald-600 text-white font-bold">⚡ 批次多件</button>
       </div>
       <div class="grid grid-cols-2 gap-1.5">
         <button onclick="exportUpdatedHtmlFile()" class="py-2 rounded-xl bg-blue-700 text-white text-[11px] font-bold">💾 下載 index.html</button>
@@ -83,7 +88,7 @@
       </div>
     </div>
   </header>
-<!-- === 第一段結束，請換行並在此下方貼上第二段 === -->
+<!-- === 第一段結束，請換行貼上第二段 === -->
   <main class="max-w-xl mx-auto px-3.5 pt-4 space-y-7">
     <section class="gold-card rounded-3xl p-4 text-center">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c] mb-3">
@@ -144,7 +149,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-black gold-gradient-text">🌸 按尺碼尋寶 (S～5XL)</h2>
-          <p class="text-[11px] text-[#bfb29e]">喜歡請截圖私訊保留</p>
+          <p class="text-[11px] text-[#bfb29e]">每件可切換「👗 全身」與「🔍 細節」・喜歡請截圖私訊</p>
         </div>
         <span id="productCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-[#1b1822] border border-[#dfb76c]/40 text-[#f6e29c] font-bold"></span>
       </div>
@@ -178,22 +183,50 @@
       </div>
     </footer>
   </main>
-<!-- === 第二段結束，請換行並在此下方貼上第三段 === -->
+
+  <!-- 1. 店長登入與忘記密碼彈窗 (無任何密碼提示) -->
   <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
     <div class="gold-card rounded-2xl p-5 w-full max-w-xs space-y-3">
       <h3 class="text-base font-bold text-[#f6e29c] text-center">🔑 店長管理登入</h3>
-      <input type="password" id="adminPwdInput" placeholder="請輸入密碼 (預設 8888)" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-sm text-white">
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="closeLoginModal()" class="py-2 rounded-xl bg-gray-700 text-xs font-bold">取消</button>
-        <button onclick="verifyAdminLogin()" class="py-2 rounded-xl gold-btn text-xs font-bold">登入</button>
+      <div id="loginBox" class="space-y-3">
+        <input type="password" id="adminPwdInput" placeholder="請輸入店長密碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-sm text-white">
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="closeLoginModal()" class="py-2 rounded-xl bg-gray-700 text-xs font-bold">取消</button>
+          <button onclick="verifyAdminLogin()" class="py-2 rounded-xl gold-btn text-xs font-bold">登入</button>
+        </div>
+        <button onclick="toggleForgotBox(true)" class="w-full text-center text-[11px] text-[#bfb29e] underline pt-1">忘記密碼？點此用救援碼重設</button>
+      </div>
+      <div id="forgotBox" class="hidden space-y-2.5 text-xs">
+        <p class="text-[#f6e29c]">🛡️ 請輸入店長專屬救援碼：</p>
+        <input type="password" id="recoveryInput" placeholder="請輸入安全救援碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white">
+        <input type="password" id="resetNewPwdInput" placeholder="請設定新登入密碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white">
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="toggleForgotBox(false)" class="py-2 rounded-xl bg-gray-700 font-bold">返回登入</button>
+          <button onclick="verifyRecoveryAndReset()" class="py-2 rounded-xl gold-btn font-bold">重設並解鎖</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
-    <div class="gold-card rounded-2xl p-4 w-full max-w-sm space-y-2.5 text-xs">
-      <h3 class="text-base font-bold text-[#f6e29c]">➕ 上架旗袍</h3>
-      <input type="text" id="prodName" placeholder="款式名稱（如：溫婉素雅棉麻旗袍）" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
+  <!-- 2. 修改密碼與救援碼彈窗 -->
+  <div id="pwdModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
+    <div class="gold-card rounded-2xl p-5 w-full max-w-xs space-y-3 text-xs">
+      <h3 class="text-base font-bold text-[#f6e29c] text-center">🔑 修改密碼與救援碼</h3>
+      <div><label class="text-[#f6e29c]">新登入密碼：</label><input type="text" id="newPwdField" class="w-full mt-1 px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white"></div>
+      <div><label class="text-[#f6e29c]">新忘記密碼救援碼：</label><input type="text" id="newRecField" class="w-full mt-1 px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white"></div>
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button onclick="document.getElementById('pwdModal').classList.add('hidden')" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
+        <button onclick="saveNewPassword()" class="py-2 rounded-xl gold-btn font-bold">儲存設定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 單件上架/編輯彈窗 (全身照 + 細節照) -->
+  <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="gold-card rounded-2xl p-4 w-full max-w-sm space-y-2.5 text-xs my-auto">
+      <h3 id="editModalTitle" class="text-base font-bold text-[#f6e29c]">➕ 單件旗袍上架</h3>
+      <input type="hidden" id="editIndex" value="-1">
+      <input type="text" id="prodName" placeholder="款式名稱（如：復古墨綠提花旗袍）" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
       <div class="grid grid-cols-2 gap-2">
         <select id="prodSize" class="px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
           <option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option><option>4XL</option><option>5XL</option>
@@ -201,34 +234,98 @@
         <input type="number" id="prodPrice" value="490" placeholder="價格" class="px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
       </div>
       <input type="text" id="prodDesc" value="9成新・已清潔無整燙" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-      <div><label class="text-[#f6e29c]">👗 全身照：</label><input type="file" id="prodImg1" accept="image/*" class="w-full mt-1"></div>
-      <div class="grid grid-cols-2 gap-2 pt-2">
+      <div class="bg-[#141119] p-2.5 rounded-xl border border-[#dfb76c]/30 space-y-2">
+        <div><label class="text-[#f6e29c] font-bold">👗 照片1：全身照</label><input type="file" id="prodImg1" accept="image/*" class="w-full mt-1"></div>
+        <div><label class="text-[#6ee7b7] font-bold">🔍 照片2：細節照</label><input type="file" id="prodImg2" accept="image/*" class="w-full mt-1"></div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-1">
         <button onclick="closeEditModal()" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
         <button onclick="saveProduct()" class="py-2 rounded-xl gold-btn font-bold">儲存商品</button>
       </div>
     </div>
   </div>
 
+  <!-- 4. 批次多件上架彈窗 (每件皆可選全身照+細節照) -->
+  <div id="batchModal" class="fixed inset-0 z-50 hidden bg-black/85 flex items-center justify-center p-3 overflow-y-auto">
+    <div class="gold-card rounded-2xl p-4 w-full max-w-md space-y-3 text-xs my-auto max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-[#6ee7b7]">⚡ 批次多件上架 (全身+細節雙圖)</h3>
+        <button onclick="closeBatchModal()" class="text-[#bfb29e] text-sm">✕</button>
+      </div>
+      <div class="bg-[#141119] p-2.5 rounded-xl border border-[#dfb76c]/40 space-y-2 shrink-0">
+        <p class="text-[#f6e29c] font-bold">① 先設定這批旗袍的預設值（下方可個別微調）：</p>
+        <div class="grid grid-cols-2 gap-2">
+          <select id="batchDefSize" class="px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
+            <option>S</option><option selected>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option><option>4XL</option><option>5XL</option>
+          </select>
+          <input type="number" id="batchDefPrice" value="490" placeholder="統一價格" class="px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
+        </div>
+        <input type="text" id="batchDefDesc" value="9成新・僅穿1次・已清潔無整燙" class="w-full px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
+      </div>
+      <div id="batchRowsContainer" class="space-y-2.5 overflow-y-auto pr-1 flex-1"></div>
+      <div class="space-y-2 pt-1 shrink-0">
+        <button onclick="addBatchRow()" class="w-full py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">➕ 再加一件待上架欄位</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="closeBatchModal()" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
+          <button onclick="submitBatchProducts()" class="py-2 rounded-xl gold-btn font-bold">🚀 一次全部上架</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- === 第二段結束，請換行貼上第三段 === -->
   <script>
     const SIZES = ['全部', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     let currentSize = '全部', isAdmin = false, sealTap = 0;
+    let adminConfig = { pwd: '8888', rec: '0403' };
+    try {
+      const savedCfg = localStorage.getItem('ymhy_cfg');
+      if (savedCfg) adminConfig = JSON.parse(savedCfg);
+    } catch(e) {}
+
     let products = [
-      { name: '復古墨綠暗紋提花旗袍', size: 'M', price: 490, desc: '9成新・僅穿1次・已清潔無整燙', sold: false, img1: '' },
-      { name: '江南煙雨素雅棉麻旗袍', size: 'L', price: 390, desc: '95成新・棉麻透氣・已清潔無整燙', sold: false, img1: '' },
-      { name: '玫瑰金絲絨微彈長旗袍', size: 'XL', price: 590, desc: '9成新・顯瘦剪裁・已清潔無整燙', sold: false, img1: '' },
-      { name: '溫婉碎花珍珠釦改良旗袍', size: '2XL', price: 450, desc: '9成新・日常百搭・已清潔無整燙', sold: false, img1: '' }
+      { name: '復古墨綠暗紋提花旗袍', size: 'M', price: 490, desc: '9成新・僅穿1次・已清潔無整燙', sold: false, img1: '', img2: '' },
+      { name: '江南煙雨素雅棉麻旗袍', size: 'L', price: 390, desc: '95成新・棉麻透氣・已清潔無整燙', sold: false, img1: '', img2: '' },
+      { name: '玫瑰金絲絨微彈長旗袍', size: 'XL', price: 590, desc: '9成新・顯瘦剪裁・已清潔無整燙', sold: false, img1: '', img2: '' },
+      { name: '溫婉碎花珍珠釦改良旗袍', size: '2XL', price: 450, desc: '9成新・日常百搭・已清潔無整燙', sold: false, img1: '', img2: '' }
     ];
+
     function showToast(m) {
       const t = document.getElementById('toastBanner');
       t.textContent = m; t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 2500);
+      setTimeout(() => t.classList.add('hidden'), 2600);
     }
+
+    function compressImg(file) {
+      return new Promise(resolve => {
+        if (!file) return resolve('');
+        const rd = new FileReader();
+        rd.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const c = document.createElement('canvas');
+            const max = 800;
+            let w = img.width, h = img.height;
+            if (w > max || h > max) {
+              if (w > h) { h = Math.round(h * max / w); w = max; }
+              else { w = Math.round(w * max / h); h = max; }
+            }
+            c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/jpeg', 0.78));
+          };
+          img.src = e.target.result;
+        };
+        rd.readAsDataURL(file);
+      });
+    }
+
     function renderSizeBar() {
       document.getElementById('sizeFilterBar').innerHTML = SIZES.map(s =>
         `<button onclick="selectSize('${s}')" class="size-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap ${currentSize === s ? 'active' : 'text-[#f6e29c]'}">${s === '全部' ? '🌸 全部尺碼' : s + ' 碼'}</button>`
       ).join('');
     }
     function selectSize(s) { currentSize = s; renderSizeBar(); renderProducts(); }
+
     function renderProducts() {
       const list = products.map((p, i) => ({ ...p, i })).filter(p => currentSize === '全部' || p.size === currentSize);
       document.getElementById('productCountBadge').textContent = `共 ${list.length} 件`;
@@ -236,9 +333,18 @@
         <div class="gold-card rounded-2xl overflow-hidden flex flex-col justify-between">
           <div>
             <div class="relative aspect-[3/4] bg-[#141119] flex items-center justify-center">
-              ${p.img1 ? `<img src="${p.img1}" class="w-full h-full object-cover">` : `<div class="text-center p-3"><div class="text-3xl mb-1">👘</div><p class="text-[11px] text-[#f6e29c]">${p.size} 碼極新孤品</p></div>`}
+              ${p.img1
+                ? `<img id="pimg-${p.i}" src="${p.img1}" class="w-full h-full object-cover">`
+                : `<div class="text-center p-3"><div class="text-3xl mb-1">👘</div><p class="text-[11px] text-[#f6e29c]">${p.size} 碼極新孤品</p></div>`
+              }
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/75 border border-[#dfb76c] text-[#f6e29c] text-xs font-black">${p.size}</span>
               ${p.sold ? `<div class="absolute inset-0 bg-black/70 flex items-center justify-center"><span class="px-3 py-1 rounded-full bg-rose-700 text-white text-xs font-bold">已售出</span></div>` : ''}
+              ${p.img2 ? `
+                <div class="absolute bottom-2 right-2 flex gap-1 z-10">
+                  <button onclick="switchImg(${p.i}, 1)" id="btn1-${p.i}" class="px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold">👗全身</button>
+                  <button onclick="switchImg(${p.i}, 2)" id="btn2-${p.i}" class="px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold">🔍細節</button>
+                </div>
+              ` : ''}
             </div>
             <div class="p-2.5 space-y-1">
               <h3 class="text-xs font-bold text-[#f7f3e9] truncate">${p.name}</h3>
@@ -251,56 +357,202 @@
           </div>
           <div class="p-2.5 pt-0 space-y-1">
             <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-1.5 rounded-xl gold-btn text-center text-xs">📸 截圖私訊保留</a>
-            ${isAdmin ? `<div class="grid grid-cols-2 gap-1 pt-1"><button onclick="toggleSold(${p.i})" class="py-1 rounded bg-amber-700 text-white text-[10px]">${p.sold ? '設為有貨' : '標記售出'}</button><button onclick="deleteProduct(${p.i})" class="py-1 rounded bg-rose-800 text-white text-[10px]">刪除</button></div>` : ''}
+            ${isAdmin ? `
+              <div class="grid grid-cols-3 gap-1 pt-1">
+                <button onclick="openEditModal(${p.i})" class="py-1 rounded bg-blue-800 text-white text-[10px]">編輯</button>
+                <button onclick="toggleSold(${p.i})" class="py-1 rounded bg-amber-700 text-white text-[10px]">${p.sold ? '有貨' : '售出'}</button>
+                <button onclick="deleteProduct(${p.i})" class="py-1 rounded bg-rose-800 text-white text-[10px]">刪除</button>
+              </div>
+            ` : ''}
           </div>
         </div>
       `).join('');
     }
+
+    function switchImg(i, num) {
+      const el = document.getElementById(`pimg-${i}`);
+      const b1 = document.getElementById(`btn1-${i}`), b2 = document.getElementById(`btn2-${i}`);
+      if (!el) return;
+      if (num === 2 && products[i].img2) {
+        el.src = products[i].img2;
+        if (b2) { b2.className = 'px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold'; }
+        if (b1) { b1.className = 'px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold'; }
+      } else {
+        el.src = products[i].img1;
+        if (b1) { b1.className = 'px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold'; }
+        if (b2) { b2.className = 'px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold'; }
+      }
+    }
+
     function secretSealTap() { if (++sealTap >= 3) { sealTap = 0; openLoginModal(); } }
-    function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+    function openLoginModal() {
+      toggleForgotBox(false);
+      document.getElementById('adminPwdInput').value = '';
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
     function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+    function toggleForgotBox(showForgot) {
+      document.getElementById('loginBox').classList.toggle('hidden', showForgot);
+      document.getElementById('forgotBox').classList.toggle('hidden', !showForgot);
+    }
+
     function verifyAdminLogin() {
-      if (document.getElementById('adminPwdInput').value === '8888') {
+      if (document.getElementById('adminPwdInput').value === adminConfig.pwd) {
         isAdmin = true; document.getElementById('adminToolbar').classList.remove('hidden');
         closeLoginModal(); renderProducts(); showToast('🔓 店長後台已開啟');
-      } else showToast('❌ 密碼錯誤 (預設 8888)');
+      } else showToast('❌ 密碼錯誤');
     }
+
+    function verifyRecoveryAndReset() {
+      const rec = document.getElementById('recoveryInput').value.trim();
+      const newP = document.getElementById('resetNewPwdInput').value.trim();
+      if (rec !== adminConfig.rec) return showToast('❌ 安全救援碼不正確');
+      if (!newP) return showToast('⚠️ 請輸入新密碼');
+      adminConfig.pwd = newP;
+      localStorage.setItem('ymhy_cfg', JSON.stringify(adminConfig));
+      isAdmin = true; document.getElementById('adminToolbar').classList.remove('hidden');
+      closeLoginModal(); renderProducts();
+      showToast('✅ 密碼已重設並登入！請記得複製程式碼更新至 GitHub');
+    }
+
+    function openPwdModal() {
+      document.getElementById('newPwdField').value = adminConfig.pwd;
+      document.getElementById('newRecField').value = adminConfig.rec;
+      document.getElementById('pwdModal').classList.remove('hidden');
+    }
+    function saveNewPassword() {
+      const p = document.getElementById('newPwdField').value.trim();
+      const r = document.getElementById('newRecField').value.trim();
+      if (!p || !r) return showToast('⚠️ 密碼與救援碼不能為空');
+      adminConfig = { pwd: p, rec: r };
+      localStorage.setItem('ymhy_cfg', JSON.stringify(adminConfig));
+      document.getElementById('pwdModal').classList.add('hidden');
+      showToast('✅ 已更新密碼與救援碼！請點「複製完整程式碼」貼回 GitHub');
+    }
+
     function logoutAdmin() { isAdmin = false; document.getElementById('adminToolbar').classList.add('hidden'); renderProducts(); }
     function triggerAvatarUpload() { document.getElementById('avatarInput').click(); }
-    function fileToDataUrl(f) { return new Promise(r => { const rd = new FileReader(); rd.onload = e => r(e.target.result); rd.readAsDataURL(f); }); }
     async function handleAvatarUpload(e) {
       if (!e.target.files[0]) return;
-      const u = await fileToDataUrl(e.target.files[0]);
+      const u = await compressImg(e.target.files[0]);
       const img = document.getElementById('heroAvatarImg'); img.src = u; img.classList.remove('hidden');
       document.getElementById('heroAvatarPlaceholder').classList.add('hidden');
+      showToast('✨ 品牌頭像已更新！');
     }
-    function openEditModal() { document.getElementById('editModal').classList.remove('hidden'); }
+
+    function openEditModal(idx = -1) {
+      document.getElementById('editIndex').value = idx;
+      document.getElementById('prodImg1').value = '';
+      document.getElementById('prodImg2').value = '';
+      if (idx >= 0) {
+        const p = products[idx];
+        document.getElementById('editModalTitle').textContent = '✏️ 編輯旗袍商品';
+        document.getElementById('prodName').value = p.name;
+        document.getElementById('prodSize').value = p.size;
+        document.getElementById('prodPrice').value = p.price;
+        document.getElementById('prodDesc').value = p.desc;
+      } else {
+        document.getElementById('editModalTitle').textContent = '➕ 單件旗袍上架';
+        document.getElementById('prodName').value = '';
+      }
+      document.getElementById('editModal').classList.remove('hidden');
+    }
     function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
+
     async function saveProduct() {
+      const idx = Number(document.getElementById('editIndex').value);
       const name = document.getElementById('prodName').value.trim() || '精選極新旗袍';
       const size = document.getElementById('prodSize').value;
       const price = Number(document.getElementById('prodPrice').value) || 490;
       const desc = document.getElementById('prodDesc').value.trim();
       const f1 = document.getElementById('prodImg1').files[0];
-      const img1 = f1 ? await fileToDataUrl(f1) : '';
-      products.unshift({ name, size, price, desc, sold: false, img1 });
-      closeEditModal(); renderProducts(); showToast('✨ 已新增商品！');
+      const f2 = document.getElementById('prodImg2').files[0];
+      const u1 = f1 ? await compressImg(f1) : (idx >= 0 ? products[idx].img1 : '');
+      const u2 = f2 ? await compressImg(f2) : (idx >= 0 ? products[idx].img2 : '');
+
+      if (idx >= 0) {
+        products[idx] = { ...products[idx], name, size, price, desc, img1: u1, img2: u2 };
+      } else {
+        products.unshift({ name, size, price, desc, sold: false, img1: u1, img2: u2 });
+      }
+      closeEditModal(); renderProducts(); showToast('✨ 已儲存商品！');
     }
+
+    function openBatchModal() {
+      document.getElementById('batchRowsContainer').innerHTML = '';
+      for (let i = 0; i < 3; i++) addBatchRow();
+      document.getElementById('batchModal').classList.remove('hidden');
+    }
+    function closeBatchModal() { document.getElementById('batchModal').classList.add('hidden'); }
+
+    function addBatchRow() {
+      const box = document.getElementById('batchRowsContainer');
+      const n = box.children.length + 1;
+      const div = document.createElement('div');
+      div.className = 'batch-row bg-[#1b1824] p-2.5 rounded-xl border border-[#dfb76c]/30 space-y-1.5';
+      div.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-[#f6e29c]">第 ${n} 件</span>
+          <input type="text" placeholder="款式名稱 (選填，可自動編號)" class="b-name w-2/3 px-2 py-1 rounded bg-[#0f0e13] border border-[#dfb76c]/30 text-white">
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 pt-1">
+          <label class="block p-1.5 rounded bg-[#141119] border border-[#dfb76c]/40 text-center cursor-pointer">
+            <span class="text-[#f6e29c] font-bold block">👗 選全身照</span>
+            <input type="file" accept="image/*" class="b-img1 w-full text-[10px] mt-1">
+          </label>
+          <label class="block p-1.5 rounded bg-[#141119] border border-[#34d399]/40 text-center cursor-pointer">
+            <span class="text-[#6ee7b7] font-bold block">🔍 選細節照</span>
+            <input type="file" accept="image/*" class="b-img2 w-full text-[10px] mt-1">
+          </label>
+        </div>
+      `;
+      box.appendChild(div);
+    }
+
+    async function submitBatchProducts() {
+      const defSize = document.getElementById('batchDefSize').value;
+      const defPrice = Number(document.getElementById('batchDefPrice').value) || 490;
+      const defDesc = document.getElementById('batchDefDesc').value.trim() || '9成新・已清潔無整燙';
+      const rows = Array.from(document.querySelectorAll('.batch-row'));
+      let added = 0;
+      showToast('⏳ 正在處理照片並批次上架中...');
+      for (let i = rows.length - 1; i >= 0; i--) {
+        const r = rows[i];
+        const nVal = r.querySelector('.b-name').value.trim();
+        const f1 = r.querySelector('.b-img1').files[0];
+        const f2 = r.querySelector('.b-img2').files[0];
+        if (!nVal && !f1 && !f2) continue;
+        const img1 = f1 ? await compressImg(f1) : '';
+        const img2 = f2 ? await compressImg(f2) : '';
+        const name = nVal || `${defSize}碼 精選極新旗袍 #${products.length + 1}`;
+        products.unshift({ name, size: defSize, price: defPrice, desc: defDesc, sold: false, img1, img2 });
+        added++;
+      }
+      if (added === 0) return showToast('⚠️ 請至少為一件旗袍選擇照片或輸入名稱');
+      closeBatchModal(); renderProducts();
+      showToast(`🎉 成功批次上架 ${added} 件旗袍！請點「複製完整程式碼」更新至 GitHub`);
+    }
+
     function toggleSold(i) { products[i].sold = !products[i].sold; renderProducts(); }
     function deleteProduct(i) { products.splice(i, 1); renderProducts(); }
+
     function getCleanHtml() {
       const c = document.documentElement.cloneNode(true);
       c.querySelector('#adminToolbar').classList.add('hidden');
-      return '<!DOCTYPE html>\n' + c.outerHTML.replace(/let products = \[[\s\S]*?\];/, 'let products = ' + JSON.stringify(products) + ';');
+      let html = '<!DOCTYPE html>\n' + c.outerHTML;
+      html = html.replace(/let adminConfig = \{[\s\S]*?\};/, 'let adminConfig = ' + JSON.stringify(adminConfig) + ';');
+      html = html.replace(/let products = \[[\s\S]*?\];/, 'let products = ' + JSON.stringify(products) + ';');
+      return html;
     }
     function exportUpdatedHtmlFile() {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([getCleanHtml()], { type: 'text/html' }));
       a.download = 'index.html'; a.click();
     }
-    function copyFullHtmlCode() { navigator.clipboard.writeText(getCleanHtml()).then(() => showToast('✅ 已複製！')); }
+    function copyFullHtmlCode() { navigator.clipboard.writeText(getCleanHtml()).then(() => showToast('✅ 已複製最新程式碼！請貼回 GitHub 儲存')); }
     renderSizeBar(); renderProducts();
   </script>
 </body>
 </html>
 <!-- === 第三段結束，全部完成！請點綠色 Commit changes 儲存 === -->
+
