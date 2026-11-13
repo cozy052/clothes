@@ -5,22 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>一抹花顏｜二手旗袍專賣 S-5XL</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: 'jf-openhuninn';
       src: url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@master/font/jf-openhuninn-2.0.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
       font-display: swap;
     }
-    :root { --bg-dark: #0f0e13; --gold-main: #dfb76c; --red-seal: #b83b3b; }
+    :root {
+      --bg-dark: #0f0e13;
+      --gold-light: #f6e29c;
+      --gold-main: #dfb76c;
+      --gold-dark: #a67c37;
+      --red-seal: #b83b3b;
+    }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       font-family: 'jf-openhuninn', 'Zen Maru Gothic', sans-serif;
-      background-color: var(--bg-dark); color: #f7f3e9; overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: #f7f3e9;
+      background-image: 
+        radial-gradient(circle at 20% 15%, rgba(223, 183, 108, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(223, 183, 108, 0.06) 0%, transparent 50%);
+      overflow-x: hidden;
     }
     .gold-gradient-text {
       background: linear-gradient(135deg, #fff3c4 0%, #dfb76c 50%, #c19346 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .gold-card {
       background: linear-gradient(180deg, #1b1822 0%, #121017 100%);
@@ -29,530 +45,626 @@
     }
     .gold-btn {
       background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%);
-      color: #1a140b; font-weight: 700;
+      color: #1a140b;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(223, 183, 108, 0.3);
+      transition: all 0.2s ease;
     }
+    .gold-btn:active { transform: scale(0.97); }
     .seal-badge {
-      background-color: var(--red-seal); border: 1px solid #f3d48b;
-      color: #fff8ea; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; cursor: pointer; user-select: none;
+      background-color: var(--red-seal);
+      border: 1px solid #f3d48b;
+      color: #fff8ea;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 6px;
+      user-select: none;
+      cursor: pointer;
     }
-    .size-pill { border: 1.5px solid rgba(223, 183, 108, 0.4); background: rgba(27, 24, 34, 0.9); }
+    .size-pill {
+      transition: all 0.2s ease;
+      border: 1.5px solid rgba(223, 183, 108, 0.4);
+      background: rgba(27, 24, 34, 0.9);
+    }
     .size-pill.active {
       background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%);
-      color: #1a140b; border-color: #fff3c4; font-weight: 900;
+      color: #1a140b;
+      border-color: #fff3c4;
+      font-weight: 900;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="pb-28">
-  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[120] hidden px-4 py-2.5 rounded-full bg-[#1b1822]/95 border-2 border-[#dfb76c] text-[#f6e29c] text-xs font-bold shadow-2xl whitespace-nowrap"></div>
 
-  <!-- 店長管理後台 -->
+  <!-- 🔓 店長管理後台工具列 -->
   <div id="adminToolbar" class="hidden sticky top-0 z-50 bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
     <div class="max-w-xl mx-auto space-y-2">
       <div class="flex items-center justify-between">
         <span class="text-xs font-bold text-[#6ee7b7]">🔓 店長管理後台已解鎖</span>
         <div class="flex items-center gap-1.5">
-          <button onclick="openPwdModal()" class="px-2.5 py-1 rounded-full text-[11px] bg-[#253930] text-[#f6e29c] border border-[#dfb76c]/50 font-bold">🔑 改密碼/救援碼</button>
-          <button onclick="logoutAdmin()" class="px-2.5 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold">🔒 登出</button>
+          <button onclick="openPasswordChangeModal()" class="px-2.5 py-1 rounded-full text-[11px] bg-[#253930] text-[#f6e29c] border border-[#dfb76c]/40">🔑 改密碼</button>
+          <button onclick="logoutAdmin()" class="px-2.5 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold">🔒 登出隱藏</button>
         </div>
       </div>
       <div class="grid grid-cols-3 gap-1.5 text-xs">
-        <button onclick="triggerAvatarUpload()" class="py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">📷 換頭像</button>
+        <button onclick="triggerAvatarUpload()" class="py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">📷 換品牌頭像</button>
         <button onclick="openEditModal(-1)" class="py-1.5 rounded-xl gold-btn font-bold">➕ 單件上架</button>
-        <button onclick="openBatchModal()" class="py-1.5 rounded-xl bg-emerald-600 text-white font-bold">⚡ 批次多件</button>
-      </div>
-      <div class="grid grid-cols-2 gap-1.5">
-        <button onclick="exportUpdatedHtmlFile()" class="py-2 rounded-xl bg-blue-700 text-white text-[11px] font-bold">💾 下載 index.html</button>
-        <button onclick="copyFullHtmlCode()" class="py-2 rounded-xl bg-emerald-700 text-white text-[11px] font-bold">📋 複製完整程式碼</button>
+        <button onclick="openBatchModal()" class="py-1.5 rounded-xl bg-emerald-600 text-white font-bold">⚡ 同尺碼多件</button>
       </div>
     </div>
   </div>
 
+  <!-- 頂部公告條 -->
   <div class="bg-[#14111a] border-b border-[#dfb76c]/25 px-3 py-2 text-center">
     <p class="text-xs text-[#f3d48b] font-medium">✨ 全館九成新以上・僅穿過 1～2 次以內 ✨</p>
     <div class="flex flex-wrap justify-center gap-1.5 mt-1">
-      <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/30">🫧 皆已細心清潔（無整燙・摺疊寄出）</span>
-      <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-[#162925] text-[#6ee7b7] border border-[#34d399]/30">📦 匯款保留 ＋ 7-11 賣貨便超取</span>
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/30">🫧 皆已細心清潔（無整燙・摺疊寄出）</span>
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] bg-[#162925] text-[#6ee7b7] border border-[#34d399]/30">📦 匯款保留 ＋ 7-11 賣貨便超取</span>
     </div>
   </div>
 
+  <!-- 導覽列 -->
   <header class="sticky top-0 z-40 bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-3 py-2.5">
-    <div class="max-w-xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-1.5">
-        <span class="text-lg font-black gold-gradient-text">一抹花顏</span>
-        <span onclick="secretSealTap()" class="seal-badge">二手旗袍</span>
+    <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span class="text-lg sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏</span>
+        <span onclick="secretSealTap()" title="連點3下開啟管理" class="seal-badge whitespace-nowrap">二手旗袍</span>
       </div>
-      <div class="flex items-center gap-1.5">
-        <a href="#size-chart" class="px-2.5 py-1 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822]">📏 尺寸表</a>
-        <a href="#products" class="px-2.5 py-1 rounded-full text-xs gold-btn">🛍️ 挑旗袍</a>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <a href="#size-chart" class="px-2.5 py-1 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">📏 尺寸表</a>
+        <a href="#products" class="px-2.5 py-1 rounded-full text-xs gold-btn whitespace-nowrap">🛍️ 挑旗袍</a>
       </div>
     </div>
   </header>
-<!-- === 第一段結束，請換行貼上第二段 === -->
+
   <main class="max-w-xl mx-auto px-3.5 pt-4 space-y-7">
-    <section class="gold-card rounded-3xl p-4 text-center">
+    <!-- 主視覺區 -->
+    <section class="gold-card rounded-3xl p-4 sm:p-5 text-center relative overflow-hidden">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c] mb-3">
-        <span>🌸 全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span>
+        <span>🌸</span>
+        <span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span>
       </div>
-      <h1 class="text-2xl font-black gold-gradient-text leading-snug">尋覓妳的舊時芳華 ✨<br>收藏一段美好 💕</h1>
-      <p class="text-xs text-[#e2d9c8] mt-2.5 leading-relaxed">
+      <h1 class="text-2xl sm:text-3xl font-black gold-gradient-text leading-snug">尋覓妳的舊時芳華 ✨<br>收藏一段美好 💕</h1>
+      <p class="text-xs sm:text-sm text-[#e2d9c8] mt-2.5 leading-relaxed">
         體驗她的美及韻，為衣櫥添上一襲近乎全新的絕美旗袍。<br>
         全館嚴選 <span class="text-[#f6e29c] font-bold">9成新以上、僅穿過 1～2 次以內</span> 的極新孤品，皆已細心清潔洗淨（無整燙）：
       </p>
       <div class="my-4 flex justify-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#2a1f1d] border-2 border-[#dfb76c]">
-          <span class="text-xs text-[#f6e29c] font-bold">甜甜惜物價</span>
-          <span class="text-base font-black text-[#ff7b7b]">NT$ 390 ～ NT$ 590 !</span>
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#2a1f1d] via-[#382323] to-[#2a1f1d] border-2 border-[#dfb76c] shadow-lg">
+          <span class="text-xs text-[#f6e29c] font-bold whitespace-nowrap">甜甜惜物價</span>
+          <span class="text-base sm:text-xl font-black text-[#ff7b7b] whitespace-nowrap">NT$ 390 ～ NT$ 590 !</span>
         </div>
       </div>
-      <div class="relative mx-auto w-52 h-52 rounded-full p-2 bg-gradient-to-b from-[#f6e29c] via-[#a67c37] to-[#dfb76c] shadow-2xl">
+      <!-- 頭像區 -->
+      <div class="relative mx-auto w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-[#f6e29c] via-[#a67c37] to-[#dfb76c] shadow-2xl">
         <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] relative flex flex-col items-center justify-center border-2 border-[#0f0e13]">
-          <img id="heroAvatarImg" src="" alt="一抹花顏" class="w-full h-full object-cover hidden">
-          <div id="heroAvatarPlaceholder" class="p-4 text-center">
+          <img id="heroAvatarImg" src="" alt="一抹花顏品牌頭像" class="w-full h-full object-cover hidden">
+          <div id="heroAvatarPlaceholder" class="flex flex-col items-center justify-center p-4 text-center">
             <div class="text-4xl mb-1.5">🏮</div>
             <p class="text-sm font-bold text-[#f6e29c]">一抹花顏・極新孤品</p>
             <p class="text-[11px] text-[#cbbba0] mt-1">S ～ 5XL 全尺碼包容美</p>
           </div>
+          <button id="adminAvatarOverlayBtn" onclick="triggerAvatarUpload()" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs gold-btn whitespace-nowrap shadow-md">📷 更換頭像照片</button>
         </div>
       </div>
       <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+      
       <div class="grid grid-cols-2 gap-2.5 mt-4 text-center">
-        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3">
-          <p class="text-xs font-bold text-[#f6e29c]">👑 僅穿過 1～2 次內</p>
-          <p class="text-[11px] text-[#bfb29e] mt-0.5">全館 9 成新以上極美衣況</p>
+        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center">
+          <span class="text-xl mb-1">👑</span>
+          <p class="text-xs font-bold text-[#f6e29c]">僅穿過 1～2 次內</p>
+          <p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">全館 9 成新以上極美衣況</p>
         </div>
-        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3">
-          <p class="text-xs font-bold text-[#f6e29c]">🫧 已清潔・無整燙</p>
-          <p class="text-[11px] text-[#bfb29e] mt-0.5">摺疊收納寄出・自家熨燙即可</p>
+        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center">
+          <span class="text-xl mb-1">🫧</span>
+          <p class="text-xs font-bold text-[#f6e29c]">已清潔・無整燙</p>
+          <p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">摺疊收納寄出・自家熨燙即可</p>
         </div>
       </div>
-      <div class="mt-3 bg-[#1d1826] border border-[#dfb76c]/45 rounded-2xl p-3 text-left text-xs text-[#f6e29c] leading-relaxed">
-        💡 <strong>衣物打理溫馨提醒：</strong>收到時有<strong>皺摺屬於正常現象（尤其是棉麻材質更容易皺）</strong>，根據材質自家熨燙打理即可恢復優雅垂墜美感喔 💕
+      
+      <div class="mt-3 bg-[#1d1826] border border-[#dfb76c]/45 rounded-2xl p-3 text-left flex items-start gap-2">
+        <span class="text-base shrink-0 mt-0.5">💡</span>
+        <p class="text-xs text-[#f6e29c] leading-relaxed">
+          <strong>衣物打理溫馨提醒：</strong>由於衣服都需要打理，收到時有<strong>皺摺屬於正常現象（尤其是棉麻材質更容易皺）</strong>，根據材質自家熨燙打理即可恢復優雅垂墜美感喔 💕
+        </p>
       </div>
-      <div class="mt-4 bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3 text-left">
-        <p class="text-xs font-bold text-[#f6e29c] mb-2">👑 【安心下單流程】匯款 ＋ 7-11 賣貨便</p>
-        <div class="grid grid-cols-2 gap-2 text-xs">
-          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2"><p class="text-[#f6e29c] font-bold">① 截圖私訊保留</p><p class="text-[11px] text-[#bfb29e] mt-0.5">截圖喜歡的旗袍私訊我們</p></div>
-          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2"><p class="text-[#f6e29c] font-bold">② 匯款防跑單</p><p class="text-[11px] text-[#bfb29e] mt-0.5">完成轉帳即正式保留孤品</p></div>
-          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2"><p class="text-[#f6e29c] font-bold">③ 賣貨便下單</p><p class="text-[11px] text-[#bfb29e] mt-0.5">回傳末五碼領取賣貨便連結</p></div>
-          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2"><p class="text-[#f6e29c] font-bold">④ 7-11 超取寄出</p><p class="text-[11px] text-[#bfb29e] mt-0.5">細心摺疊寄至指定 7-11 門市</p></div>
+      
+      <!-- 安心下單流程與按鈕 -->
+      <div class="mt-4 bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3.5 text-left">
+        <div class="flex flex-wrap items-center justify-between gap-1 mb-2.5">
+          <span class="text-xs font-bold text-[#f6e29c]">👑 【安心下單流程】匯款 ＋ 7-11 賣貨便</span>
+          <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#162925] text-[#6ee7b7] border border-[#34d399]/30">孤品一件・先匯款保留</span>
         </div>
-        <div class="mt-3 pt-2.5 border-t border-[#dfb76c]/20 grid grid-cols-3 gap-1.5">
-          <a href="https://lin.ee/pw0FvId" target="_blank" class="py-2 rounded-full text-[11px] font-bold bg-[#06C755] text-white text-center">💬 LINE 私訊</a>
-          <a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 rounded-full text-[11px] font-bold bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/50 text-center">🧵 脆 Threads</a>
-          <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 rounded-full text-[11px] font-bold bg-[#1877F2] text-white text-center">📘 FB 粉專</a>
+        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
+            <p class="text-[#f6e29c] font-bold">① 截圖私訊保留</p>
+            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">將喜歡的旗袍畫面截圖，點下方按鈕私訊我們</p>
+          </div>
+          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
+            <p class="text-[#f6e29c] font-bold">② 匯款防跑單</p>
+            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">確認現貨後提供帳號，轉帳完成即正式保留</p>
+          </div>
+          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
+            <p class="text-[#f6e29c] font-bold">③ 賣貨便下單</p>
+            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">回傳帳號末五碼，領取專屬 7-11 賣貨便連結</p>
+          </div>
+          <div class="bg-[#1b1824] border border-[#dfb76c]/25 rounded-xl p-2.5">
+            <p class="text-[#f6e29c] font-bold">④ 7-11 超取寄出</p>
+            <p class="text-[11px] text-[#bfb29e] mt-1 leading-snug">細心包裝寄出，安心至指定 7-11 門市取貨</p>
+          </div>
+        </div>
+        
+        <div class="pt-2 border-t border-[#dfb76c]/20">
+          <p class="text-[11px] text-[#f6e29c] font-bold mb-2 text-center">📸 喜歡哪件？請截圖畫面直接點下方私訊：</p>
+          <div class="grid grid-cols-3 gap-1.5">
+            <a href="https://lin.ee/pw0FvId" target="_blank" class="py-2 px-1 rounded-xl bg-[#06C755] text-white font-bold text-xs text-center shadow-md flex items-center justify-center gap-1">💬 LINE 私訊</a>
+            <a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs text-center shadow-md flex items-center justify-center gap-1">🧵 脆 Threads</a>
+            <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs text-center shadow-md flex items-center justify-center gap-1">📘 FB 粉專</a>
+          </div>
         </div>
       </div>
     </section>
-
+    <!-- 商品與篩選區 -->
     <section id="products" class="space-y-3.5">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-black gold-gradient-text">🌸 按尺碼尋寶 (S～5XL)</h2>
-          <p class="text-[11px] text-[#bfb29e]">每件可切換「👗 全身」與「🔍 細節」・喜歡請截圖私訊</p>
+          <h2 class="text-xl font-black gold-gradient-text">🌸 按尺碼尋寶 (S～5XL)</h2>
+          <p class="text-xs text-[#bfb29e] mt-0.5">每件皆可切換「👗 全身照」與「🔍 細節照」・喜歡請截圖私訊</p>
         </div>
-        <span id="productCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-[#1b1822] border border-[#dfb76c]/40 text-[#f6e29c] font-bold"></span>
       </div>
       <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="sizeFilterBar"></div>
       <div id="productGrid" class="grid grid-cols-2 gap-3"></div>
     </section>
 
-    <section id="size-chart" class="gold-card rounded-3xl p-4">
-      <h2 class="text-lg font-black gold-gradient-text mb-3">📏 旗袍專屬尺寸表 (單位：cm)</h2>
+    <!-- 尺寸表 -->
+    <section id="size-chart" class="gold-card rounded-3xl p-4 sm:p-5 relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-b from-[#f6e29c] to-[#a67c37] shrink-0">
+          <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] flex items-center justify-center">
+            <img id="chartAvatarImg" src="" alt="頭像" class="w-full h-full object-cover hidden">
+            <span id="chartAvatarPlaceholder" class="text-xl">🏮</span>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-lg sm:text-xl font-black gold-gradient-text tracking-wider">尺寸表 SIZE CHART</h2>
+          <p class="text-xs text-[#e2d9c8]">旗袍專屬尺寸表（單位：cm）</p>
+        </div>
+      </div>
       <div class="overflow-hidden rounded-2xl border border-[#dfb76c]/40 bg-[#121017]">
         <table class="w-full text-center text-sm">
-          <thead><tr class="bg-[#211c2b] text-[#f6e29c] border-b border-[#dfb76c]/40 text-xs"><th class="py-2">尺碼</th><th>胸圍</th><th>腰圍</th><th>臀圍</th></tr></thead>
-          <tbody class="divide-y divide-[#dfb76c]/20">
+          <thead>
+            <tr class="bg-[#211c2b] text-[#f6e29c] border-b border-[#dfb76c]/40 text-xs">
+              <th class="py-2.5 font-bold">尺碼</th>
+              <th class="py-2.5 font-bold">胸圍 (cm)</th>
+              <th class="py-2.5 font-bold">腰圍 (cm)</th>
+              <th class="py-2.5 font-bold">臀圍 (cm)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#dfb76c]/20 text-[#f7f3e9]">
             <tr><td class="py-2 font-bold text-[#f6e29c]">S</td><td>82</td><td>66</td><td>86</td></tr>
-            <tr><td class="py-2 font-bold text-[#f6e29c]">M</td><td>86</td><td>70</td><td>90</td></tr>
+            <tr class="bg-[#181520]/60"><td class="py-2 font-bold text-[#f6e29c]">M</td><td>86</td><td>70</td><td>90</td></tr>
             <tr><td class="py-2 font-bold text-[#f6e29c]">L</td><td>90</td><td>74</td><td>94</td></tr>
-            <tr><td class="py-2 font-bold text-[#f6e29c]">XL</td><td>94</td><td>78</td><td>98</td></tr>
+            <tr class="bg-[#181520]/60"><td class="py-2 font-bold text-[#f6e29c]">XL</td><td>94</td><td>78</td><td>98</td></tr>
             <tr><td class="py-2 font-bold text-[#f6e29c]">2XL</td><td>98</td><td>82</td><td>102</td></tr>
-            <tr><td class="py-2 font-bold text-[#f6e29c]">3XL</td><td>102</td><td>86</td><td>106</td></tr>
+            <tr class="bg-[#181520]/60"><td class="py-2 font-bold text-[#f6e29c]">3XL</td><td>102</td><td>86</td><td>106</td></tr>
             <tr><td class="py-2 font-bold text-[#f6e29c]">4XL</td><td>106</td><td>90</td><td>110</td></tr>
-            <tr><td class="py-2 font-bold text-[#f6e29c]">5XL</td><td>110</td><td>94</td><td>114</td></tr>
+            <tr class="bg-[#181520]/60"><td class="py-2 font-bold text-[#f6e29c]">5XL</td><td>110</td><td>94</td><td>114</td></tr>
           </tbody>
         </table>
       </div>
+      <p class="text-center text-xs text-[#f6e29c] mt-4 leading-relaxed">✨ 期待每位姊妹都能為衣櫥新增一襲旗袍<br>體驗她的美及韻 收藏一段美好 💕</p>
     </section>
 
-    <footer class="text-center text-xs text-[#8c7f6b] py-4 space-y-2">
-      <div class="flex items-center justify-center gap-2">
-        <span>© 一抹花顏 二手旗袍專賣</span>
-        <button onclick="openLoginModal()" class="px-2 py-0.5 rounded-full bg-[#1b1822] border border-[#dfb76c]/30 text-[#bfb29e]">🔑 店長後台</button>
+    <!-- 購買叮嚀 -->
+    <section class="gold-card rounded-3xl p-4 sm:p-5 space-y-2.5">
+      <h2 class="text-base sm:text-lg font-black gold-gradient-text">💡 購買與衣況貼心叮嚀</h2>
+      <div class="space-y-2 text-xs text-[#e2d9c8] leading-relaxed">
+        <p>1. <strong class="text-[#f6e29c]">極新衣況保證</strong>：全館旗袍皆為 <strong>9 成新以上、僅穿過 1～2 次以內</strong>，保存狀態極佳。</p>
+        <p>2. <strong class="text-[#f6e29c]">已清潔・無整燙（皺摺屬正常現象）</strong>：每件旗袍寄出前皆已細心清洗乾淨，但<strong>沒有另外整燙</strong>。由於衣服都需要打理，摺疊寄出產生皺摺屬於正常現象（<strong>尤其是棉麻材質更容易皺</strong>），收到後根據材質自家熨燙打理即可。</p>
+        <p>3. <strong class="text-[#f6e29c]">下單方式</strong>：請截圖喜歡的旗袍畫面，透過下方 LINE / 脆 / FB 私訊我們保留。</p>
       </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="text-center text-xs text-[#8c7f6b] py-4 space-y-2">
+      <div class="flex justify-center gap-3 text-[#f6e29c]">
+        <a href="https://lin.ee/pw0FvId" target="_blank" class="underline">LINE 官方帳號</a>
+        <span>｜</span>
+        <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads (@cozy.052)</a>
+        <span>｜</span>
+        <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="underline">FB 粉絲專頁</a>
+      </div>
+      <p>© 一抹花顏 二手旗袍專賣 <button onclick="openLoginModal()" class="ml-1 opacity-30 hover:opacity-100" title="店長登入">🔒</button></p>
     </footer>
   </main>
 
-  <!-- 1. 店長登入與忘記密碼彈窗 (無任何密碼提示) -->
-  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
-    <div class="gold-card rounded-2xl p-5 w-full max-w-xs space-y-3">
-      <h3 class="text-base font-bold text-[#f6e29c] text-center">🔑 店長管理登入</h3>
-      <div id="loginBox" class="space-y-3">
-        <input type="password" id="adminPwdInput" placeholder="請輸入店長密碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-sm text-white">
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="closeLoginModal()" class="py-2 rounded-xl bg-gray-700 text-xs font-bold">取消</button>
-          <button onclick="verifyAdminLogin()" class="py-2 rounded-xl gold-btn text-xs font-bold">登入</button>
+  <!-- 底部固定導覽列 -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2">
+    <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
+      <div class="min-w-0">
+        <p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p>
+        <p class="text-[10px] text-[#bfb29e] truncate">LINE / 脆 / FB 私訊保留</p>
+      </div>
+      <div class="flex items-center gap-1 shrink-0">
+        <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="px-2 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold">FB</a>
+        <a href="https://www.threads.com/@cozy.052" target="_blank" class="px-2 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold">脆</a>
+        <a href="https://lin.ee/pw0FvId" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs font-bold bg-[#06C755] text-white shadow-md whitespace-nowrap">💬 LINE</a>
+      </div>
+    </div>
+  </div>
+  <!-- 彈窗群組 -->
+  <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold z-10">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
+      <button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+      <div class="text-2xl">🔒</div>
+      <h3 class="text-base font-black gold-gradient-text">店長專屬管理驗證</h3>
+      <input id="adminPwdInput" type="password" placeholder="請輸入管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+      <button onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button>
+      <button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80 hover:opacity-100">❓ 忘記密碼？</button>
+    </div>
+  </div>
+
+  <div id="pwdChangeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
+      <button onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+      <h3 class="text-base font-black gold-gradient-text">🔑 設定新管理密碼</h3>
+      <input id="newPwdInput" type="password" placeholder="請輸入新密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <input id="rescueCodeInput" type="password" placeholder="設定救援暗號(數字/英文)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <button onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存新密碼與暗號</button>
+    </div>
+  </div>
+
+  <div id="forgotPwdModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
+      <button onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+      <h3 class="text-base font-black gold-gradient-text">❓ 密碼救援重設</h3>
+      <p class="text-[11px] text-[#e2d9c8]">請輸入您的專屬救援暗號：</p>
+      <input id="rescueInput" type="password" placeholder="請輸入救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <button onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button>
+    </div>
+  </div>
+
+  <div id="editModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto">
+      <button onclick="closeEditModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
+      <h3 class="text-base font-black gold-gradient-text" id="editModalTitle">➕ 上架／編輯旗袍</h3>
+      <div class="space-y-2.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-[#f6e29c] font-bold">📸 商品照片（全身照＋細節照）</span>
+          <button type="button" onclick="triggerDualUploadInModal()" class="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-[11px]">⚡ 一次選2張自動帶入</button>
         </div>
-        <button onclick="toggleForgotBox(true)" class="w-full text-center text-[11px] text-[#bfb29e] underline pt-1">忘記密碼？點此用救援碼重設</button>
-      </div>
-      <div id="forgotBox" class="hidden space-y-2.5 text-xs">
-        <p class="text-[#f6e29c]">🛡️ 請輸入店長專屬救援碼：</p>
-        <input type="password" id="recoveryInput" placeholder="請輸入安全救援碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white">
-        <input type="password" id="resetNewPwdInput" placeholder="請設定新登入密碼" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white">
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="toggleForgotBox(false)" class="py-2 rounded-xl bg-gray-700 font-bold">返回登入</button>
-          <button onclick="verifyRecoveryAndReset()" class="py-2 rounded-xl gold-btn font-bold">重設並解鎖</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. 修改密碼與救援碼彈窗 -->
-  <div id="pwdModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
-    <div class="gold-card rounded-2xl p-5 w-full max-w-xs space-y-3 text-xs">
-      <h3 class="text-base font-bold text-[#f6e29c] text-center">🔑 修改密碼與救援碼</h3>
-      <div><label class="text-[#f6e29c]">新登入密碼：</label><input type="text" id="newPwdField" class="w-full mt-1 px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white"></div>
-      <div><label class="text-[#f6e29c]">新忘記密碼救援碼：</label><input type="text" id="newRecField" class="w-full mt-1 px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/50 text-white"></div>
-      <div class="grid grid-cols-2 gap-2 pt-1">
-        <button onclick="document.getElementById('pwdModal').classList.add('hidden')" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
-        <button onclick="saveNewPassword()" class="py-2 rounded-xl gold-btn font-bold">儲存設定</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. 單件上架/編輯彈窗 (全身照 + 細節照) -->
-  <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 overflow-y-auto">
-    <div class="gold-card rounded-2xl p-4 w-full max-w-sm space-y-2.5 text-xs my-auto">
-      <h3 id="editModalTitle" class="text-base font-bold text-[#f6e29c]">➕ 單件旗袍上架</h3>
-      <input type="hidden" id="editIndex" value="-1">
-      <input type="text" id="prodName" placeholder="款式名稱（如：復古墨綠提花旗袍）" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-      <div class="grid grid-cols-2 gap-2">
-        <select id="prodSize" class="px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-          <option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option><option>4XL</option><option>5XL</option>
-        </select>
-        <input type="number" id="prodPrice" value="490" placeholder="價格" class="px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-      </div>
-      <input type="text" id="prodDesc" value="9成新・已清潔無整燙" class="w-full px-3 py-2 rounded-xl bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-      <div class="bg-[#141119] p-2.5 rounded-xl border border-[#dfb76c]/30 space-y-2">
-        <div><label class="text-[#f6e29c] font-bold">👗 照片1：全身照</label><input type="file" id="prodImg1" accept="image/*" class="w-full mt-1"></div>
-        <div><label class="text-[#6ee7b7] font-bold">🔍 照片2：細節照</label><input type="file" id="prodImg2" accept="image/*" class="w-full mt-1"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2 pt-1">
-        <button onclick="closeEditModal()" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
-        <button onclick="saveProduct()" class="py-2 rounded-xl gold-btn font-bold">儲存商品</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. 批次多件上架彈窗 (每件皆可選全身照+細節照) -->
-  <div id="batchModal" class="fixed inset-0 z-50 hidden bg-black/85 flex items-center justify-center p-3 overflow-y-auto">
-    <div class="gold-card rounded-2xl p-4 w-full max-w-md space-y-3 text-xs my-auto max-h-[90vh] flex flex-col">
-      <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-[#6ee7b7]">⚡ 批次多件上架 (全身+細節雙圖)</h3>
-        <button onclick="closeBatchModal()" class="text-[#bfb29e] text-sm">✕</button>
-      </div>
-      <div class="bg-[#141119] p-2.5 rounded-xl border border-[#dfb76c]/40 space-y-2 shrink-0">
-        <p class="text-[#f6e29c] font-bold">① 先設定這批旗袍的預設值（下方可個別微調）：</p>
         <div class="grid grid-cols-2 gap-2">
-          <select id="batchDefSize" class="px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-            <option>S</option><option selected>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option><option>4XL</option><option>5XL</option>
+          <div onclick="triggerModalImgUpload(1)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden">
+            <img id="previewImg1" src="" class="w-full h-full object-cover hidden">
+            <div id="placeholderImg1">
+              <div class="text-xl">👗</div>
+              <p class="text-[11px] text-[#f6e29c] font-bold mt-1">點此選「全身照」</p>
+            </div>
+          </div>
+          <div onclick="triggerModalImgUpload(2)" class="border border-dashed border-[#dfb76c]/50 rounded-xl p-2 text-center cursor-pointer bg-[#121017] h-32 flex flex-col items-center justify-center relative overflow-hidden">
+            <img id="previewImg2" src="" class="w-full h-full object-cover hidden">
+            <div id="placeholderImg2">
+              <div class="text-xl">🔍</div>
+              <p class="text-[11px] text-[#f6e29c] font-bold mt-1">點此選「細節照」</p>
+            </div>
+          </div>
+        </div>
+        <input type="file" id="modalImgInput1" accept="image/*" class="hidden" onchange="handleModalImg(event, 1)">
+        <input type="file" id="modalImgInput2" accept="image/*" class="hidden" onchange="handleModalImg(event, 2)">
+        <input type="file" id="modalDualInput" accept="image/*" multiple class="hidden" onchange="handleModalDual(event)">
+
+        <div>
+          <label class="text-[#f6e29c] font-bold">🏷️ 商品編號</label>
+          <input id="editCode" type="text" placeholder="例如: #S01" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white">
+        </div>
+        <div>
+          <label class="text-[#f6e29c] font-bold">📏 選擇尺碼</label>
+          <select id="editSize" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white">
+            <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
+            <option value="2XL">2XL</option><option value="3XL">3XL</option><option value="4XL">4XL</option><option value="5XL">5XL</option>
           </select>
-          <input type="number" id="batchDefPrice" value="490" placeholder="統一價格" class="px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
         </div>
-        <input type="text" id="batchDefDesc" value="9成新・僅穿1次・已清潔無整燙" class="w-full px-2.5 py-1.5 rounded-lg bg-[#0f0e13] border border-[#dfb76c]/40 text-white">
-      </div>
-      <div id="batchRowsContainer" class="space-y-2.5 overflow-y-auto pr-1 flex-1"></div>
-      <div class="space-y-2 pt-1 shrink-0">
-        <button onclick="addBatchRow()" class="w-full py-1.5 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold">➕ 再加一件待上架欄位</button>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="closeBatchModal()" class="py-2 rounded-xl bg-gray-700 font-bold">取消</button>
-          <button onclick="submitBatchProducts()" class="py-2 rounded-xl gold-btn font-bold">🚀 一次全部上架</button>
+        <div>
+          <label class="text-[#f6e29c] font-bold">💰 價格 (NT$)</label>
+          <input id="editPrice" type="number" placeholder="390" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white" value="390">
+        </div>
+        <div>
+          <label class="text-[#f6e29c] font-bold">✨ 商品特色與衣況備註</label>
+          <textarea id="editDesc" rows="2" placeholder="例如: 9成新、僅穿1次、質感超好" class="w-full mt-1 bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white"></textarea>
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button onclick="saveProduct()" class="flex-1 py-2 rounded-xl gold-btn">💾 儲存上架</button>
+          <button id="deleteBtn" onclick="deleteCurrentProduct()" class="hidden py-2 px-4 rounded-xl bg-rose-700 text-white font-bold">🗑️ 刪除</button>
         </div>
       </div>
     </div>
   </div>
-<!-- === 第二段結束，請換行貼上第三段 === -->
-  <script>
-    const SIZES = ['全部', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
-    let currentSize = '全部', isAdmin = false, sealTap = 0;
-    let adminConfig = { pwd: '8888', rec: '0403' };
-    try {
-      const savedCfg = localStorage.getItem('ymhy_cfg');
-      if (savedCfg) adminConfig = JSON.parse(savedCfg);
-    } catch(e) {}
 
-    let products = [
-      { name: '復古墨綠暗紋提花旗袍', size: 'M', price: 490, desc: '9成新・僅穿1次・已清潔無整燙', sold: false, img1: '', img2: '' },
-      { name: '江南煙雨素雅棉麻旗袍', size: 'L', price: 390, desc: '95成新・棉麻透氣・已清潔無整燙', sold: false, img1: '', img2: '' },
-      { name: '玫瑰金絲絨微彈長旗袍', size: 'XL', price: 590, desc: '9成新・顯瘦剪裁・已清潔無整燙', sold: false, img1: '', img2: '' },
-      { name: '溫婉碎花珍珠釦改良旗袍', size: '2XL', price: 450, desc: '9成新・日常百搭・已清潔無整燙', sold: false, img1: '', img2: '' }
+  <!-- JavaScript 核心邏輯 -->
+  <script>
+    let adminLoggedIn = false;
+    let adminPassword = localStorage.getItem('qipao_admin_pwd') || '8888';
+    let rescueSecret = localStorage.getItem('qipao_rescue_secret') || '1688';
+    let brandAvatar = localStorage.getItem('qipao_brand_avatar') || '';
+    let currentEditIndex = -1;
+    let secretTapCount = 0;
+    let secretTapTimer = null;
+
+    let products = JSON.parse(localStorage.getItem('qipao_products')) || [
+      { code: '#S01', size: 'S', price: 390, desc: '典雅日常款・僅穿過1次極新', img1: '', img2: '' },
+      { code: '#M01', size: 'M', price: 450, desc: '華麗刺繡款・質感極佳', img1: '', img2: '' },
+      { code: '#L01', size: 'L', price: 490, desc: '經典復古款・約9成新', img1: '', img2: '' },
+      { code: '#XL01', size: 'XL', price: 550, desc: '優雅長版款・完美包覆', img1: '', img2: '' }
     ];
 
-    function showToast(m) {
-      const t = document.getElementById('toastBanner');
-      t.textContent = m; t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 2600);
+    const sizes = ['全部', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
+    let activeSizeFilter = '全部';
+
+    function init() {
+      renderBrandAvatar();
+      renderSizeFilterBar();
+      renderProducts();
     }
 
-    function compressImg(file) {
-      return new Promise(resolve => {
-        if (!file) return resolve('');
-        const rd = new FileReader();
-        rd.onload = e => {
-          const img = new Image();
-          img.onload = () => {
-            const c = document.createElement('canvas');
-            const max = 800;
-            let w = img.width, h = img.height;
-            if (w > max || h > max) {
-              if (w > h) { h = Math.round(h * max / w); w = max; }
-              else { w = Math.round(w * max / h); h = max; }
-            }
-            c.width = w; c.height = h;
-            c.getContext('2d').drawImage(img, 0, 0, w, h);
-            resolve(c.toDataURL('image/jpeg', 0.78));
-          };
-          img.src = e.target.result;
-        };
-        rd.readAsDataURL(file);
+    function renderBrandAvatar() {
+      const img1 = document.getElementById('heroAvatarImg');
+      const ph1 = document.getElementById('heroAvatarPlaceholder');
+      const btn1 = document.getElementById('adminAvatarOverlayBtn');
+      const img2 = document.getElementById('chartAvatarImg');
+      const ph2 = document.getElementById('chartAvatarPlaceholder');
+
+      if (brandAvatar) {
+        img1.src = brandAvatar; img1.classList.remove('hidden'); ph1.classList.add('hidden');
+        img2.src = brandAvatar; img2.classList.remove('hidden'); ph2.classList.add('hidden');
+      } else {
+        img1.classList.add('hidden'); ph1.classList.remove('hidden');
+        img2.classList.add('hidden'); ph2.classList.remove('hidden');
+      }
+      if (adminLoggedIn) {
+        btn1.classList.remove('hidden');
+      } else {
+        btn1.classList.add('hidden');
+      }
+    }
+
+    function secretSealTap() {
+      secretTapCount++;
+      clearTimeout(secretTapTimer);
+      if (secretTapCount >= 3) {
+        secretTapCount = 0;
+        if (adminLoggedIn) {
+          alert('店長後台目前已解鎖！');
+        } else {
+          openLoginModal();
+        }
+      } else {
+        secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 600);
+      }
+    }
+
+    function openLoginModal() {
+      document.getElementById('adminPwdInput').value = '';
+      document.getElementById('loginModal').classList.remove('hidden');
+      document.getElementById('loginModal').classList.add('flex');
+    }
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('loginModal').classList.remove('flex');
+    }
+
+    function verifyAdminPassword() {
+      const val = document.getElementById('adminPwdInput').value;
+      if (val === adminPassword) {
+        adminLoggedIn = true;
+        closeLoginModal();
+        document.getElementById('adminToolbar').classList.remove('hidden');
+        renderBrandAvatar();
+        renderProducts();
+        alert('🎉 店長後台解鎖成功！');
+      } else {
+        alert('❌ 密碼錯誤，請重新輸入');
+      }
+    }
+
+    function logoutAdmin() {
+      adminLoggedIn = false;
+      document.getElementById('adminToolbar').classList.add('hidden');
+      renderBrandAvatar();
+      renderProducts();
+      alert('🔒 已登出管理後台');
+    }
+
+    function openPasswordChangeModal() {
+      document.getElementById('newPwdInput').value = '';
+      document.getElementById('rescueCodeInput').value = '';
+      document.getElementById('pwdChangeModal').classList.remove('hidden');
+      document.getElementById('pwdChangeModal').classList.add('flex');
+    }
+    function closePasswordChangeModal() {
+      document.getElementById('pwdChangeModal').classList.add('hidden');
+      document.getElementById('pwdChangeModal').classList.remove('flex');
+    }
+    function saveNewPassword() {
+      const p = document.getElementById('newPwdInput').value.trim();
+      const r = document.getElementById('rescueCodeInput').value.trim();
+      if (!p) { alert('請輸入新密碼！'); return; }
+      adminPassword = p;
+      localStorage.setItem('qipao_admin_pwd', adminPassword);
+      if (r) {
+        rescueSecret = r;
+        localStorage.setItem('qipao_rescue_secret', rescueSecret);
+      }
+      closePasswordChangeModal();
+      alert('🔑 新管理密碼與救援暗號設定成功！');
+    }
+
+    function openForgotPwdModal() {
+      closeLoginModal();
+      document.getElementById('rescueInput').value = '';
+      document.getElementById('resetPwdInput').value = '';
+      document.getElementById('forgotPwdModal').classList.remove('hidden');
+      document.getElementById('forgotPwdModal').classList.add('flex');
+    }
+    function closeForgotPwdModal() {
+      document.getElementById('forgotPwdModal').classList.add('hidden');
+      document.getElementById('forgotPwdModal').classList.remove('flex');
+    }
+    function verifyAndResetPassword() {
+      const r = document.getElementById('rescueInput').value.trim();
+      const np = document.getElementById('resetPwdInput').value.trim();
+      if (r !== rescueSecret) { alert('❌ 救援暗號錯誤！'); return; }
+      if (!np) { alert('請輸入新密碼！'); return; }
+      adminPassword = np;
+      localStorage.setItem('qipao_admin_pwd', adminPassword);
+      closeForgotPwdModal();
+      alert('🎉 密碼重設成功！請使用新密碼登入。');
+      openLoginModal();
+    }
+
+    function renderSizeFilterBar() {
+      const bar = document.getElementById('sizeFilterBar');
+      bar.innerHTML = '';
+      sizes.forEach(sz => {
+        const count = sz === 'all' || sz === '全部' ? products.length : products.filter(p => p.size === sz).length;
+        const btn = document.createElement('button');
+        btn.className = `px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap size-pill ${activeSizeFilter === sz ? 'active' : ''}`;
+        btn.innerHTML = `${sz} (${count})`;
+        btn.onclick = () => { activeSizeFilter = sz; renderSizeFilterBar(); renderProducts(); };
+        bar.appendChild(btn);
       });
     }
 
-    function renderSizeBar() {
-      document.getElementById('sizeFilterBar').innerHTML = SIZES.map(s =>
-        `<button onclick="selectSize('${s}')" class="size-pill px-3.5 py-1.5 rounded-full text-xs whitespace-nowrap ${currentSize === s ? 'active' : 'text-[#f6e29c]'}">${s === '全部' ? '🌸 全部尺碼' : s + ' 碼'}</button>`
-      ).join('');
-    }
-    function selectSize(s) { currentSize = s; renderSizeBar(); renderProducts(); }
-
     function renderProducts() {
-      const list = products.map((p, i) => ({ ...p, i })).filter(p => currentSize === '全部' || p.size === currentSize);
-      document.getElementById('productCountBadge').textContent = `共 ${list.length} 件`;
-      document.getElementById('productGrid').innerHTML = list.map(p => `
-        <div class="gold-card rounded-2xl overflow-hidden flex flex-col justify-between">
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      const filtered = activeSizeFilter === '全部' ? products : products.filter(p => p.size === activeSizeFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-2 py-8 text-center text-xs text-[#bfb29e]">此尺碼目前尚無旗袍孤品，敬請期待 💕</div>`;
+        return;
+      }
+
+      filtered.forEach((p, index) => {
+        const originalIndex = products.indexOf(p);
+        const card = document.createElement('div');
+        card.className = 'gold-card rounded-2xl p-2.5 flex flex-col justify-between relative overflow-hidden';
+
+        let imgHtml = '';
+        const currentViewImg = p.activeView === 'detail' ? (p.img2 || p.img1) : p.img1;
+        if (currentViewImg) {
+          imgHtml = `<img src="${currentViewImg}" class="w-full h-44 sm:h-52 object-cover rounded-xl cursor-pointer" onclick="openDetailModal(${originalIndex})">`;
+        } else {
+          imgHtml = `<div class="w-full h-44 sm:h-52 bg-[#121017] rounded-xl flex flex-col items-center justify-center cursor-pointer border border-[#dfb76c]/20" onclick="openDetailModal(${originalIndex})">
+            <span class="text-3xl mb-1">👗</span>
+            <span class="text-[11px] text-[#f6e29c] font-bold">點此看大圖</span>
+          </div>`;
+        }
+
+        let adminEditHtml = adminLoggedIn ? `<button onclick="openEditModal(${originalIndex})" class="absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-emerald-700 text-white text-[10px] font-bold shadow">✏️ 編輯</button>` : '';
+
+        card.innerHTML = `
           <div>
-            <div class="relative aspect-[3/4] bg-[#141119] flex items-center justify-center">
-              ${p.img1
-                ? `<img id="pimg-${p.i}" src="${p.img1}" class="w-full h-full object-cover">`
-                : `<div class="text-center p-3"><div class="text-3xl mb-1">👘</div><p class="text-[11px] text-[#f6e29c]">${p.size} 碼極新孤品</p></div>`
-              }
-              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/75 border border-[#dfb76c] text-[#f6e29c] text-xs font-black">${p.size}</span>
-              ${p.sold ? `<div class="absolute inset-0 bg-black/70 flex items-center justify-center"><span class="px-3 py-1 rounded-full bg-rose-700 text-white text-xs font-bold">已售出</span></div>` : ''}
-              ${p.img2 ? `
-                <div class="absolute bottom-2 right-2 flex gap-1 z-10">
-                  <button onclick="switchImg(${p.i}, 1)" id="btn1-${p.i}" class="px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold">👗全身</button>
-                  <button onclick="switchImg(${p.i}, 2)" id="btn2-${p.i}" class="px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold">🔍細節</button>
-                </div>
-              ` : ''}
-            </div>
-            <div class="p-2.5 space-y-1">
-              <h3 class="text-xs font-bold text-[#f7f3e9] truncate">${p.name}</h3>
-              <p class="text-[11px] text-[#bfb29e] truncate">${p.desc}</p>
-              <div class="flex items-center justify-between pt-1">
-                <span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span>
-                <span class="text-[10px] text-[#f6e29c] border border-[#dfb76c]/40 px-1.5 py-0.5 rounded">孤品1件</span>
+            <div class="relative mb-2">
+              ${imgHtml}
+              <div class="absolute bottom-2 left-2 flex gap-1 bg-black/60 backdrop-blur-sm p-1 rounded-xl border border-[#dfb76c]/30">
+                <button onclick="switchCardView(${originalIndex}, 'full')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${(!p.activeView || p.activeView === 'full') ? 'bg-[#dfb76c] text-[#1a140b]' : 'text-[#f6e29c]'}">👗 全身</button>
+                <button onclick="switchCardView(${originalIndex}, 'detail')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold ${p.activeView === 'detail' ? 'bg-[#dfb76c] text-[#1a140b]' : 'text-[#f6e29c]'}">🔍 細節</button>
               </div>
+              ${adminEditHtml}
             </div>
+            <div class="flex items-center justify-between px-0.5">
+              <span class="text-xs font-black text-[#f6e29c]">${p.code}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40">${p.size}碼</span>
+            </div>
+            <p class="text-[11px] text-[#e2d9c8] mt-1 line-clamp-2 px-0.5">${p.desc || '九成新極美孤品'}</p>
           </div>
-          <div class="p-2.5 pt-0 space-y-1">
-            <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-1.5 rounded-xl gold-btn text-center text-xs">📸 截圖私訊保留</a>
-            ${isAdmin ? `
-              <div class="grid grid-cols-3 gap-1 pt-1">
-                <button onclick="openEditModal(${p.i})" class="py-1 rounded bg-blue-800 text-white text-[10px]">編輯</button>
-                <button onclick="toggleSold(${p.i})" class="py-1 rounded bg-amber-700 text-white text-[10px]">${p.sold ? '有貨' : '售出'}</button>
-                <button onclick="deleteProduct(${p.i})" class="py-1 rounded bg-rose-800 text-white text-[10px]">刪除</button>
-              </div>
-            ` : ''}
+          <div class="mt-2.5 pt-2 border-t border-[#dfb76c]/20 flex items-center justify-between">
+            <span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span>
+            <button onclick="openDetailModal(${originalIndex})" class="px-2.5 py-1 rounded-xl gold-btn text-[11px]">📸 截圖私訊</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function switchCardView(index, view) {
+      products[index].activeView = view;
+      renderProducts();
+    }
+
+    function openDetailModal(index) {
+      const p = products[index];
+      const modal = document.getElementById('detailModal');
+      const content = document.getElementById('modalContent');
+
+      const img1Show = p.img1 ? `<img src="${p.img1}" class="w-full h-64 object-cover rounded-2xl mb-2">` : '<div class="w-full h-48 bg-[#121017] rounded-2xl flex items-center justify-center text-2xl mb-2">👗 暫無全身照</div>';
+      const img2Show = p.img2 ? `<img src="${p.img2}" class="w-full h-64 object-cover rounded-2xl mb-2">` : '<div class="w-full h-48 bg-[#121017] rounded-2xl flex items-center justify-center text-2xl mb-2">🔍 暫無細節照</div>';
+
+      content.innerHTML = `
+        <div class="text-center space-y-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c]">
+            <span>🌸</span><span>編號：${p.code} ｜ 尺碼：${p.size}碼</span>
+          </div>
+          <h3 class="text-lg font-black text-[#ff7b7b]">甜甜惜物價：NT$ ${p.price}</h3>
+        </div>
+        <div class="space-y-2 pt-1">
+          <div>
+            <p class="text-xs text-[#f6e29c] font-bold mb-1">👗 全身照</p>
+            ${img1Show}
+          </div>
+          <div>
+            <p class="text-xs text-[#f6e29c] font-bold mb-1">🔍 細節照</p>
+            ${img2Show}
           </div>
         </div>
-      `).join('');
-    }
-
-    function switchImg(i, num) {
-      const el = document.getElementById(`pimg-${i}`);
-      const b1 = document.getElementById(`btn1-${i}`), b2 = document.getElementById(`btn2-${i}`);
-      if (!el) return;
-      if (num === 2 && products[i].img2) {
-        el.src = products[i].img2;
-        if (b2) { b2.className = 'px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold'; }
-        if (b1) { b1.className = 'px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold'; }
-      } else {
-        el.src = products[i].img1;
-        if (b1) { b1.className = 'px-2 py-0.5 rounded bg-[#dfb76c] text-[#1a140b] text-[10px] font-bold'; }
-        if (b2) { b2.className = 'px-2 py-0.5 rounded bg-black/80 text-[#f6e29c] border border-[#dfb76c]/60 text-[10px] font-bold'; }
-      }
-    }
-
-    function secretSealTap() { if (++sealTap >= 3) { sealTap = 0; openLoginModal(); } }
-    function openLoginModal() {
-      toggleForgotBox(false);
-      document.getElementById('adminPwdInput').value = '';
-      document.getElementById('loginModal').classList.remove('hidden');
-    }
-    function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
-    function toggleForgotBox(showForgot) {
-      document.getElementById('loginBox').classList.toggle('hidden', showForgot);
-      document.getElementById('forgotBox').classList.toggle('hidden', !showForgot);
-    }
-
-    function verifyAdminLogin() {
-      if (document.getElementById('adminPwdInput').value === adminConfig.pwd) {
-        isAdmin = true; document.getElementById('adminToolbar').classList.remove('hidden');
-        closeLoginModal(); renderProducts(); showToast('🔓 店長後台已開啟');
-      } else showToast('❌ 密碼錯誤');
-    }
-
-    function verifyRecoveryAndReset() {
-      const rec = document.getElementById('recoveryInput').value.trim();
-      const newP = document.getElementById('resetNewPwdInput').value.trim();
-      if (rec !== adminConfig.rec) return showToast('❌ 安全救援碼不正確');
-      if (!newP) return showToast('⚠️ 請輸入新密碼');
-      adminConfig.pwd = newP;
-      localStorage.setItem('ymhy_cfg', JSON.stringify(adminConfig));
-      isAdmin = true; document.getElementById('adminToolbar').classList.remove('hidden');
-      closeLoginModal(); renderProducts();
-      showToast('✅ 密碼已重設並登入！請記得複製程式碼更新至 GitHub');
-    }
-
-    function openPwdModal() {
-      document.getElementById('newPwdField').value = adminConfig.pwd;
-      document.getElementById('newRecField').value = adminConfig.rec;
-      document.getElementById('pwdModal').classList.remove('hidden');
-    }
-    function saveNewPassword() {
-      const p = document.getElementById('newPwdField').value.trim();
-      const r = document.getElementById('newRecField').value.trim();
-      if (!p || !r) return showToast('⚠️ 密碼與救援碼不能為空');
-      adminConfig = { pwd: p, rec: r };
-      localStorage.setItem('ymhy_cfg', JSON.stringify(adminConfig));
-      document.getElementById('pwdModal').classList.add('hidden');
-      showToast('✅ 已更新密碼與救援碼！請點「複製完整程式碼」貼回 GitHub');
-    }
-
-    function logoutAdmin() { isAdmin = false; document.getElementById('adminToolbar').classList.add('hidden'); renderProducts(); }
-    function triggerAvatarUpload() { document.getElementById('avatarInput').click(); }
-    async function handleAvatarUpload(e) {
-      if (!e.target.files[0]) return;
-      const u = await compressImg(e.target.files[0]);
-      const img = document.getElementById('heroAvatarImg'); img.src = u; img.classList.remove('hidden');
-      document.getElementById('heroAvatarPlaceholder').classList.add('hidden');
-      showToast('✨ 品牌頭像已更新！');
-    }
-
-    function openEditModal(idx = -1) {
-      document.getElementById('editIndex').value = idx;
-      document.getElementById('prodImg1').value = '';
-      document.getElementById('prodImg2').value = '';
-      if (idx >= 0) {
-        const p = products[idx];
-        document.getElementById('editModalTitle').textContent = '✏️ 編輯旗袍商品';
-        document.getElementById('prodName').value = p.name;
-        document.getElementById('prodSize').value = p.size;
-        document.getElementById('prodPrice').value = p.price;
-        document.getElementById('prodDesc').value = p.desc;
-      } else {
-        document.getElementById('editModalTitle').textContent = '➕ 單件旗袍上架';
-        document.getElementById('prodName').value = '';
-      }
-      document.getElementById('editModal').classList.remove('hidden');
-    }
-    function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
-
-    async function saveProduct() {
-      const idx = Number(document.getElementById('editIndex').value);
-      const name = document.getElementById('prodName').value.trim() || '精選極新旗袍';
-      const size = document.getElementById('prodSize').value;
-      const price = Number(document.getElementById('prodPrice').value) || 490;
-      const desc = document.getElementById('prodDesc').value.trim();
-      const f1 = document.getElementById('prodImg1').files[0];
-      const f2 = document.getElementById('prodImg2').files[0];
-      const u1 = f1 ? await compressImg(f1) : (idx >= 0 ? products[idx].img1 : '');
-      const u2 = f2 ? await compressImg(f2) : (idx >= 0 ? products[idx].img2 : '');
-
-      if (idx >= 0) {
-        products[idx] = { ...products[idx], name, size, price, desc, img1: u1, img2: u2 };
-      } else {
-        products.unshift({ name, size, price, desc, sold: false, img1: u1, img2: u2 });
-      }
-      closeEditModal(); renderProducts(); showToast('✨ 已儲存商品！');
-    }
-
-    function openBatchModal() {
-      document.getElementById('batchRowsContainer').innerHTML = '';
-      for (let i = 0; i < 3; i++) addBatchRow();
-      document.getElementById('batchModal').classList.remove('hidden');
-    }
-    function closeBatchModal() { document.getElementById('batchModal').classList.add('hidden'); }
-
-    function addBatchRow() {
-      const box = document.getElementById('batchRowsContainer');
-      const n = box.children.length + 1;
-      const div = document.createElement('div');
-      div.className = 'batch-row bg-[#1b1824] p-2.5 rounded-xl border border-[#dfb76c]/30 space-y-1.5';
-      div.innerHTML = `
-        <div class="flex items-center justify-between">
-          <span class="font-bold text-[#f6e29c]">第 ${n} 件</span>
-          <input type="text" placeholder="款式名稱 (選填，可自動編號)" class="b-name w-2/3 px-2 py-1 rounded bg-[#0f0e13] border border-[#dfb76c]/30 text-white">
+        <div class="bg-[#14121a] border border-[#dfb76c]/30 rounded-2xl p-3 text-xs text-[#e2d9c8]">
+          <p class="text-[#f6e29c] font-bold mb-1">✨ 商品特色：</p>
+          <p>${p.desc || '全館 9 成新以上極美品'}</p>
         </div>
-        <div class="grid grid-cols-2 gap-1.5 pt-1">
-          <label class="block p-1.5 rounded bg-[#141119] border border-[#dfb76c]/40 text-center cursor-pointer">
-            <span class="text-[#f6e29c] font-bold block">👗 選全身照</span>
-            <input type="file" accept="image/*" class="b-img1 w-full text-[10px] mt-1">
-          </label>
-          <label class="block p-1.5 rounded bg-[#141119] border border-[#34d399]/40 text-center cursor-pointer">
-            <span class="text-[#6ee7b7] font-bold block">🔍 選細節照</span>
-            <input type="file" accept="image/*" class="b-img2 w-full text-[10px] mt-1">
-          </label>
+        <div class="bg-[#1d1826] border border-[#dfb76c]/40 rounded-2xl p-3 text-center space-y-1.5">
+          <p class="text-xs font-bold text-[#f6e29c]">📸 喜歡這件嗎？請截圖此畫面私訊我們保留！</p>
+          <div class="grid grid-cols-3 gap-1.5 pt-1">
+            <a href="https://lin.ee/pw0FvId" target="_blank" class="py-2 px-1 rounded-xl bg-[#06C755] text-white font-bold text-xs">💬 LINE 私訊</a>
+            <a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs">🧵 脆 Threads</a>
+            <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs">📘 FB 粉專</a>
+          </div>
         </div>
       `;
-      box.appendChild(div);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+      document.getElementById('detailModal').classList.remove('flex');
     }
 
-    async function submitBatchProducts() {
-      const defSize = document.getElementById('batchDefSize').value;
-      const defPrice = Number(document.getElementById('batchDefPrice').value) || 490;
-      const defDesc = document.getElementById('batchDefDesc').value.trim() || '9成新・已清潔無整燙';
-      const rows = Array.from(document.querySelectorAll('.batch-row'));
-      let added = 0;
-      showToast('⏳ 正在處理照片並批次上架中...');
-      for (let i = rows.length - 1; i >= 0; i--) {
-        const r = rows[i];
-        const nVal = r.querySelector('.b-name').value.trim();
-        const f1 = r.querySelector('.b-img1').files[0];
-        const f2 = r.querySelector('.b-img2').files[0];
-        if (!nVal && !f1 && !f2) continue;
-        const img1 = f1 ? await compressImg(f1) : '';
-        const img2 = f2 ? await compressImg(f2) : '';
-        const name = nVal || `${defSize}碼 精選極新旗袍 #${products.length + 1}`;
-        products.unshift({ name, size: defSize, price: defPrice, desc: defDesc, sold: false, img1, img2 });
-        added++;
-      }
-      if (added === 0) return showToast('⚠️ 請至少為一件旗袍選擇照片或輸入名稱');
-      closeBatchModal(); renderProducts();
-      showToast(`🎉 成功批次上架 ${added} 件旗袍！請點「複製完整程式碼」更新至 GitHub`);
-    }
+    let tempImg1 = '';
+    let tempImg2 = '';
 
-    function toggleSold(i) { products[i].sold = !products[i].sold; renderProducts(); }
-    function deleteProduct(i) { products.splice(i, 1); renderProducts(); }
+    function openEditModal(index) {
+      currentEditIndex = index;
+      const modal = document.getElementById('editModal');
+      const title = document.getElementById('editModalTitle');
+      const delBtn = document.getElementById('deleteBtn');
 
-    function getCleanHtml() {
-      const c = document.documentElement.cloneNode(true);
-      c.querySelector('#adminToolbar').classList.add('hidden');
-      let html = '<!DOCTYPE html>\n' + c.outerHTML;
-      html = html.replace(/let adminConfig = \{[\s\S]*?\};/, 'let adminConfig = ' + JSON.stringify(adminConfig) + ';');
-      html = html.replace(/let products = \[[\s\S]*?\];/, 'let products = ' + JSON.stringify(products) + ';');
-      return html;
-    }
-    function exportUpdatedHtmlFile() {
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob([getCleanHtml()], { type: 'text/html' }));
-      a.download = 'index.html'; a.click();
-    }
-    function copyFullHtmlCode() { navigator.clipboard.writeText(getCleanHtml()).then(() => showToast('✅ 已複製最新程式碼！請貼回 GitHub 儲存')); }
-    renderSizeBar(); renderProducts();
-  </script>
-</body>
-</html>
-<!-- === 第三段結束，全部完成！請點綠色 Commit changes 儲存 === -->
-
+      if (index === -1) {
+        title.innerText = '➕ 單件上架新旗袍';
+        document.getElementById('editCode').value = '#S' + String(products.length + 1).padStart(2, '0');
+        document.getElementById('editSize').value = 'S';
+        document.getElementById('editPrice').value = '390';
+        document.getElementById('editDesc').value = '9成新・僅穿過1次極美';
+        tempImg1 = ''; tempImg2 = '';
+        updateModalPreview(1, ''); updateModalPreview(2, '');
+        delBtn.classList.add('hidden');
+      } else {
+        title.innerText = '✏️ 編輯旗袍資料'
