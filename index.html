@@ -24,7 +24,7 @@
 </head>
 <body class="pb-28" oncontextmenu="if(event.target.tagName==='IMG') return false;">
   <div class="sticky top-0 z-40">
-    <!-- 店長後台工具列 (預設隱藏，連點5下印章解鎖) -->
+    <!-- 店長後台工具列 (預設隱藏) -->
     <div id="adminToolbar" class="hidden bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
       <div class="max-w-xl mx-auto space-y-2">
         <div class="flex items-center justify-between gap-1">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <!-- 頂部品牌導覽列 -->
+    <!-- 頂部導覽列 -->
     <header class="bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-3 py-2.5">
       <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
         <div class="flex items-center gap-1.5 min-w-0">
@@ -149,7 +149,7 @@
         <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads</a><span>｜</span>
         <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="underline">FB 粉專</a>
       </div>
-      <p onclick="secretSealTap()" class="select-none cursor-pointer">© 一抹花顏 二手旗袍專賣</p>
+      <p class="select-none cursor-pointer">© 一抹花顏 二手旗袍專賣 <span class="text-emerald-400 font-bold">🔒</span></p>
     </footer>
   </main>
 
@@ -286,6 +286,7 @@
       <button onclick="closePublishModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <h3 class="text-base font-black gold-gradient-text">☁️ 發佈給客人看 (雲端同步)</h3>
       <p class="text-[#e2d9c8] leading-relaxed">為了讓客人點開網址也能看到妳上傳的照片，請任選以下一種方式發佈：</p>
+      
       <div class="bg-[#121017] border border-emerald-500/40 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#6ee7b7]">🌟 方式一：一鍵自動同步到 GitHub（最推薦）</p>
         <p class="text-[11px] text-[#bfb29e]">只需貼上一次妳的 GitHub Token，之後按一下按鈕就會自動把所有照片傳上雲端，客人打開網址立刻看得到！</p>
@@ -293,6 +294,7 @@
         <input id="ghTokenInput" type="password" placeholder="貼上 GitHub Token (ghp_...)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
         <button id="syncGithubBtn" onclick="syncToGitHub()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black shadow-md">🚀 立即同步發佈到官網</button>
       </div>
+
       <div class="bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#f6e29c]">📦 方式二：免設定・下載資料檔上傳</p>
         <p class="text-[11px] text-[#bfb29e]">點擊下方按鈕下載 <code class="text-amber-300">products.json</code> 檔案，將它上傳到妳的 GitHub（與 <code class="text-amber-300">index.html</code> 放同一個資料夾），客人就能看到所有照片！</p>
@@ -300,7 +302,7 @@
       </div>
     </div>
   </div>
-    <script>
+  <script>
     const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     const PRICES = [390, 450, 490, 550, 590];
     let adminPassword = localStorage.getItem('yimo_pwd') || '0502';
@@ -326,7 +328,7 @@
       if (el) { el.classList.add('hidden'); el.classList.remove('flex'); el.style.display = 'none'; }
     }
 
-    // 保證喚醒：連點 2 下印章，或直接點選即彈出登入框
+    // 點擊底部 🔒 符號直接開啟登入框
     let tapCount = 0, tapTimer = null;
     window.secretSealTap = function() {
       tapCount++;
@@ -593,4 +595,36 @@
     window.setBatchMode = function(m) {
       batchMode = m;
       document.getElementById('modePairBtn').className = m === 'pair' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b1824] text-[#e2d9c8] border-[#dfb76c]/30';
-      document.getElementById('modeSingleBtn').className = m === 'single' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b
+      document.getElementById('modeSingleBtn').className = m === 'single' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b1824] text-[#e2d9c8] border-[#dfb76c]/30';
+    };
+    window.openBatchModal = function() {
+      if (currentSizeFilter !== 'ALL') batchSelectedSize = currentSizeFilter;
+      batchDraftItems = []; initBatchControls(); renderBatchPreviewList();
+      showModal('batchModal');
+    };
+    window.closeBatchModal = function() { hideModal('batchModal'); };
+    window.handleBatchFiles = async function(e) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+      const imgs = await Promise.all(files.map(f => compressImageFile(f)));
+      const baseCount = products.filter(p => p.size === batchSelectedSize).length;
+      if (batchMode === 'pair') {
+        for (let i = 0; i < imgs.length; i += 2) {
+          const num = baseCount + batchDraftItems.length + 1;
+          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: imgs[i], img2: imgs[i + 1] || imgs[i] });
+        }
+      } else {
+        imgs.forEach(img => {
+          const num = baseCount + batchDraftItems.length + 1;
+          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: img, img2: img });
+        });
+      }
+      renderBatchPreviewList(); e.target.value = '';
+    };
+    function refreshBatchCodes() {
+      const baseCount = products.filter(p => p.size === batchSelectedSize).length;
+      batchDraftItems.forEach((it, idx) => { it.size = batchSelectedSize; it.code = `${batchSelectedSize}${String(baseCount + idx + 1).padStart(2, '0')}`; });
+      renderBatchPreviewList();
+    }
+    window.swapDraftImg = function(i) { const t = batchDraftItems[i].img1; batchDraftItems[i].img1 = batchDraftItems[i].img2; batchDraftItems[i].img2 = t; renderBatchPreviewList(); };
+    window.removeDraftItem = function(i) { bat
