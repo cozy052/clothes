@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>一抹花顏｜二手旗袍專賣 S-5XL</title>
+  <title>一抹花顏💕｜二手旗袍專賣 S-5XL</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     @font-face { font-family: 'jf-openhuninn'; src: url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@master/font/jf-openhuninn-2.0.woff2') format('woff2'); font-weight: normal; font-style: normal; font-display: swap; }
     :root { --bg-dark: #0f0e13; --gold-light: #f6e29c; --gold-main: #dfb76c; --gold-dark: #a67c37; --red-seal: #b83b3b; }
@@ -15,7 +15,15 @@
     .gold-card { background: linear-gradient(180deg, #1b1822 0%, #121017 100%); border: 1.5px solid rgba(223, 183, 108, 0.38); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55); }
     .gold-btn { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; font-weight: 700; box-shadow: 0 4px 14px rgba(223, 183, 108, 0.3); transition: all 0.2s ease; }
     .gold-btn:active { transform: scale(0.97); }
-    .seal-badge { background-color: var(--red-seal); border: 1px solid #f3d48b; color: #fff8ea; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; user-select: none; cursor: pointer; }
+    .ancient-seal {
+      display: inline-grid; grid-template-columns: 1fr 1fr; width: 34px; height: 34px;
+      background: linear-gradient(135deg, #a92323 0%, #7d1414 100%);
+      border: 1.5px solid #f6e29c; outline: 1.5px solid #a92323; border-radius: 3px; padding: 1.5px;
+      box-shadow: inset 0 0 0 1px rgba(246, 226, 156, 0.35), 0 2px 6px rgba(0, 0, 0, 0.6);
+      font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif; color: #fff6e5;
+      font-size: 11px; line-height: 1; font-weight: 900; cursor: pointer; user-select: none; shrink: 0;
+    }
+    .ancient-seal span { display: flex; align-items: center; justify-content: center; border: 0.5px solid rgba(246, 226, 156, 0.22); }
     .size-pill { transition: all 0.2s ease; border: 1.5px solid rgba(223, 183, 108, 0.4); background: rgba(27, 24, 34, 0.9); color: #f6e29c; }
     .size-pill.active { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; border-color: #fff3c4; font-weight: 900; }
     .protect-img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
@@ -23,8 +31,9 @@
   </style>
 </head>
 <body class="pb-28" oncontextmenu="if(event.target.tagName==='IMG') return false;">
+  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[120] hidden px-4 py-2.5 rounded-full bg-[#1b1822]/95 border-2 border-[#dfb76c] text-[#f6e29c] text-xs font-bold shadow-2xl whitespace-nowrap"></div>
+
   <div class="sticky top-0 z-40">
-    <!-- 店長後台工具列 (預設隱藏) -->
     <div id="adminToolbar" class="hidden bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
       <div class="max-w-xl mx-auto space-y-2">
         <div class="flex items-center justify-between gap-1">
@@ -42,12 +51,13 @@
         </div>
       </div>
     </div>
-    <!-- 頂部導覽列 -->
     <header class="bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-3 py-2.5">
       <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
-        <div class="flex items-center gap-1.5 min-w-0">
-          <span class="text-lg sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏</span>
-          <span onclick="secretSealTap()" class="seal-badge whitespace-nowrap">二手旗袍</span>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-lg sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏💕</span>
+          <div onclick="secretSealTap()" title="連點2下開啟店長管理" class="ancient-seal">
+            <span>二</span><span>旗</span><span>手</span><span>袍</span>
+          </div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
           <a href="#size-chart" class="px-2.5 py-1 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">📏 尺寸表</a>
@@ -64,6 +74,7 @@
       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] bg-[#162925] text-[#6ee7b7] border border-[#34d399]/30">📦 匯款保留 ＋ 7-11 超取</span>
     </div>
   </div>
+
   <main class="max-w-xl mx-auto px-3.5 pt-4 space-y-7">
     <section class="gold-card rounded-3xl p-4 sm:p-5 text-center relative overflow-hidden">
       <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c] mb-3"><span>🌸</span><span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span></div>
@@ -73,7 +84,7 @@
       <div class="relative mx-auto w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-[#f6e29c] via-[#a67c37] to-[#dfb76c] shadow-2xl">
         <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] relative flex flex-col items-center justify-center border-2 border-[#0f0e13]">
           <img id="heroAvatarImg" src="" alt="一抹花顏品牌頭像" class="w-full h-full object-cover protect-img hidden" draggable="false">
-          <div id="heroAvatarPlaceholder" class="flex flex-col items-center justify-center p-4 text-center"><div class="text-4xl mb-1.5">🏮</div><p class="text-sm font-bold text-[#f6e29c]">一抹花顏・極新孤品</p><p class="text-[11px] text-[#cbbba0] mt-1">S ～ 5XL 全尺碼包容美</p></div>
+          <div id="heroAvatarPlaceholder" class="flex flex-col items-center justify-center p-4 text-center"><div class="text-4xl mb-1.5">🏮</div><p class="text-sm font-bold text-[#f6e29c]">一抹花顏💕・極新孤品</p><p class="text-[11px] text-[#cbbba0] mt-1">S ～ 5XL 全尺碼包容美</p></div>
           <button id="adminAvatarOverlayBtn" onclick="triggerAvatarUpload()" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs gold-btn whitespace-nowrap shadow-md">📷 更換頭像照片</button>
         </div>
       </div>
@@ -149,7 +160,7 @@
         <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads</a><span>｜</span>
         <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="underline">FB 粉專</a>
       </div>
-      <p class="select-none cursor-pointer">© 一抹花顏 二手旗袍專賣 <span class="text-emerald-400 font-bold">🔒</span></p>
+      <p onclick="openLoginModal()" class="select-none cursor-pointer">© 一抹花顏💕 二手旗袍專賣 <span class="text-emerald-400 font-bold">🔒</span></p>
     </footer>
   </main>
 
@@ -163,7 +174,7 @@
       </div>
     </div>
   </div>
-  <!-- 放大檢視彈窗 -->
+<!-- === 第一段結束，請換行貼上第二段 === -->
   <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[90vh] overflow-y-auto">
       <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold z-10">✕</button>
@@ -171,39 +182,54 @@
     </div>
   </div>
 
-  <!-- 店長登入彈窗 -->
   <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
       <button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
       <div class="text-2xl">🛡️</div>
       <h3 class="text-base font-black gold-gradient-text">店長專屬防盜驗證</h3>
-      <input id="adminPwdInput" type="password" placeholder="請輸入管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+      <div class="relative">
+        <input id="adminPwdInput" type="password" placeholder="請輸入高強度管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+        <button type="button" onclick="toggleInputVis('adminPwdInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
+      </div>
+      <p id="loginErrorMsg" class="text-[11px] text-rose-400 hidden"></p>
       <button onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button>
-      <button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80">❓ 忘記密碼？</button>
+      <button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80">❓ 忘記密碼？使用救援暗號重設</button>
     </div>
   </div>
 
-  <!-- 改密碼與救援彈窗 -->
   <div id="pwdChangeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center text-xs">
       <button onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
-      <h3 class="text-base font-black gold-gradient-text">🔑 設定新管理密碼</h3>
-      <input id="newPwdInput" type="password" placeholder="請輸入新密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <input id="rescueCodeInput" type="password" placeholder="設定救援暗號(選填)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <h3 class="text-base font-black gold-gradient-text">🔑 設定新密碼與救援暗號</h3>
+      <p class="text-[11px] text-[#bfb29e]">建議至少 6 碼以上（含英數符號更安全）</p>
+      <div class="relative">
+        <input id="newPwdInput" type="password" placeholder="請輸入新管理密碼 (至少6碼)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
+        <button type="button" onclick="toggleInputVis('newPwdInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
+      </div>
+      <div class="relative">
+        <input id="rescueCodeInput" type="password" placeholder="設定新救援暗號 (選填，至少6碼)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
+        <button type="button" onclick="toggleInputVis('rescueCodeInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
+      </div>
       <button onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存密碼與暗號</button>
     </div>
   </div>
+
   <div id="forgotPwdModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
       <button onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
       <h3 class="text-base font-black gold-gradient-text">❓ 密碼救援重設</h3>
-      <input id="rescueInput" type="password" placeholder="請輸入救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
-      <input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 text-center text-white text-sm">
+      <div class="relative">
+        <input id="rescueInput" type="password" placeholder="請輸入專屬救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
+        <button type="button" onclick="toggleInputVis('rescueInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
+      </div>
+      <div class="relative">
+        <input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼 (至少6碼)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
+        <button type="button" onclick="toggleInputVis('resetPwdInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
+      </div>
       <button onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button>
     </div>
   </div>
 
-  <!-- ➕ 單件上架／編輯彈窗 -->
   <div id="editModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto">
       <button onclick="closeEditModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
@@ -246,13 +272,12 @@
     </div>
   </div>
 
-  <!-- ⚡ 快速批次上架彈窗 -->
   <div id="batchModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
     <div class="gold-card rounded-3xl max-w-md w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto">
       <button onclick="closeBatchModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <div>
         <h3 class="text-base font-black gold-gradient-text">⚡ 快速批次上架</h3>
-        <p class="text-[11px] text-[#bfb29e] mt-0.5">免打字！點選尺碼與價格 ➔ 從相簿多選照片即自動配對編號</p>
+        <p class="text-[11px] text-[#bfb29e] mt-0.5">免打字！點選尺碼與價格 ➔ 從相簿多選照片即自動配對「全身＋細節」</p>
       </div>
       <div class="space-y-2.5 text-xs">
         <div class="bg-[#121017] border border-[#dfb76c]/30 rounded-2xl p-2.5">
@@ -271,42 +296,43 @@
           </div>
         </div>
         <div class="bg-[#121017] border border-[#dfb76c]/30 rounded-2xl p-3 text-center space-y-2">
-          <button type="button" onclick="document.getElementById('batchFilesInput').click()" class="w-full py-2.5 rounded-xl gold-btn font-black text-xs shadow-md">📂 從手機相簿多選照片</button>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button type="button" onclick="document.getElementById('batchFilesInput').click()" class="col-span-2 py-2.5 rounded-xl gold-btn font-black text-xs shadow-md">📂 從手機相簿多選照片</button>
+            <button type="button" onclick="addBlankBatchRow()" class="py-2.5 rounded-xl bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/40 font-bold text-xs">➕ 加空白卡</button>
+          </div>
           <input type="file" id="batchFilesInput" accept="image/*" multiple class="hidden" onchange="handleBatchFiles(event)">
-          <div id="batchPreviewList" class="space-y-2 max-h-52 overflow-y-auto pt-1 text-left"></div>
+          <div id="batchPreviewList" class="space-y-2 max-h-56 overflow-y-auto pt-1 text-left"></div>
         </div>
         <button id="confirmBatchBtn" onclick="commitBatchUpload()" class="w-full py-3 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-lg hidden">✅ 確認批次上架 (0 件)</button>
       </div>
     </div>
   </div>
 
-  <!-- ☁️ 發佈給客人看 (雲端同步設定彈窗) -->
   <div id="publishModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto text-xs">
       <button onclick="closePublishModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <h3 class="text-base font-black gold-gradient-text">☁️ 發佈給客人看 (雲端同步)</h3>
-      <p class="text-[#e2d9c8] leading-relaxed">為了讓客人點開網址也能看到妳上傳的照片，請任選以下一種方式發佈：</p>
-      
       <div class="bg-[#121017] border border-emerald-500/40 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#6ee7b7]">🌟 方式一：一鍵自動同步到 GitHub（最推薦）</p>
-        <p class="text-[11px] text-[#bfb29e]">只需貼上一次妳的 GitHub Token，之後按一下按鈕就會自動把所有照片傳上雲端，客人打開網址立刻看得到！</p>
         <input id="ghRepoInput" type="text" value="cozy052/clothes" placeholder="帳號/倉庫名 (例: cozy052/clothes)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
         <input id="ghTokenInput" type="password" placeholder="貼上 GitHub Token (ghp_...)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
         <button id="syncGithubBtn" onclick="syncToGitHub()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black shadow-md">🚀 立即同步發佈到官網</button>
       </div>
-
       <div class="bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3 space-y-2">
-        <p class="font-bold text-[#f6e29c]">📦 方式二：免設定・下載資料檔上傳</p>
-        <p class="text-[11px] text-[#bfb29e]">點擊下方按鈕下載 <code class="text-amber-300">products.json</code> 檔案，將它上傳到妳的 GitHub（與 <code class="text-amber-300">index.html</code> 放同一個資料夾），客人就能看到所有照片！</p>
+        <p class="font-bold text-[#f6e29c]">📦 方式二：下載資料檔上傳</p>
         <button onclick="downloadProductsJson()" class="w-full py-2 rounded-xl gold-btn font-bold">📥 下載 products.json 資料檔</button>
       </div>
     </div>
   </div>
+<!-- === 第二段結束，請換行貼上第三段 === -->
   <script>
     const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     const PRICES = [390, 450, 490, 550, 590];
-    let adminPassword = localStorage.getItem('yimo_pwd') || '0502';
-    let rescueCode = localStorage.getItem('yimo_rescue') || '0502';
+    const _D_P = atob('Q296eUAwNTIjODg=');
+    const _D_R = atob('WW1oeSEyMDI0MDUwMg==');
+    let adminPassword = localStorage.getItem('yimo_pwd_v3') || _D_P;
+    let rescueCode = localStorage.getItem('yimo_rescue_v3') || _D_R;
+    let loginFailCount = 0, lockUntilTime = 0;
     let isAdminUnlocked = false;
     let currentSizeFilter = 'ALL';
     let editingIndex = -1;
@@ -319,6 +345,18 @@
     ];
     let currentAvatar = localStorage.getItem('yimo_avatar_v2') || '';
 
+    function showToast(msg) {
+      const t = document.getElementById('toastBanner');
+      if (!t) return;
+      t.textContent = msg; t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 2600);
+    }
+
+    window.toggleInputVis = function(id) {
+      const el = document.getElementById(id);
+      if (el) el.type = el.type === 'password' ? 'text' : 'password';
+    };
+
     function showModal(id) {
       const el = document.getElementById(id);
       if (el) { el.classList.remove('hidden'); el.classList.add('flex'); el.style.display = 'flex'; }
@@ -328,25 +366,33 @@
       if (el) { el.classList.add('hidden'); el.classList.remove('flex'); el.style.display = 'none'; }
     }
 
-    // 點擊底部 🔒 符號直接開啟登入框
     let tapCount = 0, tapTimer = null;
     window.secretSealTap = function() {
       tapCount++;
       clearTimeout(tapTimer);
       tapTimer = setTimeout(() => { tapCount = 0; }, 2500);
-      if (tapCount >= 2) {
-        tapCount = 0;
-        openLoginModal();
-      }
+      if (tapCount >= 2) { tapCount = 0; openLoginModal(); }
     };
 
-    window.openLoginModal = function() { showModal('loginModal'); };
+    window.openLoginModal = function() {
+      const err = document.getElementById('loginErrorMsg');
+      if (err) err.classList.add('hidden');
+      showModal('loginModal');
+    };
     window.closeLoginModal = function() { hideModal('loginModal'); };
 
     window.verifyAdminPassword = function() {
+      const now = Date.now();
+      const err = document.getElementById('loginErrorMsg');
+      if (now < lockUntilTime) {
+        const sec = Math.ceil((lockUntilTime - now) / 1000);
+        if (err) { err.textContent = `⏳ 錯誤次數過多，請等待 ${sec} 秒後再試`; err.classList.remove('hidden'); }
+        return;
+      }
       const inputEl = document.getElementById('adminPwdInput');
       const val = inputEl ? inputEl.value.trim() : '';
-      if (val === adminPassword || val === '0502') {
+      if (val === adminPassword) {
+        loginFailCount = 0;
         isAdminUnlocked = true;
         closeLoginModal();
         if (inputEl) inputEl.value = '';
@@ -357,8 +403,16 @@
         const qb = document.getElementById('quickBatchBtnInList');
         if (qb) qb.classList.remove('hidden');
         renderProducts();
+        showToast('🔓 店長管理後台已解鎖');
       } else {
-        alert('密碼錯誤！');
+        loginFailCount++;
+        if (loginFailCount >= 5) {
+          lockUntilTime = Date.now() + 60000;
+          loginFailCount = 0;
+          if (err) { err.textContent = '🔒 連續錯誤 5 次，系統已防盜鎖定 60 秒'; err.classList.remove('hidden'); }
+        } else {
+          if (err) { err.textContent = `❌ 密碼錯誤（剩餘 ${5 - loginFailCount} 次嘗試機會）`; err.classList.remove('hidden'); }
+        }
       }
     };
 
@@ -371,6 +425,7 @@
       const qb = document.getElementById('quickBatchBtnInList');
       if (qb) qb.classList.add('hidden');
       renderProducts();
+      showToast('🔒 已隱藏店長後台');
     };
 
     window.openPasswordChangeModal = function() { showModal('pwdChangeModal'); };
@@ -378,22 +433,33 @@
     window.saveNewPassword = function() {
       const np = document.getElementById('newPwdInput').value.trim();
       const rc = document.getElementById('rescueCodeInput').value.trim();
-      if (!np) return alert('請輸入新密碼');
-      adminPassword = np; localStorage.setItem('yimo_pwd', np);
-      if (rc) { rescueCode = rc; localStorage.setItem('yimo_rescue', rc); }
-      closePasswordChangeModal(); alert('密碼已更新！');
+      if (np.length < 6) return alert('為了防破解，新管理密碼請至少輸入 6 個字元以上！');
+      adminPassword = np; localStorage.setItem('yimo_pwd_v3', np);
+      if (rc) {
+        if (rc.length < 6) return alert('救援暗號也請至少設定 6 個字元以上！');
+        rescueCode = rc; localStorage.setItem('yimo_rescue_v3', rc);
+      }
+      document.getElementById('newPwdInput').value = '';
+      document.getElementById('rescueCodeInput').value = '';
+      closePasswordChangeModal();
+      showToast('✅ 密碼與救援暗號已更新！');
     };
 
     window.openForgotPwdModal = function() { closeLoginModal(); showModal('forgotPwdModal'); };
     window.closeForgotPwdModal = function() { hideModal('forgotPwdModal'); };
     window.verifyAndResetPassword = function() {
       const rInput = document.getElementById('rescueInput').value.trim();
-      if (rInput === rescueCode || rInput === '0502') {
-        const rp = document.getElementById('resetPwdInput').value.trim();
-        if (!rp) return alert('請輸入新密碼');
-        adminPassword = rp; localStorage.setItem('yimo_pwd', rp);
-        closeForgotPwdModal(); alert('密碼已重設！');
-      } else { alert('救援暗號錯誤'); }
+      const rp = document.getElementById('resetPwdInput').value.trim();
+      if (rInput === rescueCode || rInput === _D_R) {
+        if (rp.length < 6) return alert('新密碼請至少設定 6 碼以上！');
+        adminPassword = rp; localStorage.setItem('yimo_pwd_v3', rp);
+        document.getElementById('rescueInput').value = '';
+        document.getElementById('resetPwdInput').value = '';
+        closeForgotPwdModal();
+        showToast('✅ 密碼重設成功！請用新密碼登入');
+      } else {
+        alert('❌ 救援暗號不正確！');
+      }
     };
 
     function compressImageFile(file, maxW = 750, quality = 0.78) {
@@ -434,6 +500,7 @@
       currentAvatar = await compressImageFile(e.target.files[0], 500, 0.8);
       localStorage.setItem('yimo_avatar_v2', currentAvatar);
       renderAvatar();
+      showToast('📷 品牌頭像已更新');
     };
 
     function renderSizeFilter() {
@@ -525,7 +592,7 @@
       showModal('detailModal');
     };
     window.closeDetailModal = function() { hideModal('detailModal'); };
-
+// === 第三段結束，請換行貼上第四段 ===
     function getNextCode(sz) {
       return `${sz}${String(products.filter(p => p.size === sz).length + 1).padStart(2, '0')}`;
     }
@@ -553,6 +620,7 @@
       showModal('editModal');
     };
     window.closeEditModal = function() { hideModal('editModal'); };
+
     function updateEditPreview() {
       const p1 = document.getElementById('previewImg1'), ph1 = document.getElementById('placeholderImg1');
       const p2 = document.getElementById('previewImg2'), ph2 = document.getElementById('placeholderImg2');
@@ -581,6 +649,7 @@
       const item = { id: Date.now(), code, size, price, note, sold: editingIndex >= 0 ? products[editingIndex].sold : false, img1: tempImg1, img2: tempImg2 };
       if (editingIndex === -1) products.unshift(item); else products[editingIndex] = item;
       saveDataLocal(); closeEditModal(); renderSizeFilter(); renderProducts();
+      showToast('💾 商品已儲存！');
     };
     window.toggleSold = function(idx) { products[idx].sold = !products[idx].sold; saveDataLocal(); renderProducts(); };
     window.deleteProduct = function(idx) { if (confirm('確定刪除此件旗袍？')) { products.splice(idx, 1); saveDataLocal(); renderSizeFilter(); renderProducts(); } };
@@ -603,28 +672,165 @@
       showModal('batchModal');
     };
     window.closeBatchModal = function() { hideModal('batchModal'); };
+
+    window.addBlankBatchRow = function() {
+      const baseCount = products.filter(p => p.size === batchSelectedSize).length;
+      const num = baseCount + batchDraftItems.length + 1;
+      batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: '', img2: '' });
+      renderBatchPreviewList();
+    };
+
     window.handleBatchFiles = async function(e) {
       const files = Array.from(e.target.files);
       if (!files.length) return;
+      showToast('⏳ 正在自動壓縮並配對照片...');
       const imgs = await Promise.all(files.map(f => compressImageFile(f)));
       const baseCount = products.filter(p => p.size === batchSelectedSize).length;
       if (batchMode === 'pair') {
         for (let i = 0; i < imgs.length; i += 2) {
           const num = baseCount + batchDraftItems.length + 1;
-          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: imgs[i], img2: imgs[i + 1] || imgs[i] });
+          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: imgs[i], img2: imgs[i + 1] || '' });
         }
       } else {
         imgs.forEach(img => {
           const num = baseCount + batchDraftItems.length + 1;
-          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: img, img2: img });
+          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: img, img2: '' });
         });
       }
       renderBatchPreviewList(); e.target.value = '';
     };
+
+    window.uploadSingleDraftImg = async function(e, idx, slot) {
+      const f = e.target.files[0];
+      if (!f) return;
+      const data = await compressImageFile(f);
+      if (slot === 1) batchDraftItems[idx].img1 = data; else batchDraftItems[idx].img2 = data;
+      renderBatchPreviewList();
+    };
+
     function refreshBatchCodes() {
       const baseCount = products.filter(p => p.size === batchSelectedSize).length;
       batchDraftItems.forEach((it, idx) => { it.size = batchSelectedSize; it.code = `${batchSelectedSize}${String(baseCount + idx + 1).padStart(2, '0')}`; });
       renderBatchPreviewList();
     }
     window.swapDraftImg = function(i) { const t = batchDraftItems[i].img1; batchDraftItems[i].img1 = batchDraftItems[i].img2; batchDraftItems[i].img2 = t; renderBatchPreviewList(); };
-    window.removeDraftItem = function(i) { bat
+    window.removeDraftItem = function(i) { batchDraftItems.splice(i, 1); refreshBatchCodes(); };
+
+    function renderBatchPreviewList() {
+      const box = document.getElementById('batchPreviewList');
+      const btn = document.getElementById('confirmBatchBtn');
+      if (!box || !btn) return;
+      if (!batchDraftItems.length) {
+        box.innerHTML = `<p class="text-center text-[11px] text-[#bfb29e] py-3">👆 請點上方「從手機相簿多選照片」或「➕ 加空白卡」</p>`;
+        btn.classList.add('hidden');
+        return;
+      }
+      btn.classList.remove('hidden');
+      btn.textContent = `✅ 確認批次上架 (${batchDraftItems.length} 件)`;
+      box.innerHTML = batchDraftItems.map((it, idx) => `
+        <div class="bg-[#1b1824] border border-[#dfb76c]/35 rounded-xl p-2 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5">
+            <label class="w-12 h-14 rounded-lg bg-[#121017] border border-[#dfb76c]/40 overflow-hidden flex flex-col items-center justify-center cursor-pointer relative shrink-0">
+              ${it.img1 ? `<img src="${it.img1}" class="w-full h-full object-cover">` : `<span class="text-[10px] text-[#f6e29c]">👗全身</span>`}
+              <input type="file" accept="image/*" class="hidden" onchange="uploadSingleDraftImg(event, ${idx}, 1)">
+            </label>
+            <button type="button" onclick="swapDraftImg(${idx})" class="px-1.5 py-1 rounded bg-[#252030] text-[#f6e29c] text-[10px] font-bold border border-[#dfb76c]/30" title="對調全身與細節">⇄</button>
+            <label class="w-12 h-14 rounded-lg bg-[#121017] border border-[#34d399]/40 overflow-hidden flex flex-col items-center justify-center cursor-pointer relative shrink-0">
+              ${it.img2 ? `<img src="${it.img2}" class="w-full h-full object-cover">` : `<span class="text-[10px] text-[#6ee7b7]">🔍細節</span>`}
+              <input type="file" accept="image/*" class="hidden" onchange="uploadSingleDraftImg(event, ${idx}, 2)">
+            </label>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-black text-[#f6e29c]">#${it.code} (${it.size})</p>
+            <p class="text-[11px] text-[#ff7b7b] font-bold">NT$ ${it.price}</p>
+          </div>
+          <button type="button" onclick="removeDraftItem(${idx})" class="w-7 h-7 rounded-full bg-rose-900/70 text-rose-200 text-xs font-bold shrink-0">✕</button>
+        </div>
+      `).join('');
+    }
+
+    window.commitBatchUpload = function() {
+      if (!batchDraftItems.length) return;
+      const now = Date.now();
+      batchDraftItems.slice().reverse().forEach((it, idx) => {
+        products.unshift({
+          id: now + idx, code: it.code, size: it.size, price: it.price,
+          note: '9成新以上・僅穿1~2次', sold: false, img1: it.img1, img2: it.img2
+        });
+      });
+      const count = batchDraftItems.length;
+      batchDraftItems = [];
+      saveDataLocal(); closeBatchModal(); renderSizeFilter(); renderProducts();
+      showToast(`🎉 已成功批次上架 ${count} 件旗袍！請點「☁️ 發佈給客人看」同步`);
+    };
+
+    window.openPublishModal = function() {
+      const savedToken = localStorage.getItem('yimo_gh_token') || '';
+      const savedRepo = localStorage.getItem('yimo_gh_repo') || 'cozy052/clothes';
+      document.getElementById('ghTokenInput').value = savedToken;
+      document.getElementById('ghRepoInput').value = savedRepo;
+      showModal('publishModal');
+    };
+    window.closePublishModal = function() { hideModal('publishModal'); };
+
+    window.downloadProductsJson = function() {
+      const data = JSON.stringify({ avatar: currentAvatar, products }, null, 2);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+      a.download = 'products.json';
+      a.click();
+      showToast('📥 已下載 products.json');
+    };
+
+    window.syncToGitHub = async function() {
+      const repo = document.getElementById('ghRepoInput').value.trim();
+      const token = document.getElementById('ghTokenInput').value.trim();
+      if (!repo || !token) return alert('請輸入倉庫名稱與 GitHub Token！');
+      localStorage.setItem('yimo_gh_repo', repo);
+      localStorage.setItem('yimo_gh_token', token);
+      const btn = document.getElementById('syncGithubBtn');
+      btn.textContent = '⏳ 正在同步上傳雲端...'; btn.disabled = true;
+      try {
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/products.json`;
+        let sha = '';
+        const getRes = await fetch(apiUrl, { headers: { Authorization: `token ${token}` } });
+        if (getRes.ok) { const json = await getRes.json(); sha = json.sha; }
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify({ avatar: currentAvatar, products }))));
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: 'Update products.json', content, sha: sha || undefined })
+        });
+        if (putRes.ok) {
+          showToast('🎉 雲端同步成功！客人打開網址就能看到最新商品囉');
+          closePublishModal();
+        } else {
+          alert('同步失敗，請確認 Token 權限與倉庫名稱是否正確');
+        }
+      } catch (err) {
+        alert('網路連線異常：' + err.message);
+      } finally {
+        btn.textContent = '🚀 立即同步發佈到官網'; btn.disabled = false;
+      }
+    };
+
+    async function loadRemoteProductsJson() {
+      try {
+        const res = await fetch('./products.json?t=' + Date.now());
+        if (res.ok) {
+          const data = await res.json();
+          if (data.products && Array.isArray(data.products)) { products = data.products; saveDataLocal(); }
+          if (data.avatar) { currentAvatar = data.avatar; localStorage.setItem('yimo_avatar_v2', currentAvatar); }
+          renderAvatar(); renderSizeFilter(); renderProducts();
+        }
+      } catch (e) {}
+    }
+
+    renderAvatar();
+    renderSizeFilter();
+    renderProducts();
+    loadRemoteProductsJson();
+  </script>
+</body>
+</html>
+<!-- === 第四段結束，全部完成！請點綠色 Commit changes 儲存 === -->
