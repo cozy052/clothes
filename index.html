@@ -300,7 +300,7 @@
       </div>
     </div>
   </div>
-  <script>
+    <script>
     const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     const PRICES = [390, 450, 490, 550, 590];
     let adminPassword = localStorage.getItem('yimo_pwd') || '0502';
@@ -317,28 +317,82 @@
     ];
     let currentAvatar = localStorage.getItem('yimo_avatar_v2') || '';
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('ghRepoInput').value = localStorage.getItem('yimo_gh_repo') || 'cozy052/clothes';
-      document.getElementById('ghTokenInput').value = localStorage.getItem('yimo_gh_token') || '';
-      try {
-        const res = await fetch('./products.json?t=' + Date.now());
-        if (res.ok) {
-          const cloudData = await res.json();
-          if (cloudData.products && Array.isArray(cloudData.products)) {
-            products = cloudData.products;
-            localStorage.setItem('yimo_products_v2', JSON.stringify(products));
-          }
-          if (cloudData.avatar) {
-            currentAvatar = cloudData.avatar;
-            localStorage.setItem('yimo_avatar_v2', currentAvatar);
-          }
-        }
-      } catch (e) {}
-      renderAvatar();
-      renderSizeFilter();
+    function showModal(id) {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('hidden'); el.classList.add('flex'); el.style.display = 'flex'; }
+    }
+    function hideModal(id) {
+      const el = document.getElementById(id);
+      if (el) { el.classList.add('hidden'); el.classList.remove('flex'); el.style.display = 'none'; }
+    }
+
+    // 保證喚醒：連點 2 下印章，或直接點選即彈出登入框
+    let tapCount = 0, tapTimer = null;
+    window.secretSealTap = function() {
+      tapCount++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => { tapCount = 0; }, 2500);
+      if (tapCount >= 2) {
+        tapCount = 0;
+        openLoginModal();
+      }
+    };
+
+    window.openLoginModal = function() { showModal('loginModal'); };
+    window.closeLoginModal = function() { hideModal('loginModal'); };
+
+    window.verifyAdminPassword = function() {
+      const inputEl = document.getElementById('adminPwdInput');
+      const val = inputEl ? inputEl.value.trim() : '';
+      if (val === adminPassword || val === '0502') {
+        isAdminUnlocked = true;
+        closeLoginModal();
+        if (inputEl) inputEl.value = '';
+        const tb = document.getElementById('adminToolbar');
+        if (tb) { tb.classList.remove('hidden'); tb.style.display = 'block'; }
+        const ab = document.getElementById('adminAvatarOverlayBtn');
+        if (ab) ab.classList.remove('hidden');
+        const qb = document.getElementById('quickBatchBtnInList');
+        if (qb) qb.classList.remove('hidden');
+        renderProducts();
+      } else {
+        alert('密碼錯誤！');
+      }
+    };
+
+    window.logoutAdmin = function() {
+      isAdminUnlocked = false;
+      const tb = document.getElementById('adminToolbar');
+      if (tb) { tb.classList.add('hidden'); tb.style.display = 'none'; }
+      const ab = document.getElementById('adminAvatarOverlayBtn');
+      if (ab) ab.classList.add('hidden');
+      const qb = document.getElementById('quickBatchBtnInList');
+      if (qb) qb.classList.add('hidden');
       renderProducts();
-      initBatchControls();
-    });
+    };
+
+    window.openPasswordChangeModal = function() { showModal('pwdChangeModal'); };
+    window.closePasswordChangeModal = function() { hideModal('pwdChangeModal'); };
+    window.saveNewPassword = function() {
+      const np = document.getElementById('newPwdInput').value.trim();
+      const rc = document.getElementById('rescueCodeInput').value.trim();
+      if (!np) return alert('請輸入新密碼');
+      adminPassword = np; localStorage.setItem('yimo_pwd', np);
+      if (rc) { rescueCode = rc; localStorage.setItem('yimo_rescue', rc); }
+      closePasswordChangeModal(); alert('密碼已更新！');
+    };
+
+    window.openForgotPwdModal = function() { closeLoginModal(); showModal('forgotPwdModal'); };
+    window.closeForgotPwdModal = function() { hideModal('forgotPwdModal'); };
+    window.verifyAndResetPassword = function() {
+      const rInput = document.getElementById('rescueInput').value.trim();
+      if (rInput === rescueCode || rInput === '0502') {
+        const rp = document.getElementById('resetPwdInput').value.trim();
+        if (!rp) return alert('請輸入新密碼');
+        adminPassword = rp; localStorage.setItem('yimo_pwd', rp);
+        closeForgotPwdModal(); alert('密碼已重設！');
+      } else { alert('救援暗號錯誤'); }
+    };
 
     function compressImageFile(file, maxW = 750, quality = 0.78) {
       return new Promise((resolve) => {
@@ -350,8 +404,7 @@
             if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
             const canvas = document.createElement('canvas');
             canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
             resolve(canvas.toDataURL('image/jpeg', quality));
           };
           img.src = e.target.result;
@@ -367,22 +420,23 @@
     function renderAvatar() {
       const heroImg = document.getElementById('heroAvatarImg'), heroPh = document.getElementById('heroAvatarPlaceholder');
       const chartImg = document.getElementById('chartAvatarImg'), chartPh = document.getElementById('chartAvatarPlaceholder');
-      if (currentAvatar) {
+      if (currentAvatar && heroImg && chartImg) {
         heroImg.src = currentAvatar; heroImg.classList.remove('hidden'); heroPh.classList.add('hidden');
         chartImg.src = currentAvatar; chartImg.classList.remove('hidden'); chartPh.classList.add('hidden');
       }
     }
 
-    function triggerAvatarUpload() { document.getElementById('avatarInput').click(); }
-    async function handleAvatarUpload(e) {
+    window.triggerAvatarUpload = function() { document.getElementById('avatarInput').click(); };
+    window.handleAvatarUpload = async function(e) {
       if (!e.target.files[0]) return;
       currentAvatar = await compressImageFile(e.target.files[0], 500, 0.8);
       localStorage.setItem('yimo_avatar_v2', currentAvatar);
       renderAvatar();
-    }
+    };
 
     function renderSizeFilter() {
       const bar = document.getElementById('sizeFilterBar');
+      if (!bar) return;
       const counts = { ALL: products.length };
       SIZES.forEach(s => counts[s] = products.filter(p => p.size === s).length);
       bar.innerHTML = ['ALL', ...SIZES].map(sz => `
@@ -391,8 +445,7 @@
         </button>
       `).join('');
     }
-
-    function filterSize(sz) { currentSizeFilter = sz; renderSizeFilter(); renderProducts(); }
+    window.filterSize = function(sz) { currentSizeFilter = sz; renderSizeFilter(); renderProducts(); };
 
     function getPlaceholderSvg(code, label) {
       return `data:image/svg+xml;utf8,` + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#181420"/><circle cx="200" cy="190" r="85" fill="none" stroke="#dfb76c" stroke-opacity="0.35"/><path d="M160 115 Q200 100 240 115 L260 220 Q235 280 245 360 L155 360 Q165 280 140 220 Z" fill="#251e30" stroke="#dfb76c" stroke-width="2"/><text x="200" y="405" font-family="sans-serif" font-size="18" font-weight="bold" fill="#f6e29c" text-anchor="middle">#${code} ${label}</text></svg>`);
@@ -400,6 +453,7 @@
 
     function renderProducts() {
       const grid = document.getElementById('productGrid');
+      if (!grid) return;
       const list = (currentSizeFilter === 'ALL' ? products : products.filter(p => p.size === currentSizeFilter))
         .slice().sort((a, b) => (a.sold === b.sold ? 0 : a.sold ? 1 : -1));
       if (!list.length) {
@@ -409,7 +463,6 @@
       grid.innerHTML = list.map(p => {
         const idx = products.indexOf(p);
         const img1 = p.img1 || getPlaceholderSvg(p.code, '全身照');
-        const img2 = p.img2 || getPlaceholderSvg(p.code, '細節照');
         return `
           <div class="gold-card rounded-2xl overflow-hidden flex flex-col justify-between ${p.sold ? 'opacity-65' : ''}">
             <div class="relative w-full aspect-[4/5] bg-[#121017] overflow-hidden">
@@ -424,4 +477,120 @@
             <div class="p-3 flex flex-col justify-between flex-grow space-y-2">
               <div>
                 <div class="flex items-center justify-between gap-1"><span class="text-xs font-black text-[#f6e29c]">#${p.code}</span><span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span></div>
-                <p class="text-[11px] text-[#cbbba0] mt-1 truncate">${p.note || '9成新以上・僅穿1~2次'}</
+                <p class="text-[11px] text-[#cbbba0] mt-1 truncate">${p.note || '9成新以上・僅穿1~2次'}</p>
+              </div>
+              <div class="pt-1.5 border-t border-[#dfb76c]/20 space-y-1.5">
+                <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-1.5 rounded-xl bg-[#06C755] text-white text-[11px] font-bold text-center shadow">💬 截圖私訊保留</a>
+                <div class="${isAdminUnlocked ? 'grid' : 'hidden'} grid-cols-3 gap-1 pt-1">
+                  <button onclick="openEditModal(${idx})" class="py-1 rounded-lg bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/40 text-[10px] font-bold">✏️ 編輯</button>
+                  <button onclick="toggleSold(${idx})" class="py-1 rounded-lg bg-[#253930] text-[#6ee7b7] border border-[#34d399]/40 text-[10px] font-bold">${p.sold ? '🔄 上架' : '🏷️ 售出'}</button>
+                  <button onclick="deleteProduct(${idx})" class="py-1 rounded-lg bg-rose-900/80 text-rose-200 text-[10px] font-bold">🗑️ 刪除</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    window.switchCardImg = function(idx, view) {
+      const p = products[idx];
+      const imgEl = document.getElementById(`cardImg_${idx}`);
+      const b1 = document.getElementById(`btnView1_${idx}`), b2 = document.getElementById(`btnView2_${idx}`);
+      if (view === 1) {
+        imgEl.src = p.img1 || getPlaceholderSvg(p.code, '全身照');
+        b1.className = 'flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap';
+        b2.className = 'flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap';
+      } else {
+        imgEl.src = p.img2 || getPlaceholderSvg(p.code, '細節照');
+        b2.className = 'flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap';
+        b1.className = 'flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap';
+      }
+    };
+
+    window.openDetailModal = function(idx) {
+      const p = products[idx];
+      const img1 = p.img1 || getPlaceholderSvg(p.code, '全身照'), img2 = p.img2 || getPlaceholderSvg(p.code, '細節照');
+      document.getElementById('modalContent').innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between pr-8"><span class="px-2.5 py-0.5 rounded-md bg-[#b83b3b] text-white text-xs font-bold">${p.size} 尺碼｜#${p.code}</span><span class="text-base font-black text-[#ff7b7b]">NT$ ${p.price}</span></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div><p class="text-[11px] text-[#f6e29c] font-bold mb-1 text-center">👗 全身照</p><img src="${img1}" class="w-full aspect-[4/5] object-cover rounded-xl border border-[#dfb76c]/40"></div>
+            <div><p class="text-[11px] text-[#f6e29c] font-bold mb-1 text-center">🔍 細節照</p><img src="${img2}" class="w-full aspect-[4/5] object-cover rounded-xl border border-[#dfb76c]/40"></div>
+          </div>
+          <p class="text-xs text-[#e2d9c8] bg-[#121017] p-2.5 rounded-xl border border-[#dfb76c]/30">✨ ${p.note || '9成新以上・僅穿1~2次'}</p>
+          <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-2.5 rounded-xl bg-[#06C755] text-white font-bold text-center text-xs">💬 截圖私訊 LINE 保留</a>
+        </div>`;
+      showModal('detailModal');
+    };
+    window.closeDetailModal = function() { hideModal('detailModal'); };
+
+    function getNextCode(sz) {
+      return `${sz}${String(products.filter(p => p.size === sz).length + 1).padStart(2, '0')}`;
+    }
+    window.setEditNote = function(txt) { document.getElementById('editNote').value = txt; };
+    window.openEditModal = function(idx) {
+      editingIndex = idx;
+      if (idx === -1) {
+        document.getElementById('editModalTitle').innerText = '➕ 單件上架旗袍';
+        const sz = currentSizeFilter === 'ALL' ? 'M' : currentSizeFilter;
+        document.getElementById('editSize').value = sz;
+        document.getElementById('editCode').value = getNextCode(sz);
+        document.getElementById('editPrice').value = 490;
+        document.getElementById('editNote').value = '9成新以上・僅穿1~2次';
+        tempImg1 = ''; tempImg2 = '';
+      } else {
+        const p = products[idx];
+        document.getElementById('editModalTitle').innerText = `✏️ 編輯 #${p.code}`;
+        document.getElementById('editSize').value = p.size;
+        document.getElementById('editCode').value = p.code;
+        document.getElementById('editPrice').value = p.price;
+        document.getElementById('editNote').value = p.note || '9成新以上・僅穿1~2次';
+        tempImg1 = p.img1 || ''; tempImg2 = p.img2 || '';
+      }
+      updateEditPreview();
+      showModal('editModal');
+    };
+    window.closeEditModal = function() { hideModal('editModal'); };
+    function updateEditPreview() {
+      const p1 = document.getElementById('previewImg1'), ph1 = document.getElementById('placeholderImg1');
+      const p2 = document.getElementById('previewImg2'), ph2 = document.getElementById('placeholderImg2');
+      if (tempImg1) { p1.src = tempImg1; p1.classList.remove('hidden'); ph1.classList.add('hidden'); } else { p1.classList.add('hidden'); ph1.classList.remove('hidden'); }
+      if (tempImg2) { p2.src = tempImg2; p2.classList.remove('hidden'); ph2.classList.add('hidden'); } else { p2.classList.add('hidden'); ph2.classList.remove('hidden'); }
+    }
+    window.triggerModalImgUpload = function(n) { document.getElementById(n === 1 ? 'modalImgInput1' : 'modalImgInput2').click(); };
+    window.handleModalImg = async function(e, n) {
+      if (!e.target.files[0]) return;
+      const data = await compressImageFile(e.target.files[0]);
+      if (n === 1) tempImg1 = data; else tempImg2 = data;
+      updateEditPreview();
+    };
+    window.triggerDualUploadInModal = function() { document.getElementById('modalDualInput').click(); };
+    window.handleModalDual = async function(e) {
+      const files = Array.from(e.target.files);
+      if (files[0]) tempImg1 = await compressImageFile(files[0]);
+      if (files[1]) tempImg2 = await compressImageFile(files[1]);
+      updateEditPreview();
+    };
+    window.saveProduct = function() {
+      const size = document.getElementById('editSize').value;
+      const code = document.getElementById('editCode').value.trim() || getNextCode(size);
+      const price = Number(document.getElementById('editPrice').value) || 490;
+      const note = document.getElementById('editNote').value.trim() || '9成新以上・僅穿1~2次';
+      const item = { id: Date.now(), code, size, price, note, sold: editingIndex >= 0 ? products[editingIndex].sold : false, img1: tempImg1, img2: tempImg2 };
+      if (editingIndex === -1) products.unshift(item); else products[editingIndex] = item;
+      saveDataLocal(); closeEditModal(); renderSizeFilter(); renderProducts();
+    };
+    window.toggleSold = function(idx) { products[idx].sold = !products[idx].sold; saveDataLocal(); renderProducts(); };
+    window.deleteProduct = function(idx) { if (confirm('確定刪除此件旗袍？')) { products.splice(idx, 1); saveDataLocal(); renderSizeFilter(); renderProducts(); } };
+
+    function initBatchControls() {
+      const sg = document.getElementById('batchSizeGroup'), pg = document.getElementById('batchPriceGroup');
+      if (sg) sg.innerHTML = SIZES.map(sz => `<button type="button" onclick="selectBatchSize('${sz}')" class="py-1.5 rounded-xl font-bold border text-xs ${batchSelectedSize === sz ? 'gold-btn border-white' : 'bg-[#1b1824] text-[#f6e29c] border-[#dfb76c]/30'}">${sz}</button>`).join('');
+      if (pg) pg.innerHTML = PRICES.map(pr => `<button type="button" onclick="selectBatchPrice(${pr})" class="py-1.5 rounded-xl font-bold border text-xs ${batchSelectedPrice === pr ? 'gold-btn border-white' : 'bg-[#1b1824] text-[#f6e29c] border-[#dfb76c]/30'}">$${pr}</button>`).join('');
+    }
+    window.selectBatchSize = function(sz) { batchSelectedSize = sz; initBatchControls(); refreshBatchCodes(); };
+    window.selectBatchPrice = function(pr) { batchSelectedPrice = pr; initBatchControls(); batchDraftItems.forEach(i => i.price = pr); renderBatchPreviewList(); };
+    window.setBatchMode = function(m) {
+      batchMode = m;
+      document.getElementById('modePairBtn').className = m === 'pair' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b1824] text-[#e2d9c8] border-[#dfb76c]/30';
+      document.getElementById('modeSingleBtn').className = m === 'single' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b
