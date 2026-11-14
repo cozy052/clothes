@@ -171,7 +171,7 @@
     </div>
   </div>
 
-  <!-- 店長登入彈窗 (已隱藏預設密碼提示) -->
+  <!-- 店長登入彈窗 -->
   <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
       <button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
@@ -286,7 +286,6 @@
       <button onclick="closePublishModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <h3 class="text-base font-black gold-gradient-text">☁️ 發佈給客人看 (雲端同步)</h3>
       <p class="text-[#e2d9c8] leading-relaxed">為了讓客人點開網址也能看到妳上傳的照片，請任選以下一種方式發佈：</p>
-      
       <div class="bg-[#121017] border border-emerald-500/40 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#6ee7b7]">🌟 方式一：一鍵自動同步到 GitHub（最推薦）</p>
         <p class="text-[11px] text-[#bfb29e]">只需貼上一次妳的 GitHub Token，之後按一下按鈕就會自動把所有照片傳上雲端，客人打開網址立刻看得到！</p>
@@ -294,7 +293,6 @@
         <input id="ghTokenInput" type="password" placeholder="貼上 GitHub Token (ghp_...)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
         <button id="syncGithubBtn" onclick="syncToGitHub()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black shadow-md">🚀 立即同步發佈到官網</button>
       </div>
-
       <div class="bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#f6e29c]">📦 方式二：免設定・下載資料檔上傳</p>
         <p class="text-[11px] text-[#bfb29e]">點擊下方按鈕下載 <code class="text-amber-300">products.json</code> 檔案，將它上傳到妳的 GitHub（與 <code class="text-amber-300">index.html</code> 放同一個資料夾），客人就能看到所有照片！</p>
@@ -426,197 +424,4 @@
             <div class="p-3 flex flex-col justify-between flex-grow space-y-2">
               <div>
                 <div class="flex items-center justify-between gap-1"><span class="text-xs font-black text-[#f6e29c]">#${p.code}</span><span class="text-sm font-black text-[#ff7b7b]">NT$ ${p.price}</span></div>
-                <p class="text-[11px] text-[#cbbba0] mt-1 truncate">${p.note || '9成新以上・僅穿1~2次'}</p>
-              </div>
-              <div class="pt-1.5 border-t border-[#dfb76c]/20 space-y-1.5">
-                <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-1.5 rounded-xl bg-[#06C755] text-white text-[11px] font-bold text-center shadow">💬 截圖私訊保留</a>
-                <div class="${isAdminUnlocked ? 'grid' : 'hidden'} grid-cols-3 gap-1 pt-1">
-                  <button onclick="openEditModal(${idx})" class="py-1 rounded-lg bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/40 text-[10px] font-bold">✏️ 編輯</button>
-                  <button onclick="toggleSold(${idx})" class="py-1 rounded-lg bg-[#253930] text-[#6ee7b7] border border-[#34d399]/40 text-[10px] font-bold">${p.sold ? '🔄 上架' : '🏷️ 售出'}</button>
-                  <button onclick="deleteProduct(${idx})" class="py-1 rounded-lg bg-rose-900/80 text-rose-200 text-[10px] font-bold">🗑️ 刪除</button>
-                </div>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    window.switchCardImg = function(idx, view) {
-      const p = products[idx];
-      const imgEl = document.getElementById(`cardImg_${idx}`);
-      const b1 = document.getElementById(`btnView1_${idx}`), b2 = document.getElementById(`btnView2_${idx}`);
-      if (view === 1) {
-        imgEl.src = p.img1 || getPlaceholderSvg(p.code, '全身照');
-        b1.className = 'flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap';
-        b2.className = 'flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap';
-      } else {
-        imgEl.src = p.img2 || getPlaceholderSvg(p.code, '細節照');
-        b2.className = 'flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap';
-        b1.className = 'flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap';
-      }
-    };
-
-    function openDetailModal(idx) {
-      const p = products[idx];
-      const img1 = p.img1 || getPlaceholderSvg(p.code, '全身照'), img2 = p.img2 || getPlaceholderSvg(p.code, '細節照');
-      document.getElementById('modalContent').innerHTML = `
-        <div class="space-y-3">
-          <div class="flex items-center justify-between pr-8"><span class="px-2.5 py-0.5 rounded-md bg-[#b83b3b] text-white text-xs font-bold">${p.size} 尺碼｜#${p.code}</span><span class="text-base font-black text-[#ff7b7b]">NT$ ${p.price}</span></div>
-          <div class="grid grid-cols-2 gap-2">
-            <div><p class="text-[11px] text-[#f6e29c] font-bold mb-1 text-center">👗 全身照</p><img src="${img1}" class="w-full aspect-[4/5] object-cover rounded-xl border border-[#dfb76c]/40"></div>
-            <div><p class="text-[11px] text-[#f6e29c] font-bold mb-1 text-center">🔍 細節照</p><img src="${img2}" class="w-full aspect-[4/5] object-cover rounded-xl border border-[#dfb76c]/40"></div>
-          </div>
-          <p class="text-xs text-[#e2d9c8] bg-[#121017] p-2.5 rounded-xl border border-[#dfb76c]/30">✨ ${p.note || '9成新以上・僅穿1~2次'}</p>
-          <a href="https://lin.ee/pw0FvId" target="_blank" class="block w-full py-2.5 rounded-xl bg-[#06C755] text-white font-bold text-center text-xs">💬 截圖私訊 LINE 保留</a>
-        </div>`;
-      document.getElementById('detailModal').classList.replace('hidden', 'flex');
-    }
-    function closeDetailModal() { document.getElementById('detailModal').classList.replace('flex', 'hidden'); }
-
-    // 連點5下解鎖後台
-    let tapCount = 0, tapTimer = null;
-    function secretSealTap() {
-      tapCount++; clearTimeout(tapTimer);
-      tapTimer = setTimeout(() => tapCount = 0, 1800);
-      if (tapCount >= 5) { tapCount = 0; document.getElementById('loginModal').classList.replace('hidden', 'flex'); }
-    }
-    function closeLoginModal() { document.getElementById('loginModal').classList.replace('flex', 'hidden'); }
-    function verifyAdminPassword() {
-      if (document.getElementById('adminPwdInput').value === adminPassword) {
-        isAdminUnlocked = true; closeLoginModal();
-        document.getElementById('adminPwdInput').value = '';
-        document.getElementById('adminToolbar').classList.remove('hidden');
-        document.getElementById('adminAvatarOverlayBtn').classList.remove('hidden');
-        document.getElementById('quickBatchBtnInList').classList.remove('hidden');
-        renderProducts();
-      } else { alert('密碼錯誤！'); }
-    }
-    function logoutAdmin() {
-      isAdminUnlocked = false;
-      document.getElementById('adminToolbar').classList.add('hidden');
-      document.getElementById('adminAvatarOverlayBtn').classList.add('hidden');
-      document.getElementById('quickBatchBtnInList').classList.add('hidden');
-      renderProducts();
-    }
-    function openPasswordChangeModal() { document.getElementById('pwdChangeModal').classList.replace('hidden', 'flex'); }
-    function closePasswordChangeModal() { document.getElementById('pwdChangeModal').classList.replace('flex', 'hidden'); }
-    function saveNewPassword() {
-      const np = document.getElementById('newPwdInput').value.trim(), rc = document.getElementById('rescueCodeInput').value.trim();
-      if (!np) return alert('請輸入新密碼');
-      adminPassword = np; localStorage.setItem('yimo_pwd', np);
-      if (rc) { rescueCode = rc; localStorage.setItem('yimo_rescue', rc); }
-      closePasswordChangeModal(); alert('密碼已更新！');
-    }
-    function openForgotPwdModal() { closeLoginModal(); document.getElementById('forgotPwdModal').classList.replace('hidden', 'flex'); }
-    function closeForgotPwdModal() { document.getElementById('forgotPwdModal').classList.replace('flex', 'hidden'); }
-    function verifyAndResetPassword() {
-      if (document.getElementById('rescueInput').value.trim() === rescueCode) {
-        const rp = document.getElementById('resetPwdInput').value.trim();
-        if (!rp) return alert('請輸入新密碼');
-        adminPassword = rp; localStorage.setItem('yimo_pwd', rp);
-        closeForgotPwdModal(); alert('密碼已重設！');
-      } else { alert('救援暗號錯誤'); }
-    }
-
-    // 單件上架與編輯
-    function getNextCode(sz) {
-      const n = products.filter(p => p.size === sz).length + 1;
-      return `${sz}${String(n).padStart(2, '0')}`;
-    }
-    function setEditNote(txt) { document.getElementById('editNote').value = txt; }
-    function openEditModal(idx) {
-      editingIndex = idx;
-      if (idx === -1) {
-        document.getElementById('editModalTitle').innerText = '➕ 單件上架旗袍';
-        const sz = currentSizeFilter === 'ALL' ? 'M' : currentSizeFilter;
-        document.getElementById('editSize').value = sz;
-        document.getElementById('editCode').value = getNextCode(sz);
-        document.getElementById('editPrice').value = 490;
-        document.getElementById('editNote').value = '9成新以上・僅穿1~2次';
-        tempImg1 = ''; tempImg2 = '';
-      } else {
-        const p = products[idx];
-        document.getElementById('editModalTitle').innerText = `✏️ 編輯 #${p.code}`;
-        document.getElementById('editSize').value = p.size;
-        document.getElementById('editCode').value = p.code;
-        document.getElementById('editPrice').value = p.price;
-        document.getElementById('editNote').value = p.note || '9成新以上・僅穿1~2次';
-        tempImg1 = p.img1 || ''; tempImg2 = p.img2 || '';
-      }
-      updateEditPreview();
-      document.getElementById('editModal').classList.replace('hidden', 'flex');
-    }
-    function closeEditModal() { document.getElementById('editModal').classList.replace('flex', 'hidden'); }
-    function updateEditPreview() {
-      const p1 = document.getElementById('previewImg1'), ph1 = document.getElementById('placeholderImg1');
-      const p2 = document.getElementById('previewImg2'), ph2 = document.getElementById('placeholderImg2');
-      if (tempImg1) { p1.src = tempImg1; p1.classList.remove('hidden'); ph1.classList.add('hidden'); } else { p1.classList.add('hidden'); ph1.classList.remove('hidden'); }
-      if (tempImg2) { p2.src = tempImg2; p2.classList.remove('hidden'); ph2.classList.add('hidden'); } else { p2.classList.add('hidden'); ph2.classList.remove('hidden'); }
-    }
-    function triggerModalImgUpload(n) { document.getElementById(n === 1 ? 'modalImgInput1' : 'modalImgInput2').click(); }
-    async function handleModalImg(e, n) {
-      if (!e.target.files[0]) return;
-      const data = await compressImageFile(e.target.files[0]);
-      if (n === 1) tempImg1 = data; else tempImg2 = data;
-      updateEditPreview();
-    }
-    function triggerDualUploadInModal() { document.getElementById('modalDualInput').click(); }
-    async function handleModalDual(e) {
-      const files = Array.from(e.target.files);
-      if (files[0]) tempImg1 = await compressImageFile(files[0]);
-      if (files[1]) tempImg2 = await compressImageFile(files[1]);
-      updateEditPreview();
-    }
-    function saveProduct() {
-      const size = document.getElementById('editSize').value;
-      const code = document.getElementById('editCode').value.trim() || getNextCode(size);
-      const price = Number(document.getElementById('editPrice').value) || 490;
-      const note = document.getElementById('editNote').value.trim() || '9成新以上・僅穿1~2次';
-      const item = { id: Date.now(), code, size, price, note, sold: editingIndex >= 0 ? products[editingIndex].sold : false, img1: tempImg1, img2: tempImg2 };
-      if (editingIndex === -1) products.unshift(item); else products[editingIndex] = item;
-      saveDataLocal(); closeEditModal(); renderSizeFilter(); renderProducts();
-    }
-    function toggleSold(idx) { products[idx].sold = !products[idx].sold; saveDataLocal(); renderProducts(); }
-    function deleteProduct(idx) { if (confirm('確定刪除此件旗袍？')) { products.splice(idx, 1); saveDataLocal(); renderSizeFilter(); renderProducts(); } }
-
-    // ⚡ 快速批次上架
-    function initBatchControls() {
-      document.getElementById('batchSizeGroup').innerHTML = SIZES.map(sz => `<button type="button" onclick="selectBatchSize('${sz}')" class="py-1.5 rounded-xl font-bold border text-xs ${batchSelectedSize === sz ? 'gold-btn border-white' : 'bg-[#1b1824] text-[#f6e29c] border-[#dfb76c]/30'}">${sz}</button>`).join('');
-      document.getElementById('batchPriceGroup').innerHTML = PRICES.map(pr => `<button type="button" onclick="selectBatchPrice(${pr})" class="py-1.5 rounded-xl font-bold border text-xs ${batchSelectedPrice === pr ? 'gold-btn border-white' : 'bg-[#1b1824] text-[#f6e29c] border-[#dfb76c]/30'}">$${pr}</button>`).join('');
-    }
-    function selectBatchSize(sz) { batchSelectedSize = sz; initBatchControls(); refreshBatchCodes(); }
-    function selectBatchPrice(pr) { batchSelectedPrice = pr; initBatchControls(); batchDraftItems.forEach(i => i.price = pr); renderBatchPreviewList(); }
-    function setBatchMode(m) {
-      batchMode = m;
-      document.getElementById('modePairBtn').className = m === 'pair' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b1824] text-[#e2d9c8] border-[#dfb76c]/30';
-      document.getElementById('modeSingleBtn').className = m === 'single' ? 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-emerald-600 text-white border-emerald-400' : 'py-2 px-2 rounded-xl font-bold border text-[11px] bg-[#1b1824] text-[#e2d9c8] border-[#dfb76c]/30';
-    }
-    function openBatchModal() {
-      if (currentSizeFilter !== 'ALL') batchSelectedSize = currentSizeFilter;
-      batchDraftItems = []; initBatchControls(); renderBatchPreviewList();
-      document.getElementById('batchModal').classList.replace('hidden', 'flex');
-    }
-    function closeBatchModal() { document.getElementById('batchModal').classList.replace('flex', 'hidden'); }
-    async function handleBatchFiles(e) {
-      const files = Array.from(e.target.files);
-      if (!files.length) return;
-      const imgs = await Promise.all(files.map(f => compressImageFile(f)));
-      buildBatchDrafts(imgs); e.target.value = '';
-    }
-    function buildBatchDrafts(imgs) {
-      const baseCount = products.filter(p => p.size === batchSelectedSize).length;
-      if (batchMode === 'pair') {
-        for (let i = 0; i < imgs.length; i += 2) {
-          const num = baseCount + batchDraftItems.length + 1;
-          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: imgs[i], img2: imgs[i + 1] || imgs[i] });
-        }
-      } else {
-        imgs.forEach(img => {
-          const num = baseCount + batchDraftItems.length + 1;
-          batchDraftItems.push({ code: `${batchSelectedSize}${String(num).padStart(2, '0')}`, size: batchSelectedSize, price: batchSelectedPrice, img1: img, img2: img });
-        });
-      }
-      renderBatchPreviewList();
-    }
-    function refreshBatchCodes() {
-      const baseCount = products.filter(p => p.size === batchSelected
+                <p class="text-[11px] text-[#cbbba0] mt-1 truncate">${p.note || '9成新以上・僅穿1~2次'}</
