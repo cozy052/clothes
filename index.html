@@ -17,12 +17,15 @@
     .gold-btn { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; font-weight: 700; box-shadow: 0 4px 14px rgba(223, 183, 108, 0.3); transition: all 0.2s ease; }
     .gold-btn:active { transform: scale(0.97); }
     .ancient-seal {
-      display: inline-grid; grid-template-columns: 1fr 1fr; width: 34px; height: 34px;
+      display: inline-grid; grid-template-columns: 1fr 1fr; width: 30px; height: 30px;
       background: linear-gradient(135deg, #a92323 0%, #7d1414 100%);
-      border: 1.5px solid #f6e29c; outline: 1.5px solid #a92323; border-radius: 3px; padding: 1.5px;
+      border: 1.5px solid #f6e29c; outline: 1.5px solid #a92323; border-radius: 3px; padding: 1px;
       box-shadow: inset 0 0 0 1px rgba(246, 226, 156, 0.35), 0 2px 6px rgba(0, 0, 0, 0.6);
       font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif; color: #fff6e5;
-      font-size: 11px; line-height: 1; font-weight: 900; cursor: pointer; user-select: none; flex-shrink: 0;
+      font-size: 10px; line-height: 1; font-weight: 900; cursor: pointer; user-select: none; flex-shrink: 0;
+    }
+    @media (min-width: 640px) {
+      .ancient-seal { width: 34px; height: 34px; font-size: 11px; padding: 1.5px; }
     }
     .ancient-seal span { display: flex; align-items: center; justify-content: center; border: 0.5px solid rgba(246, 226, 156, 0.22); }
     .size-pill { transition: all 0.2s ease; border: 1.5px solid rgba(223, 183, 108, 0.4); background: rgba(27, 24, 34, 0.9); color: #f6e29c; }
@@ -52,18 +55,18 @@
         </div>
       </div>
     </div>
-    <header class="bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-2.5 py-2.5">
+    <header class="bg-[#0f0e13]/95 backdrop-blur-md border-b border-[#dfb76c]/30 px-2 sm:px-3 py-2.5">
       <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
-        <div class="flex items-center gap-1.5 min-w-0">
-          <span class="text-base sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏💕</span>
+        <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <span class="text-[15px] sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏💕</span>
           <div onclick="secretSealTap()" title="連點2下開啟店長管理" class="ancient-seal">
             <span>二</span><span>旗</span><span>手</span><span>袍</span>
           </div>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <a href="#size-chart" class="px-2 py-1 rounded-full text-[11px] sm:text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">📏 尺寸表</a>
-          <a href="#care-tips" class="px-2 py-1 rounded-full text-[11px] sm:text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">💡 貼心叮嚀</a>
-          <a href="#products" class="px-2 py-1 rounded-full text-[11px] sm:text-xs gold-btn whitespace-nowrap">🛍️ 挑旗袍</a>
+          <a href="#size-chart" class="px-1.5 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">📏 尺寸表</a>
+          <a href="#care-tips" class="px-1.5 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1b1822] whitespace-nowrap">💡 貼心叮嚀</a>
+          <a href="#products" class="px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs gold-btn whitespace-nowrap">🛍️ 挑旗袍</a>
         </div>
       </div>
     </header>
@@ -79,9 +82,9 @@
 
   <main class="max-w-xl mx-auto px-3.5 pt-4 space-y-7">
     <section class="gold-card rounded-3xl p-4 sm:p-5 text-center relative overflow-hidden">
-      <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-xs text-[#f6e29c] mb-3"><span>🌸</span><span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span></div>
+      <div class="inline-flex items-center justify-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-[#251f30] border border-[#dfb76c]/40 text-[11px] sm:text-xs text-[#f6e29c] mb-3 whitespace-nowrap max-w-full"><span>🌸</span><span>全館 9 成新以上・僅穿過 1～2 次以內｜S 至 5XL</span></div>
       <h1 class="text-2xl sm:text-3xl font-black gold-gradient-text leading-snug">尋覓妳的舊時芳華 ✨<br>收藏一段美好 💕</h1>
-      <p class="text-xs sm:text-sm text-[#e2d9c8] mt-2.5 leading-relaxed">體驗她的美及韻，為衣櫥添上一襲近乎全新的絕美旗袍。<br>全館嚴選 <span class="text-[#f6e29c] font-bold">9成新以上、僅穿過 1～2 次以內</span> 的極新孤品，皆已細心清潔洗淨（無整燙）：</p>
+      <p class="text-[11px] sm:text-sm text-[#e2d9c8] mt-2.5 leading-relaxed">體驗她的美及韻，為衣櫥添上一襲近乎全新的絕美旗袍。<br>全館嚴選 <span class="text-[#f6e29c] font-bold">9成新以上、僅穿過 1～2 次以內</span> 的極新孤品，皆已細心清潔洗淨（無整燙）：</p>
       <div class="my-4 flex justify-center"><div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#2a1f1d] via-[#382323] to-[#2a1f1d] border-2 border-[#dfb76c] shadow-lg"><span class="text-xs text-[#f6e29c] font-bold whitespace-nowrap">甜甜惜物價</span><span class="text-base sm:text-xl font-black text-[#ff7b7b] whitespace-nowrap">NT$ 390 ～ NT$ 590 !</span></div></div>
       <div class="relative mx-auto w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-[#f6e29c] via-[#a67c37] to-[#dfb76c] shadow-2xl">
         <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] relative flex flex-col items-center justify-center border-2 border-[#0f0e13]">
@@ -365,7 +368,6 @@
     let editRangeAnchor = '';
     let batchSelectedSize = 'M', batchRangeAnchor = '', batchSelectedPrice = 490, batchMode = 'pair', batchDraftItems = [];
 
-    // 根據單一尺碼或跨尺碼自動產生「尺碼M號姊妹可參考」或「尺碼2XL-5XL姊妹可參考」
     function getSizeRefText(sz) {
       const clean = String(sz || 'M').toUpperCase().trim();
       const isCross = /[-~～至到/]/.test(clean);
