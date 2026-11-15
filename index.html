@@ -32,10 +32,16 @@
     .size-pill.active { background: linear-gradient(135deg, #f3d48b 0%, #d4a656 100%); color: #1a140b; border-color: #fff3c4; font-weight: 900; }
     .protect-img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
     .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(4px);
+      display: none; align-items: flex-start; justify-content: center;
+      padding: 56px 14px 16px; overflow-y: auto;
+    }
   </style>
 </head>
 <body class="pb-28" oncontextmenu="if(event.target.tagName==='IMG') return false;">
-  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[120] hidden px-4 py-2.5 rounded-full bg-[#1b1822]/95 border-2 border-[#dfb76c] text-[#f6e29c] text-xs font-bold shadow-2xl whitespace-nowrap"></div>
+  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] hidden px-4 py-2.5 rounded-full bg-[#1b1822]/95 border-2 border-[#dfb76c] text-[#f6e29c] text-xs font-bold shadow-2xl whitespace-nowrap"></div>
 
   <div class="sticky top-0 z-40">
     <div id="adminToolbar" class="hidden bg-[#172620] border-b-2 border-[#dfb76c] px-3 py-2.5 shadow-xl">
@@ -43,15 +49,15 @@
         <div class="flex items-center justify-between gap-1">
           <span class="text-xs font-bold text-[#6ee7b7] truncate">🔓 店長後台已解鎖</span>
           <div class="flex items-center gap-1 shrink-0">
-            <button onclick="openPublishModal()" class="px-2.5 py-1 rounded-full text-[11px] bg-amber-500 text-black font-black whitespace-nowrap shadow">☁️ 發佈給客人看</button>
-            <button onclick="openPasswordChangeModal()" class="px-2 py-1 rounded-full text-[11px] bg-[#253930] text-[#f6e29c] border border-[#dfb76c]/40 whitespace-nowrap">🔑 改密碼</button>
-            <button onclick="logoutAdmin()" class="px-2 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold whitespace-nowrap">🔒 隱藏</button>
+            <button type="button" onclick="openPublishModal()" class="px-2.5 py-1 rounded-full text-[11px] bg-amber-500 text-black font-black whitespace-nowrap shadow">☁️ 發佈給客人看</button>
+            <button type="button" onclick="openPasswordChangeModal()" class="px-2 py-1 rounded-full text-[11px] bg-[#253930] text-[#f6e29c] border border-[#dfb76c]/40 whitespace-nowrap">🔑 改密碼</button>
+            <button type="button" onclick="logoutAdmin()" class="px-2 py-1 rounded-full text-[11px] bg-rose-700 text-white font-bold whitespace-nowrap">🔒 隱藏</button>
           </div>
         </div>
         <div class="grid grid-cols-3 gap-1.5 text-xs">
-          <button onclick="triggerAvatarUpload()" class="py-1.5 px-1 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold whitespace-nowrap truncate">📷 換品牌頭像</button>
-          <button onclick="openEditModal(-1)" class="py-1.5 px-1 rounded-xl gold-btn font-bold whitespace-nowrap truncate">➕ 單件上架</button>
-          <button onclick="openBatchModal()" class="py-1.5 px-1 rounded-xl bg-emerald-600 text-white font-bold whitespace-nowrap truncate shadow-md">⚡ 快速批次上架</button>
+          <button type="button" onclick="triggerAvatarUpload()" class="py-1.5 px-1 rounded-xl bg-[#241f2e] text-[#f6e29c] border border-[#dfb76c]/40 font-bold whitespace-nowrap truncate">📷 換品牌頭像</button>
+          <button type="button" onclick="openEditModal(-1)" class="py-1.5 px-1 rounded-xl gold-btn font-bold whitespace-nowrap truncate">➕ 單件上架</button>
+          <button type="button" onclick="openBatchModal()" class="py-1.5 px-1 rounded-xl bg-emerald-600 text-white font-bold whitespace-nowrap truncate shadow-md">⚡ 快速批次上架</button>
         </div>
       </div>
     </div>
@@ -59,7 +65,7 @@
       <div class="max-w-xl mx-auto flex items-center justify-between gap-1">
         <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <span class="text-[15px] sm:text-xl font-black gold-gradient-text whitespace-nowrap">一抹花顏💕</span>
-          <div onclick="secretSealTap()" title="連點2下開啟店長管理" class="ancient-seal">
+          <div onclick="secretSealTap(event)" class="ancient-seal">
             <span>二</span><span>旗</span><span>手</span><span>袍</span>
           </div>
         </div>
@@ -90,13 +96,13 @@
         <div class="w-full h-full rounded-full overflow-hidden bg-[#141119] relative flex flex-col items-center justify-center border-2 border-[#0f0e13]">
           <img id="heroAvatarImg" src="" alt="一抹花顏品牌頭像" class="w-full h-full object-cover protect-img hidden" draggable="false">
           <div id="heroAvatarPlaceholder" class="flex flex-col items-center justify-center p-4 text-center"><div class="text-4xl mb-1.5">🏮</div><p class="text-sm font-bold text-[#f6e29c]">一抹花顏💕・極新孤品</p><p class="text-[11px] text-[#cbbba0] mt-1">S ～ 5XL 全尺碼包容美</p></div>
-          <button id="adminAvatarOverlayBtn" onclick="triggerAvatarUpload()" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs gold-btn whitespace-nowrap shadow-md">📷 更換頭像照片</button>
+          <button type="button" id="adminAvatarOverlayBtn" onclick="triggerAvatarUpload()" class="hidden absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs gold-btn whitespace-nowrap shadow-md">📷 更換頭像照片</button>
         </div>
       </div>
       <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
       <div class="grid grid-cols-2 gap-2.5 mt-4 text-center">
         <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center"><span class="text-xl mb-1">👑</span><p class="text-xs font-bold text-[#f6e29c]">僅穿過 1～2 次內</p><p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">全館 9 成新以上極美衣況</p></div>
-        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center"><span class="text-xl mb-1">🫧</span><p class="text-xs font-bold text-[#f6e29c]">已清潔・無整燙</p><p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">摺疊收納寄出・自家熨燙</p></div>
+        <div class="bg-[#14121a] border border-[#dfb76c]/40 rounded-2xl p-3 flex flex-col items-center"><span class="text-xl mb-1">🫧</span><p class="text-xs font-bold text-[#f6e29c]">已清潔・無整燙</p><p class="text-[11px] text-[#bfb29e] mt-0.5 leading-snug">摺疊收納寄出</p></div>
       </div>
       <div class="mt-4 bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3.5 text-left">
         <div class="flex flex-wrap items-center justify-between gap-1 mb-2.5"><span class="text-xs font-bold text-[#f6e29c]">👑 【安心下單流程】匯款 ＋ 7-11 賣貨便</span><span class="text-[11px] px-2 py-0.5 rounded-full bg-[#162925] text-[#6ee7b7] border border-[#34d399]/30">先匯款保留</span></div>
@@ -114,7 +120,7 @@
               <span>LINE</span>
             </a>
             <a href="https://www.threads.com/@cozy.052" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs text-center shadow-md flex items-center justify-center gap-1.5">
-              <svg class="w-4 h-4 shrink-0 rounded-full" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#000000"/><path d="M15.42 13.06c-.1-.05-.2-.1-.31-.15-.18-2.06-1.39-3.23-3.32-3.25-1.42-.01-2.58.62-3.1 1.71l1.24.68c.35-.68 1.03-1.04 1.85-1.03 1.15.01 1.85.64 1.96 1.77-.58-.15-1.22-.22-1.91-.2-1.89.05-3.18.96-3.13 2.38.04 1.34 1.2 2.22 2.75 2.18 1.33-.04 2.27-.65 2.68-1.74.47.28.75.67.73 1.17-.04.99-.95 1.66-2.46 1.68-1.89.02-3.26-.98-3.32-2.79-.07-2.02 1.4-3.48 3.65-3.5 1.89-.02 3.32.98 3.56 2.76l1.37-.24c-.34-2.43-2.31-3.92-4.94-3.9-3.05.03-5.12 2.05-5.03 4.92.09 2.62 2.02 4.19 4.71 4.16 2.34-.03 3.82-1.19 3.88-2.99.04-1.07-.54-1.95-1.57-2.48zm-3.66 2.52c-.83.02-1.42-.38-1.44-1.01-.02-.64.57-1.09 1.66-1.12.55-.02 1.07.04 1.54.17-.19 1.25-.92 1.93-1.76 1.96z" fill="#ffffff"/></svg>
+              <svg class="w-4 h-4 shrink-0 rounded-full border border-white/15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#000000"/><path d="M63 35 C59 27 50 24 41 26 C28 29 22 41 24 55 C26 69 37 77 51 77 C63 77 73 71 75 61 C77 52 70 45 59 44 C50 43 41 47 41 55 C41 62 47 65 54 64 C61 63 65 57 64 48 C63 39 56 34 47 35 C41 36 37 39 35 43" fill="none" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>脆</span>
             </a>
             <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="py-2 px-1 rounded-xl bg-[#1e1a26] border border-[#dfb76c]/50 text-[#f6e29c] font-bold text-xs text-center shadow-md flex items-center justify-center gap-1.5">
@@ -132,7 +138,7 @@
           <h2 class="text-lg sm:text-xl font-black gold-gradient-text">🌸 按尺碼尋寶 (S～5XL)</h2>
           <p class="text-xs text-[#bfb29e] mt-0.5">支援跨尺碼自動歸類・可切換「👗 全身照」與「🔍 細節照」</p>
         </div>
-        <button id="quickBatchBtnInList" onclick="openBatchModal()" class="hidden px-3 py-1.5 rounded-full bg-emerald-600 text-white text-xs font-bold whitespace-nowrap shrink-0 shadow-md">⚡ 批次上架</button>
+        <button type="button" id="quickBatchBtnInList" onclick="openBatchModal()" class="hidden px-3 py-1.5 rounded-full bg-emerald-600 text-white text-xs font-bold whitespace-nowrap shrink-0 shadow-md">⚡ 批次上架</button>
       </div>
       <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1" id="sizeFilterBar"></div>
       <div id="productGrid" class="grid grid-cols-2 gap-3"></div>
@@ -164,7 +170,7 @@
       <h2 class="text-base sm:text-lg font-black gold-gradient-text">💡 購買與衣況貼心叮嚀</h2>
       <div class="space-y-2.5 text-xs text-[#e2d9c8] leading-relaxed">
         <p>1. <strong class="text-[#f6e29c]">極新衣況保證</strong>：全館旗袍皆為 <strong>9 成新以上、僅穿過 1～2 次以內</strong>。</p>
-        <p>2. <strong class="text-[#f6e29c]">已清潔・無整燙（皺摺屬正常）</strong>：全館旗袍平時皆為<strong>摺疊收納</strong>並以<strong>摺疊方式寄出</strong>，有些面料容易產生皺摺屬正常現象，尤其<strong>棉麻材質</strong>更需回家後自行打理熨燙，即可恢復原本的垂墜美感。</p>
+        <p>2. <strong class="text-[#f6e29c]">已清潔・無整燙（皺摺屬正常）</strong>：全館旗袍平時皆為<strong>摺疊收納</strong>並以<strong>摺疊方式寄出</strong>，有些面料（如棉麻材質）產生自然皺摺屬正常現象，收到後稍加打理即可恢復原本的垂墜美感。</p>
       </div>
     </section>
 
@@ -174,11 +180,11 @@
         <a href="https://www.threads.com/@cozy.052" target="_blank" class="underline">Threads</a><span>｜</span>
         <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="underline">FB 粉專</a>
       </div>
-      <p onclick="openLoginModal()" class="select-none cursor-pointer">© 一抹花顏💕 二手旗袍專賣 <span class="text-emerald-400 font-bold">🔒</span></p>
+      <p onclick="secretSealTap(event)" class="select-none cursor-pointer">© 一抹花顏💕 二手旗袍專賣 <span class="text-emerald-400 font-bold">🔒</span></p>
     </footer>
   </main>
 
-  <div class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2">
+  <div id="bottomStickyBar" class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2">
     <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
       <div class="min-w-0"><p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p></div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -187,21 +193,27 @@
           <span>FB</span>
         </a>
         <a href="https://www.threads.com/@cozy.052" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold flex items-center gap-1">
-          <svg class="w-3.5 h-3.5 shrink-0 rounded-full" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#000000"/><path d="M15.42 13.06c-.1-.05-.2-.1-.31-.15-.18-2.06-1.39-3.23-3.32-3.25-1.42-.01-2.58.62-3.1 1.71l1.24.68c.35-.68 1.03-1.04 1.85-1.03 1.15.01 1.85.64 1.96 1.77-.58-.15-1.22-.22-1.91-.2-1.89.05-3.18.96-3.13 2.38.04 1.34 1.2 2.22 2.75 2.18 1.33-.04 2.27-.65 2.68-1.74.47.28.75.67.73 1.17-.04.99-.95 1.66-2.46 1.68-1.89.02-3.26-.98-3.32-2.79-.07-2.02 1.4-3.48 3.65-3.5 1.89-.02 3.32.98 3.56 2.76l1.37-.24c-.34-2.43-2.31-3.92-4.94-3.9-3.05.03-5.12 2.05-5.03 4.92.09 2.62 2.02 4.19 4.71 4.16 2.34-.03 3.82-1.19 3.88-2.99.04-1.07-.54-1.95-1.57-2.48zm-3.66 2.52c-.83.02-1.42-.38-1.44-1.01-.02-.64.57-1.09 1.66-1.12.55-.02 1.07.04 1.54.17-.19 1.25-.92 1.93-1.76 1.96z" fill="#ffffff"/></svg>
+          <svg class="w-3.5 h-3.5 shrink-0 rounded-full border border-white/15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#000000"/><path d="M63 35 C59 27 50 24 41 26 C28 29 22 41 24 55 C26 69 37 77 51 77 C63 77 73 71 75 61 C77 52 70 45 59 44 C50 43 41 47 41 55 C41 62 47 65 54 64 C61 63 65 57 64 48 C63 39 56 34 47 35 C41 36 37 39 35 43" fill="none" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>脆</span>
         </a>
         <a href="https://lin.ee/pw0FvId" target="_blank" class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#06C755] text-white shadow-md whitespace-nowrap flex items-center gap-1">
           <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.58 2 10c0 3.96 3.55 7.28 8.35 7.89.32.07.76.22.87.51.1.26.07.67.03.93l-.14.85c-.04.26-.2.99.88.54 1.08-.45 5.83-3.43 7.96-5.88C21.37 13.3 22 11.73 22 10c0-4.42-4.48-8-10-8z"/></svg>
-          <span>LINE  <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[90vh] overflow-y-auto">
-      <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold z-10">✕</button>
+          <span>LINE</span>
+        </a>
+      </div>
+    </div>
+  </div>
+<!-- === 第一段結束，請換行貼上第二段 === -->
+  <div id="detailModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[82vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold z-10">✕</button>
       <div id="modalContent"></div>
     </div>
   </div>
 
-  <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
-      <button onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+  <div id="loginModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center shadow-2xl" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeLoginModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
       <div class="text-2xl">🛡️</div>
       <h3 class="text-base font-black gold-gradient-text">店長專屬防盜驗證</h3>
       <div class="relative">
@@ -209,14 +221,14 @@
         <button type="button" onclick="toggleInputVis('adminPwdInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
       </div>
       <p id="loginErrorMsg" class="text-[11px] text-rose-400 hidden"></p>
-      <button onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button>
-      <button onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80">❓ 忘記密碼？使用救援暗號重設</button>
+      <button type="button" onclick="verifyAdminPassword()" class="w-full py-2 rounded-xl gold-btn text-xs mb-1">確認解鎖</button>
+      <button type="button" onclick="openForgotPwdModal()" class="text-[11px] text-[#f6e29c] underline opacity-80">❓ 忘記密碼？使用救援暗號重設</button>
     </div>
   </div>
 
-  <div id="pwdChangeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center text-xs">
-      <button onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+  <div id="pwdChangeModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center text-xs shadow-2xl" onclick="event.stopPropagation()">
+      <button type="button" onclick="closePasswordChangeModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
       <h3 class="text-base font-black gold-gradient-text">🔑 設定新密碼與救援暗號</h3>
       <p class="text-[11px] text-[#bfb29e]">建議至少 6 碼以上（含英數符號更安全）</p>
       <div class="relative">
@@ -227,13 +239,13 @@
         <input id="rescueCodeInput" type="password" placeholder="設定新救援暗號 (選填，至少6碼)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
         <button type="button" onclick="toggleInputVis('rescueCodeInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
       </div>
-      <button onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存密碼與暗號</button>
+      <button type="button" onclick="saveNewPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">儲存密碼與暗號</button>
     </div>
   </div>
 
-  <div id="forgotPwdModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center">
-      <button onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
+  <div id="forgotPwdModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-xs w-full p-5 relative space-y-3 text-center shadow-2xl" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeForgotPwdModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#252030] text-[#f6e29c] text-xs">✕</button>
       <h3 class="text-base font-black gold-gradient-text">❓ 密碼救援重設</h3>
       <div class="relative">
         <input id="rescueInput" type="password" placeholder="請輸入專屬救援暗號" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
@@ -243,13 +255,13 @@
         <input id="resetPwdInput" type="password" placeholder="請輸入全新管理密碼 (至少6碼)" class="w-full rounded-xl bg-[#121017] border border-[#dfb76c]/50 px-3 py-2 pr-9 text-center text-white text-sm">
         <button type="button" onclick="toggleInputVis('resetPwdInput')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#bfb29e]">👁️</button>
       </div>
-      <button onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button>
+      <button type="button" onclick="verifyAndResetPassword()" class="w-full py-2 rounded-xl gold-btn text-xs">驗證並重設密碼</button>
     </div>
   </div>
 
-  <div id="editModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
-    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-2.5 max-h-[92vh] overflow-y-auto">
-      <button onclick="closeEditModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
+  <div id="editModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-2.5 max-h-[82vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeEditModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <h3 class="text-base font-black gold-gradient-text" id="editModalTitle">➕ 上架／編輯旗袍</h3>
       <div class="space-y-2.5 text-xs">
         <div class="flex items-center justify-between"><span class="text-[#f6e29c] font-bold">📸 商品照片 (自動壓縮)</span><button type="button" onclick="triggerDualUploadInModal()" class="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-[11px]">⚡ 選2張直接帶入</button></div>
@@ -295,14 +307,14 @@
           </div>
           <input id="editNote" type="text" value="9成新以上・僅穿1~2次" class="w-full bg-[#121017] border border-[#dfb76c]/40 rounded-xl px-3 py-1.5 text-white">
         </div>
-        <button onclick="saveProduct()" class="w-full py-2.5 rounded-xl gold-btn text-xs font-bold mt-2">💾 儲存上架</button>
+        <button type="button" onclick="saveProduct()" class="w-full py-2.5 rounded-xl gold-btn text-xs font-bold mt-2">💾 儲存上架</button>
       </div>
     </div>
   </div>
 
-  <div id="batchModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3">
-    <div class="gold-card rounded-3xl max-w-md w-full p-4 relative space-y-2.5 max-h-[92vh] overflow-y-auto">
-      <button onclick="closeBatchModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
+  <div id="batchModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-md w-full p-4 relative space-y-2.5 max-h-[82vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeBatchModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <div>
         <h3 class="text-base font-black gold-gradient-text">⚡ 快速批次上架</h3>
         <p class="text-[11px] text-[#bfb29e] mt-0.5">點選尺碼即自動顯示「尺碼...姊妹可參考」・選照片自動配對</p>
@@ -338,28 +350,28 @@
           <input type="file" id="batchFilesInput" accept="image/*" multiple class="hidden" onchange="handleBatchFiles(event)">
           <div id="batchPreviewList" class="space-y-2 max-h-56 overflow-y-auto pt-1 text-left"></div>
         </div>
-        <button id="confirmBatchBtn" onclick="commitBatchUpload()" class="w-full py-3 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-lg hidden">✅ 確認批次上架 (0 件)</button>
+        <button type="button" id="confirmBatchBtn" onclick="commitBatchUpload()" class="w-full py-3 rounded-2xl bg-emerald-600 text-white font-black text-sm shadow-lg hidden">✅ 確認批次上架 (0 件)</button>
       </div>
     </div>
   </div>
 
-  <div id="publishModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[92vh] overflow-y-auto text-xs">
-      <button onclick="closePublishModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
+  <div id="publishModal" class="modal-backdrop">
+    <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[82vh] overflow-y-auto text-xs" onclick="event.stopPropagation()">
+      <button type="button" onclick="closePublishModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold">✕</button>
       <h3 class="text-base font-black gold-gradient-text">☁️ 發佈給客人看 (雲端同步)</h3>
       <div class="bg-[#121017] border border-emerald-500/40 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#6ee7b7]">🌟 方式一：一鍵自動同步到 GitHub（最推薦）</p>
         <input id="ghRepoInput" type="text" value="cozy052/clothes" placeholder="帳號/倉庫名 (例: cozy052/clothes)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
         <input id="ghTokenInput" type="password" placeholder="貼上 GitHub Token (ghp_...)" class="w-full bg-[#1b1824] border border-[#dfb76c]/40 rounded-xl px-2.5 py-1.5 text-white">
-        <button id="syncGithubBtn" onclick="syncToGitHub()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black shadow-md">🚀 立即同步發佈到官網</button>
+        <button type="button" id="syncGithubBtn" onclick="syncToGitHub()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black shadow-md">🚀 立即同步發佈到官網</button>
       </div>
       <div class="bg-[#121017] border border-[#dfb76c]/35 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-[#f6e29c]">📦 方式二：下載資料檔上傳</p>
-        <button onclick="downloadProductsJson()" class="w-full py-2 rounded-xl gold-btn font-bold">📥 下載 products.json 資料檔</button>
+        <button type="button" onclick="downloadProductsJson()" class="w-full py-2 rounded-xl gold-btn font-bold">📥 下載 products.json 資料檔</button>
       </div>
       <div class="bg-[#121017] border border-sky-500/35 rounded-2xl p-3 space-y-2">
         <p class="font-bold text-sky-300">🔄 找回之前發布過的商品</p>
-        <button onclick="recoverAllSavedProducts()" class="w-full py-2 rounded-xl bg-sky-700 text-white font-bold">🔍 一鍵找回舊商品＋讀取雲端</button>
+        <button type="button" onclick="recoverAllSavedProducts()" class="w-full py-2 rounded-xl bg-sky-700 text-white font-bold">🔍 一鍵找回舊商品＋讀取雲端</button>
       </div>
     </div>
   </div>
@@ -379,6 +391,15 @@
     let tempImg1 = '', tempImg2 = '';
     let editRangeAnchor = '';
     let batchSelectedSize = 'M', batchRangeAnchor = '', batchSelectedPrice = 490, batchMode = 'pair', batchDraftItems = [];
+
+    function ensureModalsOnBody() {
+      ['detailModal', 'loginModal', 'pwdChangeModal', 'forgotPwdModal', 'editModal', 'batchModal', 'publishModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.parentElement !== document.body) {
+          document.body.appendChild(el);
+        }
+      });
+    }
 
     function getSizeRefText(sz) {
       const clean = String(sz || 'M').toUpperCase().trim();
@@ -440,26 +461,40 @@
     };
 
     function showModal(id) {
+      ensureModalsOnBody();
       const el = document.getElementById(id);
-      if (el) { el.classList.remove('hidden'); el.classList.add('flex'); el.style.display = 'flex'; }
+      if (el) { el.style.display = 'flex'; }
+      const bar = document.getElementById('bottomStickyBar');
+      if (bar) { bar.style.pointerEvents = 'none'; }
     }
     function hideModal(id) {
       const el = document.getElementById(id);
-      if (el) { el.classList.add('hidden'); el.classList.remove('flex'); el.style.display = 'none'; }
+      if (el) { el.style.display = 'none'; }
+      const anyOpen = ['detailModal', 'loginModal', 'pwdChangeModal', 'forgotPwdModal', 'editModal', 'batchModal', 'publishModal'].some(mid => {
+        const m = document.getElementById(mid);
+        return m && m.style.display === 'flex';
+      });
+      const bar = document.getElementById('bottomStickyBar');
+      if (bar && !anyOpen) { bar.style.pointerEvents = 'auto'; }
     }
 
     let tapCount = 0, tapTimer = null;
-    window.secretSealTap = function() {
+    window.secretSealTap = function(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       tapCount++;
       clearTimeout(tapTimer);
-      tapTimer = setTimeout(() => { tapCount = 0; }, 2500);
-      if (tapCount >= 2) { tapCount = 0; openLoginModal(); }
+      tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
+      if (tapCount >= 5) { tapCount = 0; openLoginModal(); }
     };
 
     window.openLoginModal = function() {
       const err = document.getElementById('loginErrorMsg');
       if (err) err.classList.add('hidden');
       showModal('loginModal');
+      setTimeout(() => {
+        const inp = document.getElementById('adminPwdInput');
+        if (inp) inp.focus();
+      }, 120);
     };
     window.closeLoginModal = function() { hideModal('loginModal'); };
 
@@ -485,6 +520,7 @@
         const qb = document.getElementById('quickBatchBtnInList');
         if (qb) qb.classList.remove('hidden');
         renderProducts();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         showToast('🔓 店長管理後台已解鎖');
       } else {
         loginFailCount++;
@@ -591,7 +627,7 @@
       const counts = { ALL: products.length };
       SIZES.forEach(s => counts[s] = products.filter(p => doesProductMatchSize(p.size, s)).length);
       bar.innerHTML = ['ALL', ...SIZES].map(sz => `
-        <button onclick="filterSize('${sz}')" class="size-pill px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${currentSizeFilter === sz ? 'active' : ''}">
+        <button type="button" onclick="filterSize('${sz}')" class="size-pill px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${currentSizeFilter === sz ? 'active' : ''}">
           ${sz === 'ALL' ? `全部 (${counts.ALL})` : `${sz} (${counts[sz]})`}
         </button>
       `).join('');
@@ -622,8 +658,8 @@
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[11px] font-black bg-[#b83b3b] text-white border border-[#f3d48b] shadow">${p.size} 尺碼</span>
               ${p.sold ? `<div class="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none"><span class="px-3 py-1 rounded-full border-2 border-[#f6e29c] text-[#f6e29c] font-black text-xs rotate-[-12deg]">已售出 SOLD</span></div>` : ''}
               <div class="absolute bottom-2 inset-x-2 flex bg-black/75 backdrop-blur-md rounded-full p-0.5 border border-[#dfb76c]/40">
-                <button id="btnView1_${idx}" onclick="switchCardImg(${idx}, 1)" class="flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap">👗 全身照</button>
-                <button id="btnView2_${idx}" onclick="switchCardImg(${idx}, 2)" class="flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap">🔍 細節照</button>
+                <button type="button" id="btnView1_${idx}" onclick="switchCardImg(${idx}, 1)" class="flex-1 py-1 rounded-full text-[10px] font-bold bg-[#dfb76c] text-[#1a140b] whitespace-nowrap">👗 全身照</button>
+                <button type="button" id="btnView2_${idx}" onclick="switchCardImg(${idx}, 2)" class="flex-1 py-1 rounded-full text-[10px] font-bold text-[#f6e29c] whitespace-nowrap">🔍 細節照</button>
               </div>
             </div>
             <div class="p-3 flex flex-col justify-between flex-grow space-y-2">
@@ -638,9 +674,9 @@
                   <span>截圖私訊保留</span>
                 </a>
                 <div class="${isAdminUnlocked ? 'grid' : 'hidden'} grid-cols-3 gap-1 pt-1">
-                  <button onclick="openEditModal(${idx})" class="py-1 rounded-lg bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/40 text-[10px] font-bold">✏️ 編輯</button>
-                  <button onclick="toggleSold(${idx})" class="py-1 rounded-lg bg-[#253930] text-[#6ee7b7] border border-[#34d399]/40 text-[10px] font-bold">${p.sold ? '🔄 上架' : '🏷️ 售出'}</button>
-                  <button onclick="deleteProduct(${idx})" class="py-1 rounded-lg bg-rose-900/80 text-rose-200 text-[10px] font-bold">🗑️ 刪除</button>
+                  <button type="button" onclick="openEditModal(${idx})" class="py-1 rounded-lg bg-[#252030] text-[#f6e29c] border border-[#dfb76c]/40 text-[10px] font-bold">✏️ 編輯</button>
+                  <button type="button" onclick="toggleSold(${idx})" class="py-1 rounded-lg bg-[#253930] text-[#6ee7b7] border border-[#34d399]/40 text-[10px] font-bold">${p.sold ? '🔄 上架' : '🏷️ 售出'}</button>
+                  <button type="button" onclick="deleteProduct(${idx})" class="py-1 rounded-lg bg-rose-900/80 text-rose-200 text-[10px] font-bold">🗑️ 刪除</button>
                 </div>
               </div>
             </div>
@@ -1031,6 +1067,7 @@
       }
     }
 
+    ensureModalsOnBody();
     renderAvatar();
     renderSizeFilter();
     renderProducts();
