@@ -193,19 +193,19 @@
     </footer>
   </main>
 
-  <div id="bottomStickyBar" class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2">
-    <div class="max-w-xl mx-auto flex items-center justify-between gap-2">
-      <div class="min-w-0"><p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p></div>
-      <div class="flex items-center gap-1.5 shrink-0">
-        <a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold flex items-center gap-1">
-          <svg class="w-3.5 h-3.5 shrink-0 rounded-full" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path d="M15.12 13.02l.44-2.88h-2.76V8.27c0-.79.39-1.56 1.63-1.56h1.26V4.26s-1.14-.2-2.24-.2c-2.28 0-3.77 1.38-3.77 3.89v2.19H7.14v2.88h2.54v6.96a10.08 10.08 0 003.12 0v-6.96h2.32z" fill="#ffffff"/></svg>
-          <span>FB</span>
-        </a>
-        <a href="https://www.threads.com/@cozy.052" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold flex items-center gap-1">
-          <svg class="w-3.5 h-3.5 shrink-0 rounded-full border border-white/15" viewBox="0 0 192 192"><use href="#icon-threads" xlink:href="#icon-threads"/></svg>
-          <span>脆</span>
-        </a>
-        <a href="https://lin.ee/pw0FvId" target="_blank" class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#06C755] text-white shadow-md whitespace-nowrap flex items-center gap-1">  <div id="detailModal" class="modal-backdrop">
+  <div id="bottomStickyBar" class="fixed bottom-0 left-0 right-0 z-40 bg-[#14111a]/95 backdrop-blur-md border-t border-[#dfb76c]/40 px-3 py-2"></div>
+
+  <div class="hidden">
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+    <p>第一段底部保護緩衝區-請點最下方貼上第二段</p>
+  </div>
+  <div id="detailModal" class="modal-backdrop">
     <div class="gold-card rounded-3xl max-w-sm w-full p-4 relative space-y-3 max-h-[82vh] overflow-y-auto" onclick="event.stopPropagation()">
       <button type="button" onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#252030] text-[#f6e29c] font-bold z-10">✕</button>
       <div id="modalContent"></div>
@@ -377,9 +377,16 @@
     </div>
   </div>
 
-<!-- ========================================== -->
-<!-- === 第二段結束，請在最下方空白處貼上第三段 === -->
-<!-- ========================================== -->
+  <div class="hidden">
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+    <p>第二段底部保護緩衝區-請點最下方貼上第三段</p>
+  </div>
   <script>
     const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
     const CROSS_PRESETS = ['S-M', 'M-L', 'L-XL', 'XL-2XL', '2XL-3XL', '3XL-4XL', '2XL-5XL', '3XL-5XL', '4XL-5XL'];
@@ -403,6 +410,11 @@
           document.body.appendChild(el);
         }
       });
+      const bar = document.getElementById('bottomStickyBar');
+      if (bar) {
+        if (bar.parentElement !== document.body) document.body.appendChild(bar);
+        bar.innerHTML = `<div class="max-w-xl mx-auto flex items-center justify-between gap-2"><div class="min-w-0"><p class="text-xs font-bold text-[#f6e29c] truncate">喜歡哪件？截圖私訊我們 💕</p></div><div class="flex items-center gap-1.5 shrink-0"><a href="https://www.facebook.com/share/1G4F9Wr1et/" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold flex items-center gap-1"><svg class="w-3.5 h-3.5 shrink-0 rounded-full" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path d="M15.12 13.02l.44-2.88h-2.76V8.27c0-.79.39-1.56 1.63-1.56h1.26V4.26s-1.14-.2-2.24-.2c-2.28 0-3.77 1.38-3.77 3.89v2.19H7.14v2.88h2.54v6.96a10.08 10.08 0 003.12 0v-6.96h2.32z" fill="#ffffff"/></svg><span>FB</span></a><a href="https://www.threads.com/@cozy.052" target="_blank" class="px-2.5 py-1.5 rounded-full text-xs border border-[#dfb76c]/50 text-[#f6e29c] bg-[#1e1a26] font-bold flex items-center gap-1"><svg class="w-3.5 h-3.5 shrink-0 rounded-full border border-white/15" viewBox="0 0 192 192"><use href="#icon-threads" xlink:href="#icon-threads"/></svg><span>脆</span></a><a href="https://lin.ee/pw0FvId" target="_blank" class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#06C755] text-white shadow-md whitespace-nowrap flex items-center gap-1"><svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.58 2 10c0 3.96 3.55 7.28 8.35 7.89.32.07.76.22.87.51.1.26.07.67.03.93l-.14.85c-.04.26-.2.99.88.54 1.08-.45 5.83-3.43 7.96-5.88C21.37 13.3 22 11.73 22 10c0-4.42-4.48-8-10-8z"/></svg><span>LINE</span></a></div></div>`;
+      }
     }
 
     function getSizeRefText(sz) {
@@ -722,14 +734,23 @@
             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.58 2 10c0 3.96 3.55 7.28 8.35 7.89.32.07.76.22.87.51.1.26.07.67.03.93l-.14.85c-.04.26-.2.99.88.54 1.08-.45 5.83-3.43 7.96-5.88C21.37 13.3 22 11.73 22 10c0-4.42-4.48-8-10-8z"/></svg>
             <span>截圖私訊 LINE 保留</span>
           </a>
-        </div>`;
+         </div>`;
       showModal('detailModal');
     };
     window.closeDetailModal = function() { hideModal('detailModal'); };
+  </script>
 
-// ==========================================
-// === 第三段結束，請在最下方空白處貼上第四段 ===
-// ==========================================
+  <div class="hidden">
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+    <p>第三段底部保護緩衝區-請點最下方貼上第四段</p>
+  </div>
+  <script>
     function renderEditSizeButtons() {
       const cur = (document.getElementById('editSize').value || 'M').toUpperCase().trim();
       const sBox = document.getElementById('editSingleSizeBtns');
